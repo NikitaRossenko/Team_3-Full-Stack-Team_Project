@@ -1,10 +1,16 @@
-:root{
+
+@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@200;400;700&display=swap');
+
+ 
+ :root{
     //COLOR 
     --black : black;
     --background-color:green;
 }
 
 * {
+    font-family: 'Martian Mono', monospace;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
