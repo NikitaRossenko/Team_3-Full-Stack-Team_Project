@@ -1,0 +1,57 @@
+body {
+  background-color: #9b8975;
+}
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  color: #eec10d;
+}
+.leaderboard {
+  padding: 0 20%;
+  list-style: none;
+}
+.leaderboard .person {
+  background-color: #2d3e50;
+  padding: 0 0 0 15%;
+  width: 80%;
+  margin-bottom: 2%;
+  overflow: hidden;
+  position: relative;
+}
+.leaderboard .person .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 3rem;
+  line-height: 150%;
+  background: #fff8dc;
+  margin: 0;
+  padding: 0;
+}
+.leaderboard .person .nickname {
+  margin: 0;
+  padding: 0;
+  font-size: 2rem;
+  line-height: 200%;
+  color: #fff;
+margin-left: 20%;
+}
+.leaderboard .person .score {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 3em;
+  line-height: 150%;
+  background: #dc3546;
+  color: #fff;
+  width: 3em;
+  text-align: center;
+  z-index: 10;
+  cursor: pointer;
+}
+.fa{
+  color: #dc3546;
+  cursor: pointer;
+}
