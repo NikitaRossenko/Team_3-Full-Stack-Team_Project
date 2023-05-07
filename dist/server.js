@@ -19,8 +19,8 @@ if (uri) {
 else {
     console.log("No URI to DB");
 }
+app.use(express_1["default"].static("./public"));
 app.use(express_1["default"].static("./public/pages"));
-app.use(express_1["default"].static("./public/style/dist"));
 app.listen(3000, function () {
     console.log("server listen on port 3000");
 });

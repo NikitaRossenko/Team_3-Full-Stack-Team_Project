@@ -27,8 +27,8 @@ if (uri) {
 
 
 
+app.use(express.static(`./public`));
 app.use(express.static(`./public/pages`));
-app.use(express.static(`./public/style/dist`));
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");
