@@ -8,15 +8,18 @@
     <title>Profile</title>
     <link rel="stylesheet" href="../style/dist/profile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="../src/dist/profile.js" defer></script>
 </head>
-<body>
+<body onload="renderProfilUser()">
     <div class="card">
-        <i class="fa fa-reply" style="font-size: 36px"></i>
+      <a id="btn-home" href="./index.html"> 
+        <img src="../images/homeBtn.png" alt="">
+    </a>
       <div class="profile-image">
         <img src="https://tinypic.host/images/2023/04/05/pikrepo.com-2.jpg" alt="">
       </div>
-      <div class="card-content">
-        <form class="form" action="">
+      <div id="cardRoot" class="card-content">
+        <!-- <form class="form" action="">
             <div class="title">Name:</div>
             <div class="value">itay</div>
             <div class="title">Email:</div>
@@ -27,10 +30,7 @@
             <div class="value">******</div>
             <div class="title">high score:</div>
             <div class="value">999</div>
-            <div class="value capture">
-              <span class="obfuscate"></span>
-            </div>
-        </form>
+        </form> -->
       </div>
       <div class="icons">
         <a href="#" class="fab fa-facebook-f"></a>

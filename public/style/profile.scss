@@ -1,26 +1,26 @@
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
   justify-content: center;
   align-items: center;
   display: flex;
-  background: #eee;
-  background-image: url(https://avatars.mds.yandex.net/get-games/1881364/2a00000169c3c6e4cff51c27097552acecf4/orig);
-  background-repeat: no-repeat;
+  background-image: url("../../images/background1.jpg");
+  background-position: center;
   background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
 }
 
 .card {
-  background-color: #b8dd7c;
-  font-family: cursive;
-  width: 60%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 2.5%;
-  box-shadow: 0 0 20px rgb(5, 106, 238);
-  display: flex;
-  flex-direction: column;
+  min-height: 375px;
+  min-width: 500px;
+  background: linear-gradient(45deg, #83c859af, #67c42e);
+  width: 50%;
+  height: auto;
+  padding: 16px 24px;
+  box-shadow: 0 0 8px;
+  border-radius: 15px;
 }
 
 .profile-image img {
@@ -37,7 +37,6 @@ body {
   margin: 0;
 }
 
-
 .icons {
   margin-top: 5%;
   text-align: center;
@@ -48,7 +47,7 @@ body {
 .icons a {
   text-decoration: none;
   font-size: 2rem;
-  color: #0abde3;
+  // color: #0abde3;
   padding: 0 14px;
   transition-duration: 0.4s;
   transition-property: transform;
@@ -85,7 +84,43 @@ body {
   margin-left: 30%;
 }
 
-.fa {
+.fa-facebook-f {
+  color: #3835dc;
+}
+.fa-youtube {
   color: #dc3546;
+}
+.fa-instagram {
+  color: #928121;
+}
+.fa-twitter {
+  color: #197e9c;
+}
+.fa-whatsapp {
+  color: #3b750b;
+}
+#btn-home {
+  border: 2px solid #c92929;
+  overflow: hidden;
   cursor: pointer;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  &:hover {
+    scale: 1.1;
+  }
+  &:active {
+    scale: 0.98;
+  }
+  img {
+    width: 80px;
+    object-fit: cover;
+  }
 }
