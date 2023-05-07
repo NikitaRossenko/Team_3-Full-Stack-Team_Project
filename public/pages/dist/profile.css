@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: #eee;
+  background-image: url(https://avatars.mds.yandex.net/get-games/1881364/2a00000169c3c6e4cff51c27097552acecf4/orig);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.card {
+  background-color: #b8dd7c;
+  font-family: cursive;
+  width: 60%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2.5%;
+  box-shadow: 0 0 20px #056aee;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-image img {
+  border-radius: 50%;
+}
+
+.profile-image img:hover {
+  transform: scale(1.1);
+}
+
+.card-content h3 {
+  font-size: 2rem;
+  text-align: center;
+  margin: 0;
+}
+
+.icons {
+  margin-top: 5%;
+  text-align: center;
+  padding-top: 5%;
+  padding-bottom: 30%;
+}
+
+.icons a {
+  text-decoration: none;
+  font-size: 2rem;
+  color: #0abde3;
+  padding: 0 14px;
+  transition-duration: 0.4s;
+  transition-property: transform;
+}
+
+.icons a:hover {
+  color: #000;
+  transform: scale(1.5);
+}
+
+.title {
+  align-self: flex-start;
+  color: #666;
+  font-size: 2rem;
+  margin: 12px 20px 0;
+  font-size: 1.5rem;
+}
+
+.value {
+  text-align: center;
+  align-self: flex-start;
+  border-bottom: 0.1rem solid #666;
+  font-size: 2rem;
+  font-weight: 700;
+  padding: 0 0 2px;
+  width: 50%;
+}
+
+.value.capture {
+  display: none;
+}
+
+.form {
+  position: static;
+  margin-top: -15%;
+  margin-left: 30%;
+}
+
+.fa {
+  color: #dc3546;
+  cursor: pointer;
+}
