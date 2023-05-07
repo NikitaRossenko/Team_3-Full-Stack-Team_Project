@@ -9,14 +9,22 @@
         <!-- Link css file -->
         <link rel="stylesheet" href="./dist/style.css">
         <link rel="stylesheet" href="./dist/register.css">
+
+        <!-- Link JS files -->
+
+        <script src="./dist/register.js" defer></script>
         <title>REGISTER PAGE</title>
 </head>
 
 <body>
         <div class="container">
-
+                <button id="btn-home">
+                       <a href="#"> 
+                        <img src="../images/homeBtn.png" alt="">
+                </a>
+                    </button>
                 <div class="container__container-form">
-                        <form action="" class="container__form">
+                        <form action="" class="container__form" onsubmit="handleSubmitRegisterForm(event)">
                                 <h2 class="container__form__title">
                                         Registration Form
                                 </h2>
@@ -34,7 +42,7 @@
                                 </div>
                                 <div class="container__form__group">
                                         <label for="email">Email</label>
-                                        <input type="email" id="fName" name="email">
+                                        <input type="email" id="email" name="email">
                                 </div>
                                 <div class="container__form__group">
                                         <label for="password">Password</label>

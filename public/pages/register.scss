@@ -1,6 +1,31 @@
+#btn-home{
+    border: 2px solid #67c42e;
+    overflow: hidden;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+    &:hover{
+        scale: 1.1;
+    }
+    &:active{
+        scale: 0.98;
+    }
+        img{
+            width: 80px;
+            object-fit: cover;
+        }
+}
 
 .container{
-
+    
     background-image: url("../../images/background1.jpg");
     background-position: center;
     background-size: cover;
@@ -16,6 +41,7 @@ justify-content: center;
 
 
  &__container-form{
+    min-height: 375px;
     position: relative;
     min-width: 500px;
     background:linear-gradient(45deg , #83c859af ,#67c42e);
@@ -108,9 +134,7 @@ border-radius: 15px 15px 0 0;
  }
  &__footer{
     font-size: 0.8rem;
-    position: absolute;
-    bottom: 20px;
-    left: 0;
+
 width: 100%;
     gap: 5px;
     display: flex;
