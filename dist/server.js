@@ -1,11 +1,11 @@
 "use strict";
 exports.__esModule = true;
 var express_1 = require("express");
-// const cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var app = express_1["default"]();
-// app.use(cookieParser())
+app.use(cookieParser());
 var mongoose_1 = require("mongoose");
-var dotenv = require("dotenv"); // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+var dotenv = require("dotenv");
 dotenv.config();
 app.use(express_1["default"].json());
 var uri = process.env.MONGO_DB;
