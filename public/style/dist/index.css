@@ -1,13 +1,8 @@
 body {
-  padding: 0;
-  margin: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.6)), url("../../images/background1.jpg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .navIcon:hover {
@@ -20,11 +15,10 @@ body {
 
 .navBar {
   width: 100%;
-  height: 140px;
+  height: 160px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px 0 20px;
 }
 .navBar .rightNavIconsContainer {
   justify-content: flex-end;
@@ -43,6 +37,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 20px;
   cursor: pointer;
 }
 .navBar .navIconsContainer .navIcon img {
@@ -69,6 +64,7 @@ body {
   font-size: 100px;
   font-family: "Times New Roman", Times, serif;
   color: white;
+  margin: 0;
 }
 .mainContainer .navIcon {
   position: relative;
