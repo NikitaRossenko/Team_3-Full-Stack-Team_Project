@@ -1,68 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link css file -->
+    <link rel="stylesheet" href="../style/dist/style.css" />
+    <link rel="stylesheet" href="../style/dist/register.css" />
 
-        <!-- Link css file -->
-        <link rel="stylesheet" href="../style/dist/style.css">
-        <link rel="stylesheet" href="../style/dist/register.css">
+    <!-- Link JS files -->
 
-        <!-- Link JS files -->
+    <script src="../src/dist/register.js" defer></script>
+    <title>REGISTER PAGE</title>
+  </head>
 
-        <script src="../src/dist/register.js" defer></script>
-        <title>REGISTER PAGE</title>
-</head>
+  <body>
+    <div class="container">
+      <button id="btn-home">
+        <a href="./index.html">
+          <img src="../images/homeBtn.png" alt="" />
+        </a>
+      </button>
+      <div class="container__container-form">
+        <form
+          action=""
+          class="container__form"
+          onsubmit="handleSubmitRegisterForm(event)"
+        >
+          <h2 class="container__form__title">Registration Form</h2>
+          <div class="container__form__group">
+            <label for="fName">First Name</label>
+            <input required type="text" id="fName" name="firstName" />
+          </div>
+          <div class="container__form__group">
+            <label for="lName">Last Name</label>
+            <input required type="text" id="lName" name="lastName" />
+          </div>
+          <div class="container__form__group">
+            <label for="userName">userName</label>
+            <input required type="text" id="userName" name="userName" />
+          </div>
+          <div class="container__form__group">
+            <label for="email">Email</label>
+            <input required type="email" id="email" name="email" />
+          </div>
+          <div class="container__form__group">
+            <label for="password">Password</label>
+            <input required type="password" id="password" name="password" />
+          </div>
+          <div class="container__form__group">
+            <label for="cPassword" class="confirmText">Confirm Password</label>
+            <input required type="cPassword" id="cPassword" name="cPassword" />
+          </div>
 
-<body>
-        <div class="container">
-                <button id="btn-home">
-                       <a href="./index.html"> 
-                        <img src="../images/homeBtn.png" alt="">
-                </a>
-                    </button>
-                <div class="container__container-form">
-                        <form action="" class="container__form" onsubmit="handleSubmitRegisterForm(event)">
-                                <h2 class="container__form__title">
-                                        Registration Form
-                                </h2>
-                                <div class="container__form__group">
-                                        <label for="fName">First Name</label>
-                                        <input type="text" id="fName" name="fName">
-                                </div>
-                                <div class="container__form__group">
-                                        <label for="lName">Last Name</label>
-                                        <input type="text" id="lName" name="lName">
-                                </div>
-                                <div class="container__form__group">
-                                        <label for="userName">userName</label>
-                                        <input type="text" id="userName" name="userName">
-                                </div>
-                                <div class="container__form__group">
-                                        <label for="email">Email</label>
-                                        <input type="email" id="email" name="email">
-                                </div>
-                                <div class="container__form__group">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" name="password">
-                                </div>
-                                <div class="container__form__group">
-                                        <label for="cPassword" class="confirmText">Confirm Password</label>
-                                        <input type="cPassword" id="cPassword" name="cPassword">
-                                </div>
+          <button type="submit">REGISTER</button>
+        </form>
 
-                                <button type="submit">REGISTER</button>
-                        </form>
-
-                        <footer class="container__footer">
-                                <h3>Do You have Member ? </h3>
-                                <a href="./login.html">LOGIN NOW</a>
-                        </footer>
-                </div>
-
-        </div>
-</body>
-
+        <footer class="container__footer">
+          <h3>Do You have Member ?</h3>
+          <a href="./login.html">LOGIN NOW</a>
+        </footer>
+      </div>
+    </div>
+  </body>
 </html>

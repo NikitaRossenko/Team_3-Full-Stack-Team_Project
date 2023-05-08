@@ -36,8 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.createUser = exports.getUsers = void 0;
+exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
+var jwt_simple_1 = require("jwt-simple");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, error_1;
     return __generator(this, function (_a) {
@@ -47,8 +48,6 @@ exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, userModel_1["default"].find({})];
             case 1:
                 users = _a.sent();
-                if (!users)
-                    throw new Error("No users were found in the DB");
                 res.send({ ok: true, users: users });
                 return [3 /*break*/, 3];
             case 2:
@@ -61,40 +60,27 @@ exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, fName, lName, email, userName, password, src, createUser_1, error_2;
+    var _a, firstName, lastName, userName, email, password, userDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, fName = _a.fName, lName = _a.lName, email = _a.email, userName = _a.userName, password = _a.password, src = _a.src;
-                if (!fName)
-                    throw new Error("fName no founded");
-                if (!lName)
-                    throw new Error("lName no founded");
-                if (!userName)
-                    throw new Error("userName no founded");
-                if (!email)
-                    throw new Error("email no founded");
-                if (!password)
-                    throw new Error("password no founded");
-                if (!src)
-                    console.warn("src no founded");
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
                 return [4 /*yield*/, userModel_1["default"].create({
-                        firstName: fName,
-                        lastName: lName,
+                        firstName: firstName,
+                        lastName: lastName,
                         userName: userName,
                         email: email,
-                        password: password,
-                        src: src
+                        password: password
                     })];
             case 1:
-                createUser_1 = _b.sent();
-                res.status(201).send({ ok: true, user: createUser_1 });
+                userDB = _b.sent();
+                res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:
                 error_2 = _b.sent();
-                res.status(500).send({ ok: false });
                 console.error(error_2);
+                res.status(500).send({ error: error_2.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -137,5 +123,62 @@ exports.addUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
             console.error(error);
         }
         return [2 /*return*/];
+    });
+}); };
+exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var secret, _a, userName, password, userDB, token, error_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                secret = process.env.JWT_SECRET;
+                _a = req.body, userName = _a.userName, password = _a.password;
+                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName, password: password })];
+            case 1:
+                userDB = _b.sent();
+                if (!userDB) {
+                    res.status(401).send({ error: "email or password are inncorect" });
+                    return [2 /*return*/];
+                }
+                if (!secret)
+                    throw new Error("Server Error");
+                token = jwt_simple_1["default"].encode({ userId: userDB._id, role: "public" }, secret);
+                res.cookie("currentUser", token, { httpOnly: true });
+                res.status(201).send({ ok: true, userDB: userDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _b.sent();
+                console.error(error_3);
+                res.status(500).send({ error: error_3.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, _id, firstName, userDB, error_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                _a = req.body, _id = _a._id, firstName = _a.firstName;
+                return [4 /*yield*/, userModel_1["default"].findOneAndUpdate({
+                        _id: _id,
+                        firstName: firstName
+                    })];
+            case 1:
+                userDB = _b.sent();
+                console.log(userDB);
+                if (!userDB)
+                    throw new Error("No userDB in array");
+                res.send({ ok: true });
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _b.sent();
+                console.error(error_4);
+                res.status(500).send({ error: error_4.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
 }); };

@@ -24,11 +24,37 @@ function handleClickMusicBtn() {
         console.error(error);
     }
 }
-function handleSubmitLoginForm(ev) {
+function handleLogin(ev) {
     try {
         ev.preventDefault();
-        var _a = ev.target.elements, userName = _a.userName, password = _a.password;
-        console.log(userName.value, password.value);
+        var userName = ev.target.elements.userName.value;
+        var password = ev.target.elements.password.value;
+        if (!userName)
+            throw new Error("No userName");
+        if (!password)
+            throw new Error("No Password");
+        var loginUser = { userName: userName, password: password };
+        fetch("/api/users/login", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginUser)
+        })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            //   const {password, ...currentUser} = data.userDB
+            //   localStorage.setItem("currentUser", JSON.stringify(currentUser)) //cookie
+            //save user without password in cookies
+            window.location.href = "/";
+        })["catch"](function (error) {
+            console.error(error);
+        });
     }
     catch (error) {
         console.error(error);

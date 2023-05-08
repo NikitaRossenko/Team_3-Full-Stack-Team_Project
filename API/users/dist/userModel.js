@@ -4,7 +4,7 @@ exports.UserSchema = exports.ROLE = void 0;
 var mongoose_1 = require("mongoose");
 var ROLE;
 (function (ROLE) {
-    ROLE["NORMAL"] = "normal";
+    ROLE["NORMAL"] = "public";
     ROLE["ADMIN"] = "admin";
 })(ROLE = exports.ROLE || (exports.ROLE = {}));
 exports.UserSchema = new mongoose_1.Schema({
@@ -24,22 +24,9 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         require: true
     },
-    src: {
+    password: {
         type: String,
-        required: true
-    },
-    highScore: {
-        type: String,
-        require: false
-    },
-    coin: {
-        type: String,
-        require: false
-    },
-    ROLE: {
-        type: String,
-        "enum": ROLE,
-        "default": ROLE.NORMAL
+        require: true
     }
 });
 var UserModel = mongoose_1["default"].model("users", exports.UserSchema);
