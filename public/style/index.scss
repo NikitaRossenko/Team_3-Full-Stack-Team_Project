@@ -3,7 +3,7 @@ body{
     margin: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url("../../images/background1.jpg");
+    background:linear-gradient(rgba(0, 0, 0, 0.20), rgba(0, 0, 0, 0.60)), url("../../images/background1.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
@@ -79,6 +79,7 @@ body{
     .gameTitle {
         font-size: 100px;
         font-family:'Times New Roman', Times, serif;
+        color: white;
     }
 
     .navIcon{
@@ -113,6 +114,7 @@ body{
         display: flex;
         align-items: center;
         flex-direction: column;
+        padding: 10px 0 10px 0;
         
 
         .story{
