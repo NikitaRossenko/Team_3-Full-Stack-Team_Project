@@ -83,8 +83,9 @@ body {
   width: 240px;
 }
 .mainContainer .navIcon h1 {
-  bottom: 14px;
-  width: 240px;
+  font-size: 40px;
+  width: 100%;
+  height: 100%;
   text-align: center;
   position: absolute;
   color: white;
