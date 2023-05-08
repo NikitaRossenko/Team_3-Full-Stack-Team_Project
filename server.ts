@@ -11,7 +11,7 @@ dotenv.config();
 
 
 app.use(express.json());
-const uri: string | undefined = process.env.MONGODB_URI;
+const uri: string | undefined = process.env.MONGO_DB;
 
 if (uri) {
   mongoose
