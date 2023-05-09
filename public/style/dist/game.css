@@ -57,7 +57,35 @@ body {
   flex-direction: column;
   gap: 40px;
 }
-.mainContainer img {
+.mainContainer canvas {
   border-radius: 20px;
   box-shadow: 10px;
+}
+.mainContainer .navIcon {
+  position: relative;
+  width: 240px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.mainContainer .navIcon img {
+  width: 240px;
+}
+.mainContainer .navIcon h1 {
+  font-size: 40px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  color: white;
+}
+
+.navIcon:hover {
+  scale: 1.1;
+}
+
+.navIcon:active {
+  scale: 0.98;
 }
