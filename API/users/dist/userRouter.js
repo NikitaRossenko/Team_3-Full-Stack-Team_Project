@@ -7,5 +7,6 @@ userRouter
     .get("/get-users", userControl_1.getUsers)
     .post("/create-user", userControl_1.createUser)
     .post("/login", userControl_1.login)
-    .patch("/update-user", userControl_1.UpdateUserDetails)["delete"]("delete-user", userControl_1.UpdateUserDetailById);
+    .patch("/update-user", userControl_1.UpdateUserDetails)
+    .get("/get-user", userControl_1.getUser)["delete"]("delete-user", userControl_1.UpdateUserDetailById);
 exports["default"] = userRouter;

@@ -1,39 +1,39 @@
-interface User {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  password: string;
-  highScore?: number;
-  coin?: number;
-}
+// interface User {
+//   _id: string;
+//   firstName: string;
+//   lastName: string;
+//   userName: string;
+//   email: string;
+//   password: string;
+//   highScore?: number;
+//   coin?: number;
+// }
 
-function renderProfilUser(user: User) {
-  try {
-    const html = `
-      <form class="form" action="">
-      <div class="title">firstName:</div>
-      <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.firstName}</div>
-      <div class="title">lastName:</div>
-      <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.lastName}</div>
-      <div class="title">Email:</div>
-      <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.email}</div>
-      <div class="title">UserName:</div>
-      <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.userName}</div>
-      <div class="title">Password:</div>
-      <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.password}</div>
-      <div class="title">high score:</div>
-      <div class="value">${user.highScore}</div>
-      </form>
-  `;
-    const CardRoot = document.querySelector("#cardRoot");
-    if (!CardRoot) throw new Error("CardRoot not found");
-    CardRoot.innerHTML = html;
-  } catch (error) {
-    console.error(error);
-  }
-}
+// function renderProfilUser(user: User) {
+//   try {
+//     const html = `
+//       <form class="form" action="">
+//       <div class="title">firstName:</div>
+//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.firstName}</div>
+//       <div class="title">lastName:</div>
+//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.lastName}</div>
+//       <div class="title">Email:</div>
+//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.email}</div>
+//       <div class="title">UserName:</div>
+//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.userName}</div>
+//       <div class="title">Password:</div>
+//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.password}</div>
+//       <div class="title">high score:</div>
+//       <div class="value">${user.highScore}</div>
+//       </form>
+//   `;
+//     const CardRoot = document.querySelector("#cardRoot");
+//     if (!CardRoot) throw new Error("CardRoot not found");
+//     CardRoot.innerHTML = html;
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
 function handelRenderProfilUser() {
   try {
@@ -43,7 +43,7 @@ function handelRenderProfilUser() {
           try {
               if (!users) throw new Error("didnt find users");
             users.forEach(user => {
-              renderProfilUser(user);
+              // renderProfilUser(user);
             });
             } catch (error) {
               console.error(error);
@@ -81,3 +81,33 @@ function handelRenderProfilUser() {
       console.error(error);
     }
   }
+
+
+  async function handleGetUser(){
+    try {
+      const responce = await  fetch('/api/users/get-user');
+      const data = await responce.json();
+      const {currentUser} = data;
+      const html = `
+      <form class="form" action="">
+      <div class="title">firstName:</div>
+      <div class="value" contenteditable oninput="handleUserUpdate(event,'${currentUser._id}')">${currentUser.firstName}</div>
+      <div class="title">lastName:</div>
+      <div class="value" contenteditable oninput="handleUserUpdate(event,'${currentUser._id}')">${currentUser.lastName}</div>
+      <div class="title">Email:</div>
+      <div class="value" contenteditable oninput="handleUserUpdate(event,'${currentUser._id}')">${currentUser.email}</div>
+      <div class="title">UserName:</div>
+      <div class="value" contenteditable oninput="handleUserUpdate(event,'${currentUser._id}')">${currentUser.userName}</div>
+      <div class="title">Password:</div>
+      <div class="value" contenteditable oninput="handleUserUpdate(event,'${currentUser._id}')">${currentUser.password}</div>
+      <div class="title">high score:</div>
+      <div class="value">${currentUser.highScore}</div>
+      </form>
+  `;
+    const CardRoot = document.querySelector("#cardRoot");
+    if (!CardRoot) throw new Error("CardRoot not found");
+    CardRoot.innerHTML = html
+    } catch (error) {
+        console.error(error);
+    }
+}

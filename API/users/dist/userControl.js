@@ -36,9 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.createUser = exports.getUsers = void 0;
+exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
-var jwt_simple_1 = require("jwt-simple");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, error_1;
     return __generator(this, function (_a) {
@@ -126,12 +125,11 @@ exports.addUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var secret, _a, userName, password, userDB, token, error_3;
+    var _a, userName, password, userDB, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                secret = process.env.JWT_SECRET;
                 _a = req.body, userName = _a.userName, password = _a.password;
                 return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName, password: password })];
             case 1:
@@ -140,10 +138,9 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     res.status(401).send({ error: "email or password are inncorect" });
                     return [2 /*return*/];
                 }
-                if (!secret)
-                    throw new Error("Server Error");
-                token = jwt_simple_1["default"].encode({ userId: userDB._id, role: "public" }, secret);
-                res.cookie("currentUser", token, { httpOnly: true });
+                // if (!secret) throw new Error("Server Error");
+                // const token = jwt.encode({ userId: userDB._id, role: "public" }, secret);
+                res.cookie("currentUser", userDB._id, { httpOnly: true });
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:
@@ -177,6 +174,28 @@ exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 
                 error_4 = _b.sent();
                 console.error(error_4);
                 res.status(500).send({ error: error_4.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var currentUser, userDB, error_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                currentUser = req.cookies.currentUser;
+                console.log(currentUser);
+                return [4 /*yield*/, userModel_1["default"].findById(currentUser)];
+            case 1:
+                userDB = _a.sent();
+                res.send({ ok: true, currentUser: userDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_5 = _a.sent();
+                console.error(error_5);
+                res.status(500).send({ error: error_5.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

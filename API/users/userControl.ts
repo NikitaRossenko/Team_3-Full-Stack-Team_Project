@@ -56,7 +56,7 @@ export const addUser = async (req: any, res: any) => {
 
 export const login = async (req: any, res: any) => {
   try {
-    const secret = process.env.JWT_SECRET;
+    // const secret = process.env.JWT_SECRET;
     const { userName, password } = req.body;
 
     const userDB = await UserModel.findOne({ userName, password });
@@ -65,9 +65,9 @@ export const login = async (req: any, res: any) => {
       res.status(401).send({ error: "email or password are inncorect" });
       return;
     }
-    if (!secret) throw new Error("Server Error");
-    const token = jwt.encode({ userId: userDB._id, role: "public" }, secret);
-    res.cookie("currentUser", token, { httpOnly: true });
+    // if (!secret) throw new Error("Server Error");
+    // const token = jwt.encode({ userId: userDB._id, role: "public" }, secret);
+    res.cookie("currentUser", userDB._id, { httpOnly: true });
     res.status(201).send({ ok: true, userDB });
   } catch (error: any) {
     console.error(error);
@@ -90,6 +90,28 @@ export const UpdateUserDetails = async (req: any, res: any) => {
     console.log(userDB);
     if (!userDB) throw new Error("No userDB in array");
     res.send({ ok: true });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+};
+
+export const getUser = async (req: any, res: any) => {
+  try {
+    const {currentUser} = req.cookies;
+    console.log(currentUser);
+    // if (!secret) throw new Error("No secret");
+    // 
+    // const decoded = jwt.decode(user, secret);
+    // console.log(decoded);
+    
+    // const { userId, role} = decoded;
+
+    // if(role === 'admin') console.log("Give all avilable data")
+
+    const userDB = await UserModel.findById(currentUser);
+
+    res.send({ ok: true, currentUser: userDB });
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });

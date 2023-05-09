@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 dotenv.config();
 
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 
 const uri: string | undefined = process.env.MONGO_DB;

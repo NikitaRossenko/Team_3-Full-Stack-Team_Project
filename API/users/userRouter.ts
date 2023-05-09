@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { UpdateUserDetailById, createUser, getUsers, login, UpdateUserDetails } from "./userControl";
+import { UpdateUserDetailById, createUser, getUsers, login, UpdateUserDetails, getUser } from "./userControl";
 
 const userRouter = Router()
 
@@ -8,6 +8,7 @@ userRouter
 .post("/create-user" , createUser)
 .post("/login" , login)
 .patch("/update-user", UpdateUserDetails)
+.get("/get-user" , getUser)
 // .put()
 .delete("delete-user" ,UpdateUserDetailById )
 

@@ -12,7 +12,7 @@ export interface User {
 }
 
 export enum ROLE {
-  NORMAL = "public",
+  PUBLIC = "public",
   ADMIN = "admin",
 }
 
@@ -37,24 +37,24 @@ export const UserSchema = new Schema({
     type: String,
     require: true,
   },
-  // src: {
-  //     type:String ,
-  //     required:true
+  src: {
+      type:String ,
+      required:false
 
-  // } ,
-  // highScore:{
-  //     type:String,
-  //     require:false
-  // } ,
-  // coin:{
-  //     type:String,
-  //     require:false
-  // } ,
-  // ROLE:{
-  //     type:String ,
-  //     enum:ROLE ,
-  //     default:ROLE.NORMAL
-  // }
+  } ,
+  highScore:{
+      type:String,
+      require:false
+  } ,
+  coin:{
+      type:String,
+      require:false
+  } ,
+  ROLE: {
+    type: String,
+    enum: ROLE,
+    default: ROLE.PUBLIC,
+  },
 });
 
 const UserModel = mongoose.model("users", UserSchema);
