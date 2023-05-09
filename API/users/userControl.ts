@@ -101,6 +101,7 @@ export const getUser = async (req: any, res: any) => {
     const {currentUser} = req.cookies;
     console.log(currentUser);
     // if (!secret) throw new Error("No secret");
+    
     // 
     // const decoded = jwt.decode(user, secret);
     // console.log(decoded);
