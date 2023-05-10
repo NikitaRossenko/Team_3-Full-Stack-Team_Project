@@ -153,15 +153,18 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _id, firstName, userDB, error_4;
+    var _a, _id, firstName, lastName, email, userName, password, userDB, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                _a = req.body, _id = _a._id, firstName = _a.firstName;
-                return [4 /*yield*/, userModel_1["default"].findOneAndUpdate({
-                        _id: _id,
-                        firstName: firstName
+                _a = req.body, _id = _a._id, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, userName = _a.userName, password = _a.password;
+                return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(_id, {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        userName: userName,
+                        password: password
                     })];
             case 1:
                 userDB = _b.sent();

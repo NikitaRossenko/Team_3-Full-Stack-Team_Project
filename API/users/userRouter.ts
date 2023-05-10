@@ -7,7 +7,7 @@ userRouter
 .get("/get-users" , getUsers)
 .post("/create-user" , createUser)
 .post("/login" , login)
-.patch("/update-user", UpdateUserDetails)
+.put("/update-user", UpdateUserDetails)
 .get("/get-user" , getUser)
 // .put()
 .delete("delete-user" ,UpdateUserDetailById )

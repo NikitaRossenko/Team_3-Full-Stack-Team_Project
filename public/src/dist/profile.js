@@ -93,20 +93,22 @@ function handelRenderProfilUser() {
 }
 function handleUserUpdate(ev, _id) {
     try {
-        var firstName = ev.target.textContent;
-        // const lastName = ev.target.textContent;
-        // const Email = ev.target.textContent;
-        // const UserName = ev.target.textContent;
-        // const Password = ev.target.textContent;
+        ev.preventDefault();
+        var _a = ev.target.elements, lName = _a.lName, fName = _a.fName, password = _a.password, userName = _a.userName, email = _a.email;
+        console.log(lName.value);
         fetch("/api/users/update-user", {
-            method: "PATCH",
+            method: "PUT",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                firstName: firstName,
-                _id: _id
+                _id: _id,
+                firstName: fName.value,
+                lastName: lName.value,
+                password: password.value,
+                userName: userName.value,
+                email: email.value
             })
         });
     }
@@ -116,19 +118,19 @@ function handleUserUpdate(ev, _id) {
 }
 function handleGetUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var responce, data, currentUser, html, CardRoot, error_1;
+        var response, data, currentUser, html, CardRoot, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch('/api/users/get-user')];
                 case 1:
-                    responce = _a.sent();
-                    return [4 /*yield*/, responce.json()];
+                    response = _a.sent();
+                    return [4 /*yield*/, response.json()];
                 case 2:
                     data = _a.sent();
                     currentUser = data.currentUser;
-                    html = "\n      <form class=\"form\" action=\"\">\n      <div class=\"title\">firstName:</div>\n      <div class=\"value\" contenteditable oninput=\"handleUserUpdate(event,'" + currentUser._id + "')\">" + currentUser.firstName + "</div>\n      <div class=\"title\">lastName:</div>\n      <div class=\"value\" contenteditable oninput=\"handleUserUpdate(event,'" + currentUser._id + "')\">" + currentUser.lastName + "</div>\n      <div class=\"title\">Email:</div>\n      <div class=\"value\" contenteditable oninput=\"handleUserUpdate(event,'" + currentUser._id + "')\">" + currentUser.email + "</div>\n      <div class=\"title\">UserName:</div>\n      <div class=\"value\" contenteditable oninput=\"handleUserUpdate(event,'" + currentUser._id + "')\">" + currentUser.userName + "</div>\n      <div class=\"title\">Password:</div>\n      <div class=\"value\" contenteditable oninput=\"handleUserUpdate(event,'" + currentUser._id + "')\">" + currentUser.password + "</div>\n      <div class=\"title\">high score:</div>\n      <div class=\"value\">" + currentUser.highScore + "</div>\n      </form>\n  ";
+                    html = "\n      <form class=\"form\" action=\"\" method=\"get\" onsubmit=\"handleUserUpdate(event, '" + currentUser._id + "')\">\n      <label class=\"title\">firstName:</label>\n      <input id=\"fName\" class=\"value\" contenteditable value=\"" + currentUser.firstName + "\"></input>\n      <label class=\"title\">lastName:</label>\n      <input id=\"lName\" class=\"value\" contenteditable value=\"" + currentUser.lastName + "\" ></input>\n      <label class=\"title\">Email:</label>\n      <input id=\"email\" class=\"value\" contenteditable value=\"" + currentUser.email + "\"></input>\n      <label class=\"title\">UserName:</label>\n      <input  id=\"userName\"class=\"value\" contenteditable value=\"" + currentUser.userName + "\"></input>\n      <label class=\"title\">Password:</label>\n      <input id=\"password\" class=\"value\" contenteditable value=\"" + currentUser.password + "\"></input>\n      <label class=\"title\">high score:</label>\n      <input id=\"highScore\" class=\"value\" value=\"" + currentUser.highScore + "\"></input>\n      <button type=\"submit\"> Update</button>\n      </form>\n  ";
                     CardRoot = document.querySelector("#cardRoot");
                     if (!CardRoot)
                         throw new Error("CardRoot not found");
