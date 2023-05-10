@@ -77,15 +77,15 @@ export const login = async (req: any, res: any) => {
 
 export const UpdateUserDetails = async (req: any, res: any) => {
   try {
-    const { _id, firstName, /*lastName, email, userName, password*/ } = req.body;
+    const { _id, firstName, lastName, email, userName, password } = req.body;
 
-    const userDB = await UserModel.findOneAndUpdate({
-      _id,
+    const userDB = await UserModel.findByIdAndUpdate(_id, {
+
       firstName,
-    //   lastName,
-    //   email,
-    //   userName,
-    //   password,
+      lastName,
+      email,
+      userName,
+      password,
     });
     console.log(userDB);
     if (!userDB) throw new Error("No userDB in array");
@@ -98,14 +98,14 @@ export const UpdateUserDetails = async (req: any, res: any) => {
 
 export const getUser = async (req: any, res: any) => {
   try {
-    const {currentUser} = req.cookies;
+    const { currentUser } = req.cookies;
     console.log(currentUser);
     // if (!secret) throw new Error("No secret");
-    
+
     // 
     // const decoded = jwt.decode(user, secret);
     // console.log(decoded);
-    
+
     // const { userId, role} = decoded;
 
     // if(role === 'admin') console.log("Give all avilable data")
