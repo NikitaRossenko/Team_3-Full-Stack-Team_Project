@@ -85,21 +85,21 @@ async function handleGetUser() {
   try {
     const response = await fetch('/api/users/get-user');
     const data = await response.json();
-    const { currentUser } = data;
+    const { userId } = data;
     const html = `
-      <form class="form" action="" method="get" onsubmit="handleUserUpdate(event, '${currentUser._id}')">
+      <form class="form" action="" method="get" onsubmit="handleUserUpdate(event, '${userId._id}')">
       <label class="title">firstName:</label>
-      <input id="fName" class="value" contenteditable value="${currentUser.firstName}"></input>
+      <input id="fName" class="value" contenteditable value="${userId.firstName}"></input>
       <label class="title">lastName:</label>
-      <input id="lName" class="value" contenteditable value="${currentUser.lastName}" ></input>
+      <input id="lName" class="value" contenteditable value="${userId.lastName}" ></input>
       <label class="title">Email:</label>
-      <input id="email" class="value" contenteditable value="${currentUser.email}"></input>
+      <input id="email" class="value" contenteditable value="${userId.email}"></input>
       <label class="title">UserName:</label>
-      <input  id="userName"class="value" contenteditable value="${currentUser.userName}"></input>
+      <input  id="userName"class="value" contenteditable value="${userId.userName}"></input>
       <label class="title">Password:</label>
-      <input id="password" class="value" contenteditable value="${currentUser.password}"></input>
+      <input id="password" class="value" contenteditable value="${userId.password}"></input>
       <label class="title">high score:</label>
-      <input id="highScore" class="value" value="${currentUser.highScore}"></input>
+      <div id="highScore" class="value">${userId.highScore?userId.highScore:0}</div>
       <button type="submit"> Update</button>
       </form>
   `;
