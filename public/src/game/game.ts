@@ -26,14 +26,15 @@ function game() {
 
                 ctx.fillStyle = this.color
                 ctx.fillRect(this.position.x, this.position.y, this.size, this.size)
+
             }
 
             update(mousePos){
                 this.draw()
-
-                if (mousePos.x > this.position.x && mousePos.x < this.position.x + this.size && mousePos.y > this.position.y && mousePos.y < this.position.y + this.size){
+                if (mousePos.x > this.position.x && mousePos.x < this.position.x + this.size  && mousePos.y > this.position.y && mousePos.y < this.position.y + this.size){
                     this.color = "rgba(128,0,128,1)"
-                    console.log("col")
+                } else {
+                    this.color = "rgba(128,0,128,0.2)"
                 }
             }
         }
@@ -128,15 +129,15 @@ function game() {
                 tower.update(mousePos)
             })
 
+            
         }
         const mousePos:any = {x:undefined, y:undefined}
+        window.addEventListener('mousemove', (event) => {
+            mousePos.x = event.clientX - canvas.offsetLeft
+            mousePos.y = event.clientY - canvas.offsetTop
 
-            window.addEventListener('mousemove', (event) => {
-                mousePos.x = event.clientX
-                mousePos.y = event.clientY
-                console.log(mousePos)
-            })
-
+        })
+        console.log("X:",placementTowersArray[0].position.x,"Y:",placementTowersArray[0].position.y)
         animate()
 
 

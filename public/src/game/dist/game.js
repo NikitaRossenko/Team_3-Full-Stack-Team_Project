@@ -1,8 +1,8 @@
 function game() {
     try {
         var monsterSpeed = 200;
-        var canvas = document.querySelector("canvas");
-        var ctx_1 = canvas === null || canvas === void 0 ? void 0 : canvas.getContext('2d');
+        var canvas_1 = document.querySelector("canvas");
+        var ctx_1 = canvas_1 === null || canvas_1 === void 0 ? void 0 : canvas_1.getContext('2d');
         var placementTowers2d = [];
         for (var i = 0; i < placementTowers.length; i += 70) {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
@@ -24,7 +24,9 @@ function game() {
                 this.draw();
                 if (mousePos.x > this.position.x && mousePos.x < this.position.x + this.size && mousePos.y > this.position.y && mousePos.y < this.position.y + this.size) {
                     this.color = "rgba(128,0,128,1)";
-                    console.log("col");
+                }
+                else {
+                    this.color = "rgba(128,0,128,0.2)";
                 }
             };
             return PlacementTower;
@@ -38,17 +40,17 @@ function game() {
             });
         });
         console.log(placementTowersArray_1);
-        if (!canvas)
+        if (!canvas_1)
             throw new Error("[Canvas] Game Error");
         if (!ctx_1)
             throw new Error("[Canvas-ctx] Game Error");
         // Set the canvas Width and Height
-        canvas.width = 1600;
-        canvas.height = 900;
+        canvas_1.width = 1600;
+        canvas_1.height = 900;
         // Canvas fill is optional if using a background image
         ctx_1.fillStyle = "white";
         // If using a background image this fill is optional
-        ctx_1.fillRect(0, 0, canvas.width, canvas.height);
+        ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         var mapImage_1 = new Image();
         mapImage_1.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960.png";
@@ -102,10 +104,10 @@ function game() {
         }
         var mousePos_1 = { x: undefined, y: undefined };
         window.addEventListener('mousemove', function (event) {
-            mousePos_1.x = event.clientX;
-            mousePos_1.y = event.clientY;
-            console.log(mousePos_1);
+            mousePos_1.x = event.clientX - canvas_1.offsetLeft;
+            mousePos_1.y = event.clientY - canvas_1.offsetTop;
         });
+        console.log("X:", placementTowersArray_1[0].position.x, "Y:", placementTowersArray_1[0].position.y);
         animate();
     }
     catch (error) {
