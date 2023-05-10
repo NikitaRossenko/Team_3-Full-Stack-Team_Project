@@ -2,11 +2,31 @@
 function game() {
     try {
         let monsterSpeed = 200
+        const enemies:any = []
+        const placementTowersArray:any = []
 
         const canvas = document.querySelector("canvas")
         const ctx = canvas?.getContext('2d');
         const placementTowers2d:any = []
 
+        if (!canvas) throw new Error("[Canvas] Game Error")
+        if (!ctx) throw new Error("[Canvas-ctx] Game Error")
+
+        // Set the canvas Width and Height
+        canvas.width = 1600
+        canvas.height = 900
+
+        // Canvas fill is optional if using a background image
+        ctx.fillStyle = "white"
+
+        // If using a background image this fill is optional
+        ctx.fillRect(0,0,canvas.width,canvas.height)
+
+        // Need to declare a new image (which will create an img element) - canvas need to receive a img element
+        const mapImage = new Image()
+        mapImage.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960.png"
+
+        // Convert Towers coordinats to 2d
         for (let i = 0 ; i < placementTowers.length ; i+=70){
             placementTowers2d.push(placementTowers.slice(i,i+70))
         }
@@ -38,36 +58,6 @@ function game() {
                 }
             }
         }
-
-        const placementTowersArray:any = []
-
-        placementTowers2d.forEach((row, y) => {
-            row.forEach((symbol, x) => {
-                if (symbol === 1211){
-                    placementTowersArray.push(new PlacementTower({x:x*24, y:y*24}))
-                }
-            })
-        })
-
-        console.log(placementTowersArray)
-    
-        if (!canvas) throw new Error("[Canvas] Game Error")
-        if (!ctx) throw new Error("[Canvas-ctx] Game Error")
-
-        // Set the canvas Width and Height
-        canvas.width = 1600
-        canvas.height = 900
-
-        // Canvas fill is optional if using a background image
-        ctx.fillStyle = "white"
-
-        // If using a background image this fill is optional
-        ctx.fillRect(0,0,canvas.width,canvas.height)
-
-        // Need to declare a new image (which will create an img element) - canvas need to receive a img element
-        const mapImage = new Image()
-        
-        mapImage.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960.png"
 
         class Enemey {
             position:{x:number; y:number;}
@@ -110,17 +100,27 @@ function game() {
             }
         }
 
-        const enemies:any = []
+        placementTowers2d.forEach((row, y) => {
+            row.forEach((symbol, x) => {
+                if (symbol === 1211){
+                    placementTowersArray.push(new PlacementTower({x:x*24, y:y*24}))
+                }
+            })
+        })
 
+        // Create enemies with X coordinats offset
         for (let i = 1; i < 10 ; i++){
-            const xOffset = i * (Math.random()*100 + 300)
+            const xOffset = i * (Math.random()*(600 - 100 +1) + 100)
             enemies.push(new Enemey({x:path[i].x - xOffset, y:path[i].y}))
         }
+
+        // Animation function (Recursion)
         function animate(){
             requestAnimationFrame(animate)
             if (!ctx) throw new Error("[Canvas-ctx] Game Error")
 
             ctx.drawImage(mapImage,0,0)
+            
             enemies.forEach( enemy => {
                 enemy.update()
             })
@@ -131,13 +131,15 @@ function game() {
 
             
         }
+
+        // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
         const mousePos:any = {x:undefined, y:undefined}
         window.addEventListener('mousemove', (event) => {
             mousePos.x = event.clientX - canvas.offsetLeft
             mousePos.y = event.clientY - canvas.offsetTop
 
         })
-        console.log("X:",placementTowersArray[0].position.x,"Y:",placementTowersArray[0].position.y)
+
         animate()
 
 
