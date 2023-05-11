@@ -1,7 +1,9 @@
 
 function game() {
     try {
+        const mapSize = 1.5
         let monsterSpeed = 200
+        
         const enemies:any = []
         const placementTowersArray:any = []
 
@@ -13,8 +15,8 @@ function game() {
         if (!ctx) throw new Error("[Canvas-ctx] Game Error")
 
         // Set the canvas Width and Height
-        canvas.width = 1600
-        canvas.height = 900
+        canvas.width = 1260
+        canvas.height = 720
 
         // Canvas fill is optional if using a background image
         ctx.fillStyle = "white"
@@ -24,7 +26,7 @@ function game() {
 
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         const mapImage = new Image()
-        mapImage.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960.png"
+        mapImage.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720.png"
 
         // Convert Towers coordinats to 2d
         for (let i = 0 ; i < placementTowers.length ; i+=70){
@@ -39,7 +41,9 @@ function game() {
                 this.position = {x:x, y:y}
                 this.size = 24
                 this.color = "rgba(128,0,128,0.2)"
+                console.log(this.position)
             }
+            
 
             draw() {
                 if (!ctx) throw new Error("[Canvas-ctx] Game Error")
@@ -69,10 +73,10 @@ function game() {
 
             constructor({x=0,y=0}){
                 this.position = {x:x, y:y}
-                this.width = 12
-                this.height = 12
+                this.width = 24
+                this.height = 24
                 this.waypointIndex = 0
-                this.zoom = 2
+                this.zoom = mapSize
                 this.center = {x:this.position.x + this.width/2, y:this.position.y + this.height/2}
             }
 
@@ -137,6 +141,7 @@ function game() {
         window.addEventListener('mousemove', (event) => {
             mousePos.x = event.clientX - canvas.offsetLeft
             mousePos.y = event.clientY - canvas.offsetTop
+            console.log(mousePos.x,mousePos.y)
 
         })
 

@@ -1,5 +1,6 @@
 function game() {
     try {
+        var mapSize_1 = 1.5;
         var monsterSpeed = 200;
         var enemies_1 = [];
         var placementTowersArray_1 = [];
@@ -11,15 +12,15 @@ function game() {
         if (!ctx_1)
             throw new Error("[Canvas-ctx] Game Error");
         // Set the canvas Width and Height
-        canvas_1.width = 1600;
-        canvas_1.height = 900;
+        canvas_1.width = 1260;
+        canvas_1.height = 720;
         // Canvas fill is optional if using a background image
         ctx_1.fillStyle = "white";
         // If using a background image this fill is optional
         ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         var mapImage_1 = new Image();
-        mapImage_1.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960.png";
+        mapImage_1.src = "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720.png";
         // Convert Towers coordinats to 2d
         for (var i = 0; i < placementTowers.length; i += 70) {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
@@ -30,6 +31,7 @@ function game() {
                 this.position = { x: x, y: y };
                 this.size = 24;
                 this.color = "rgba(128,0,128,0.2)";
+                console.log(this.position);
             }
             PlacementTower.prototype.draw = function () {
                 if (!ctx_1)
@@ -52,10 +54,10 @@ function game() {
             function Enemey(_a) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
                 this.position = { x: x, y: y };
-                this.width = 12;
-                this.height = 12;
+                this.width = 24;
+                this.height = 24;
                 this.waypointIndex = 0;
-                this.zoom = 2;
+                this.zoom = mapSize_1;
                 this.center = { x: this.position.x + this.width / 2, y: this.position.y + this.height / 2 };
             }
             Enemey.prototype.draw = function () {
@@ -109,6 +111,7 @@ function game() {
         window.addEventListener('mousemove', function (event) {
             mousePos_1.x = event.clientX - canvas_1.offsetLeft;
             mousePos_1.y = event.clientY - canvas_1.offsetTop;
+            console.log(mousePos_1.x, mousePos_1.y);
         });
         animate();
     }
