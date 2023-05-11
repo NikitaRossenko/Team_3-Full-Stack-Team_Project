@@ -1,13 +1,17 @@
 function game() {
     try {
-        var mapSize_1 = 1.5;
-        var tileSize_1 = 12;
         var monsterSpeed = 200;
-        var enemies_1 = [];
+        var activePlacement_1 = undefined;
+        var mapZoom_1 = 1.5;
+        var tileSize_1 = 12;
+        var newTileSize_1 = mapZoom_1 * tileSize_1;
+        var mousePos_1 = { x: undefined, y: undefined };
+        var enemiesArray_1 = [];
+        var placementTowers2d = [];
         var placementTowersArray_1 = [];
+        var towersArray_1 = [];
         var canvas_1 = document.querySelector("canvas");
         var ctx_1 = canvas_1 === null || canvas_1 === void 0 ? void 0 : canvas_1.getContext("2d");
-        var placementTowers2d = [];
         if (!canvas_1)
             throw new Error("[Canvas] Game Error");
         if (!ctx_1)
@@ -31,9 +35,9 @@ function game() {
             function PlacementTower(_a) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
                 this.position = { x: x, y: y };
-                this.size = 18;
+                this.size = newTileSize_1;
                 this.color = "rgba(128,0,128,0.2)";
-                console.log(this.position);
+                this.used = false;
             }
             PlacementTower.prototype.draw = function () {
                 if (!ctx_1)
@@ -59,10 +63,10 @@ function game() {
             function Enemey(_a) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
                 this.position = { x: x, y: y };
-                this.width = 24;
-                this.height = 24;
+                this.width = newTileSize_1;
+                this.height = newTileSize_1;
                 this.waypointIndex = 0;
-                this.zoom = mapSize_1;
+                this.zoom = mapZoom_1;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2
@@ -94,12 +98,50 @@ function game() {
             };
             return Enemey;
         }());
+        var Tower_1 = /** @class */ (function () {
+            function Tower(_a) {
+                var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
+                this.position = { x: x, y: y };
+                this.width = newTileSize_1 * 2;
+                this.height = newTileSize_1;
+                this.bullets = [
+                    new Bullet_1({ x: this.position.x, y: this.position.y }),
+                ];
+            }
+            Tower.prototype.draw = function () {
+                if (!ctx_1)
+                    throw new Error("[Canvas-ctx] Game Error");
+                ctx_1.fillStyle = "green";
+                ctx_1.fillRect(this.position.x, this.position.y, this.width, this.height);
+            };
+            return Tower;
+        }());
+        var Bullet_1 = /** @class */ (function () {
+            function Bullet(_a) {
+                var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
+                this.position = { x: x, y: y };
+                this.velocity = { x: 0, y: 0 };
+                this.center = {
+                    x: this.position.x + newTileSize_1,
+                    y: this.position.y + newTileSize_1 / 2
+                };
+            }
+            Bullet.prototype.draw = function () {
+                if (!ctx_1)
+                    throw new Error("[Canvas-ctx] Game Error");
+                ctx_1.beginPath();
+                ctx_1.arc(this.center.x, this.center.y, 6, 0, Math.PI * 2);
+                ctx_1.fillStyle = "white";
+                ctx_1.fill();
+            };
+            return Bullet;
+        }());
         placementTowers2d.forEach(function (row, y) {
             row.forEach(function (symbol, x) {
                 if (symbol === 1211) {
                     placementTowersArray_1.push(new PlacementTower_1({
-                        x: x * tileSize_1 * mapSize_1,
-                        y: y * tileSize_1 * mapSize_1
+                        x: x * tileSize_1 * mapZoom_1,
+                        y: y * tileSize_1 * mapZoom_1
                     }));
                 }
             });
@@ -107,30 +149,57 @@ function game() {
         // Create enemies with X coordinats offset
         for (var i = 1; i < 10; i++) {
             var xOffset = i * (Math.random() * (600 - 100 + 1) + 100);
-            enemies_1.push(new Enemey({ x: path[i].x - xOffset, y: path[i].y }));
+            enemiesArray_1.push(new Enemey({ x: path[i].x - xOffset, y: path[i].y }));
         }
-        // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
-        var mousePos_1 = { x: undefined, y: undefined };
-        window.addEventListener("mousemove", function (event) {
-            mousePos_1.x = event.clientX - canvas_1.offsetLeft;
-            mousePos_1.y = event.clientY - canvas_1.offsetTop;
-            console.log(mousePos_1.x, mousePos_1.y);
-        });
         // Animation function (Recursion)
         function animate() {
             requestAnimationFrame(animate);
             if (!ctx_1)
                 throw new Error("[Canvas-ctx] Game Error");
             ctx_1.drawImage(mapImage_1, 0, 0);
-            enemies_1.forEach(function (enemy) {
+            enemiesArray_1.forEach(function (enemy) {
                 enemy.update();
             });
             placementTowersArray_1.forEach(function (tower) {
                 tower.update(mousePos_1);
             });
-            console.log("mousePos.x", mousePos_1.x + canvas_1.offsetLeft, "mousePos.y", mousePos_1.y + canvas_1.offsetTop, "this.position.x", placementTowersArray_1[0].position.x, "this.position.y", placementTowersArray_1[0].position.y);
+            towersArray_1.forEach(function (tower) {
+                tower.draw();
+                tower.bullets.forEach(function (bullet) {
+                    bullet.draw();
+                });
+            });
         }
         console.log(placementTowersArray_1[0].position.x, placementTowersArray_1[0].position.y);
+        // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
+        canvas_1.addEventListener("click", function (event) {
+            console.log(towersArray_1);
+            if (activePlacement_1 && !activePlacement_1.used) {
+                console.log(activePlacement_1);
+                towersArray_1.push(new Tower_1({
+                    x: activePlacement_1.position.x,
+                    y: activePlacement_1.position.y
+                }));
+                activePlacement_1.used = true;
+            }
+        });
+        window.addEventListener("mousemove", function (event) {
+            mousePos_1.x = event.clientX - canvas_1.offsetLeft;
+            mousePos_1.y = event.clientY - canvas_1.offsetTop;
+            activePlacement_1 = null;
+            for (var i = 0; i < placementTowersArray_1.length; i++) {
+                var placement = placementTowersArray_1[i];
+                if (mousePos_1.x > placement.position.x &&
+                    mousePos_1.x < placement.position.x + placement.size &&
+                    mousePos_1.y > placement.position.y &&
+                    mousePos_1.y < placement.position.y + placement.size) {
+                    activePlacement_1 = placement;
+                    break;
+                }
+            }
+        });
+        console.log(canvas_1.offsetTop);
+        console.log(canvas_1.offsetLeft);
         animate();
     }
     catch (error) {
