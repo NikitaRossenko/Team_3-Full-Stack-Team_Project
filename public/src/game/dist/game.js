@@ -177,7 +177,7 @@ function game() {
             });
         });
         // Create enemies with X coordinats offset
-        for (var i = 0; i < 1; i++) {
+        for (var i = 0; i < 10; i++) {
             var xOffset = i * (Math.random() * (200 - 100 + 1) + 100);
             enemiesArray_1.push(new Enemey({ x: path[0].x - xOffset, y: path[0].y }));
         }
