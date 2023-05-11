@@ -1,12 +1,14 @@
 function game() {
     try {
         let activePlacement: any = undefined;
+        let mapZoom: number = 2;
+
+        const tileSize = 12;
+        const newTileSize = mapZoom * tileSize;
 
         const monsterSpeed = 4;
         const bulletSpeed = 2;
-        const mapZoom = 1.5;
-        const tileSize = 12;
-        const newTileSize = mapZoom * tileSize;
+        const bulletPower = newTileSize / 6;
         const mousePos: any = { x: undefined, y: undefined };
 
         const enemiesArray: any = [];
@@ -20,10 +22,6 @@ function game() {
         if (!canvas) throw new Error("[Canvas] Game Error");
         if (!ctx) throw new Error("[Canvas-ctx] Game Error");
 
-        // Set the canvas Width and Height
-        canvas.width = 1260;
-        canvas.height = 720;
-
         // Canvas fill is optional if using a background image
         ctx.fillStyle = "white";
 
@@ -32,8 +30,21 @@ function game() {
 
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         const mapImage = new Image();
-        mapImage.src =
-            "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720.png";
+
+        // Set the canvas Width and Height
+        if (mapZoom === 1.5) {
+            canvas.width = 1260;
+            canvas.height = 720;
+            mapImage.src =
+                "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
+        } else if (mapZoom === 2) {
+            canvas.width = 1680;
+            canvas.height = 960;
+            mapImage.src =
+                "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960x2.0.png";
+        } else {
+            throw new Error("Resolution Error!");
+        }
 
         // Convert Towers coordinats to 2d
         for (let i = 0; i < placementTowers.length; i += 70) {
@@ -88,6 +99,7 @@ function game() {
             zoom: number;
             center: { x: number; y: number };
             radius: number;
+            health: number;
 
             constructor({ x = 0, y = 0 }) {
                 this.position = { x: x, y: y };
@@ -95,7 +107,8 @@ function game() {
                 this.height = newTileSize;
                 this.waypointIndex = 0;
                 this.zoom = mapZoom;
-                this.radius = 10;
+                this.radius = newTileSize;
+                this.health = 100;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2,
@@ -114,6 +127,22 @@ function game() {
                     Math.PI * 2
                 );
                 ctx.fill();
+
+                // Enemy Health Bar
+                ctx.fillStyle = "red";
+                ctx.fillRect(
+                    this.position.x * this.zoom,
+                    this.position.y * this.zoom - 6,
+                    this.width * mapZoom,
+                    tileSize / mapZoom
+                );
+                ctx.fillStyle = "green";
+                ctx.fillRect(
+                    this.position.x * this.zoom,
+                    this.position.y * this.zoom - 6,
+                    (this.width * mapZoom * this.health) / 100,
+                    tileSize / mapZoom
+                );
             }
 
             update() {
@@ -217,9 +246,9 @@ function game() {
                     x: this.position.x + newTileSize,
                     y: this.position.y + newTileSize / 2,
                 };
-                this.radius = 6;
+                this.radius = 6 * mapZoom;
                 this.enemy = enemy;
-                this.bulletLife = 500
+                this.bulletLife = 500;
             }
 
             draw() {
@@ -240,8 +269,8 @@ function game() {
                 this.draw();
 
                 const angle = Math.atan2(
-                    this.enemy.center.y - this.position.y/mapZoom,
-                    this.enemy.center.x - this.position.x/mapZoom
+                    this.enemy.center.y - this.position.y / mapZoom,
+                    this.enemy.center.x - this.position.x / mapZoom
                 );
 
                 this.velocity.x = Math.cos(angle) * bulletSpeed;
@@ -249,7 +278,7 @@ function game() {
 
                 this.center.x += this.velocity.x;
                 this.center.y += this.velocity.y;
-                this.bulletLife--
+                this.bulletLife--;
             }
         }
 
@@ -293,10 +322,10 @@ function game() {
                 tower.update();
                 tower.target = null;
                 const validEnemies = enemiesArray.filter((enemy) => {
-                    const xDistance = enemy.center.x - tower.center.x/mapZoom;
-                    const yDistance = enemy.center.y - tower.center.y/mapZoom;
+                    const xDistance = enemy.center.x - tower.center.x / mapZoom;
+                    const yDistance = enemy.center.y - tower.center.y / mapZoom;
                     const distance = Math.hypot(xDistance, yDistance);
-                    return distance < enemy.radius + tower.radius;
+                    return distance < enemy.radius + tower.radius / mapZoom;
                 });
                 tower.target = validEnemies[0];
 
@@ -308,11 +337,25 @@ function game() {
                         tower.bullets.splice(i, 1);
                     }
 
-                    const xDistance = bullet.enemy.center.x - bullet.center.x/mapZoom;
-                    const yDistance = bullet.enemy.center.y - bullet.center.y/mapZoom;
+                    const xDistance =
+                        bullet.enemy.center.x - bullet.center.x / mapZoom;
+                    const yDistance =
+                        bullet.enemy.center.y - bullet.center.y / mapZoom;
                     const distance = Math.hypot(xDistance, yDistance);
-                    console.log("distance",distance)
-                    if (distance < bullet.enemy.radius + bullet.radius) {
+                    if (
+                        distance <
+                        bullet.enemy.radius / mapZoom + bullet.radius
+                    ) {
+                        bullet.enemy.health -= bulletPower;
+                        if (bullet.enemy.health <= 0) {
+                            const enemyIndex = enemiesArray.findIndex((enemy) => {
+                                return bullet.enemy === enemy;
+                            });
+
+                            if (enemyIndex > -1){
+                                enemiesArray.splice(enemyIndex, 1)
+                            }
+                        }
                         tower.bullets.splice(i, 1);
                     }
                 }
@@ -322,9 +365,7 @@ function game() {
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
 
         canvas.addEventListener("click", (event) => {
-            console.log(towersArray);
             if (activePlacement && !activePlacement.used) {
-                console.log(activePlacement);
                 towersArray.push(
                     new Tower({
                         x: activePlacement.position.x,
@@ -352,8 +393,6 @@ function game() {
                 }
             }
         });
-        console.log(canvas.offsetTop);
-        console.log(canvas.offsetLeft);
 
         animate();
     } catch (error) {
