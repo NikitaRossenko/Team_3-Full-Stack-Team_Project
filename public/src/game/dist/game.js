@@ -158,7 +158,7 @@ function game() {
             };
             Bullet.prototype.update = function () {
                 this.draw();
-                var angle = Math.atan2(this.enemy.center.y - this.position.y, this.enemy.center.x - this.position.x);
+                var angle = Math.atan2(this.enemy.center.y - this.position.y / mapZoom_1, this.enemy.center.x - this.position.x / mapZoom_1);
                 this.velocity.x = Math.cos(angle) * bulletSpeed_1;
                 this.velocity.y = Math.sin(angle) * bulletSpeed_1;
                 this.center.x += this.velocity.x;
@@ -197,8 +197,8 @@ function game() {
                 tower.update();
                 tower.target = null;
                 var validEnemies = enemiesArray_1.filter(function (enemy) {
-                    var xDistance = enemy.center.x - tower.center.x;
-                    var yDistance = enemy.center.y - tower.center.y;
+                    var xDistance = enemy.center.x - tower.center.x / mapZoom_1;
+                    var yDistance = enemy.center.y - tower.center.y / mapZoom_1;
                     var distance = Math.hypot(xDistance, yDistance);
                     return distance < enemy.radius + tower.radius;
                 });
@@ -206,9 +206,10 @@ function game() {
                 for (var i = tower.bullets.length - 1; i >= 0; i--) {
                     var bullet = tower.bullets[i];
                     bullet.update();
-                    var xDistance = bullet.enemy.center.x - bullet.position.x;
-                    var yDistance = bullet.enemy.center.y - bullet.position.y;
+                    var xDistance = bullet.enemy.center.x - bullet.center.x / mapZoom_1;
+                    var yDistance = bullet.enemy.center.y - bullet.center.y / mapZoom_1;
                     var distance = Math.hypot(xDistance, yDistance);
+                    console.log("distance", distance);
                     if (distance < bullet.enemy.radius + bullet.radius) {
                         tower.bullets.splice(i, 1);
                     }

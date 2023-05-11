@@ -238,8 +238,8 @@ function game() {
                 this.draw();
 
                 const angle = Math.atan2(
-                    this.enemy.center.y - this.position.y,
-                    this.enemy.center.x - this.position.x
+                    this.enemy.center.y - this.position.y/mapZoom,
+                    this.enemy.center.x - this.position.x/mapZoom
                 );
 
                 this.velocity.x = Math.cos(angle) * bulletSpeed;
@@ -290,8 +290,8 @@ function game() {
                 tower.update();
                 tower.target = null;
                 const validEnemies = enemiesArray.filter((enemy) => {
-                    const xDistance = enemy.center.x - tower.center.x;
-                    const yDistance = enemy.center.y - tower.center.y;
+                    const xDistance = enemy.center.x - tower.center.x/mapZoom;
+                    const yDistance = enemy.center.y - tower.center.y/mapZoom;
                     const distance = Math.hypot(xDistance, yDistance);
                     return distance < enemy.radius + tower.radius;
                 });
@@ -302,9 +302,10 @@ function game() {
 
                     bullet.update();
 
-                    const xDistance = bullet.enemy.center.x - bullet.position.x;
-                    const yDistance = bullet.enemy.center.y - bullet.position.y;
+                    const xDistance = bullet.enemy.center.x - bullet.center.x/mapZoom;
+                    const yDistance = bullet.enemy.center.y - bullet.center.y/mapZoom;
                     const distance = Math.hypot(xDistance, yDistance);
+                    console.log("distance",distance)
                     if (distance < bullet.enemy.radius + bullet.radius) {
                         tower.bullets.splice(i, 1);
                     }
