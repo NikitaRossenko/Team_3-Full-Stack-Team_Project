@@ -147,6 +147,7 @@ function game() {
                 };
                 this.radius = 6;
                 this.enemy = enemy;
+                this.bulletLife = 500;
             }
             Bullet.prototype.draw = function () {
                 if (!ctx_1)
@@ -163,6 +164,7 @@ function game() {
                 this.velocity.y = Math.sin(angle) * bulletSpeed_1;
                 this.center.x += this.velocity.x;
                 this.center.y += this.velocity.y;
+                this.bulletLife--;
             };
             return Bullet;
         }());
@@ -206,6 +208,9 @@ function game() {
                 for (var i = tower.bullets.length - 1; i >= 0; i--) {
                     var bullet = tower.bullets[i];
                     bullet.update();
+                    if (bullet.bulletLife <= 0) {
+                        tower.bullets.splice(i, 1);
+                    }
                     var xDistance = bullet.enemy.center.x - bullet.center.x / mapZoom_1;
                     var yDistance = bullet.enemy.center.y - bullet.center.y / mapZoom_1;
                     var distance = Math.hypot(xDistance, yDistance);

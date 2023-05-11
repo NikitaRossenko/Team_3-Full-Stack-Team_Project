@@ -208,6 +208,7 @@ function game() {
             center: { x: number; y: number };
             enemy: Enemey;
             radius: number;
+            bulletLife: number;
 
             constructor({ x = 0, y = 0 }, enemy) {
                 this.position = { x: x, y: y };
@@ -218,6 +219,7 @@ function game() {
                 };
                 this.radius = 6;
                 this.enemy = enemy;
+                this.bulletLife = 500
             }
 
             draw() {
@@ -247,6 +249,7 @@ function game() {
 
                 this.center.x += this.velocity.x;
                 this.center.y += this.velocity.y;
+                this.bulletLife--
             }
         }
 
@@ -299,8 +302,11 @@ function game() {
 
                 for (let i = tower.bullets.length - 1; i >= 0; i--) {
                     const bullet = tower.bullets[i];
-
                     bullet.update();
+
+                    if (bullet.bulletLife <= 0) {
+                        tower.bullets.splice(i, 1);
+                    }
 
                     const xDistance = bullet.enemy.center.x - bullet.center.x/mapZoom;
                     const yDistance = bullet.enemy.center.y - bullet.center.y/mapZoom;
