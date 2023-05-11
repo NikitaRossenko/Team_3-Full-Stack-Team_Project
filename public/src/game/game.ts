@@ -1,8 +1,9 @@
 function game() {
     try {
-        let monsterSpeed = 200;
         let activePlacement: any = undefined;
 
+        const monsterSpeed = 4;
+        const bulletSpeed = 2;
         const mapZoom = 1.5;
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
@@ -86,6 +87,7 @@ function game() {
             waypointIndex: number;
             zoom: number;
             center: { x: number; y: number };
+            radius: number;
 
             constructor({ x = 0, y = 0 }) {
                 this.position = { x: x, y: y };
@@ -93,6 +95,7 @@ function game() {
                 this.height = newTileSize;
                 this.waypointIndex = 0;
                 this.zoom = mapZoom;
+                this.radius = 10;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2,
@@ -102,12 +105,15 @@ function game() {
             draw() {
                 if (!ctx) throw new Error("[Canvas-ctx] Game Error");
                 ctx.fillStyle = "purple";
-                ctx.fillRect(
-                    this.position.x * this.zoom,
-                    this.position.y * this.zoom,
-                    this.width,
-                    this.height
+                ctx.beginPath();
+                ctx.arc(
+                    this.center.x * this.zoom,
+                    this.center.y * this.zoom,
+                    this.radius,
+                    0,
+                    Math.PI * 2
                 );
+                ctx.fill();
             }
 
             update() {
@@ -117,8 +123,8 @@ function game() {
                 const yWaypoint = waypoint.y - this.center.y;
                 const xWaypoint = waypoint.x - this.center.x;
                 const angle = Math.atan2(yWaypoint, xWaypoint);
-                this.position.x += Math.cos(angle);
-                this.position.y += Math.sin(angle);
+                this.position.x += Math.cos(angle) / monsterSpeed;
+                this.position.y += Math.sin(angle) / monsterSpeed;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2,
@@ -139,14 +145,23 @@ function game() {
             width: number;
             height: number;
             bullets: Bullet[];
+            radius: number;
+            center: { x: number; y: number };
+            target: any;
+            frames: number;
 
             constructor({ x = 0, y = 0 }) {
                 this.position = { x: x, y: y };
                 this.width = newTileSize * 2;
                 this.height = newTileSize;
-                this.bullets = [
-                    new Bullet({ x: this.position.x, y: this.position.y }),
-                ];
+                this.bullets = [];
+                this.center = {
+                    x: this.position.x + this.width / 2,
+                    y: this.position.y + this.height / 2,
+                };
+                this.radius = 70 * mapZoom;
+                this.target;
+                this.frames = 0;
             }
 
             draw() {
@@ -159,6 +174,31 @@ function game() {
                     this.width,
                     this.height
                 );
+
+                ctx.beginPath();
+                ctx.arc(
+                    this.center.x,
+                    this.center.y,
+                    this.radius,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fillStyle = "rgba(255,255,255,0.2)";
+                ctx.fill();
+            }
+
+            update() {
+                this.draw();
+                this.frames++;
+
+                if (this.frames % 100 === 0 && this.target) {
+                    this.bullets.push(
+                        new Bullet(
+                            { x: this.position.x, y: this.position.y },
+                            this.target
+                        )
+                    );
+                }
             }
         }
 
@@ -166,22 +206,47 @@ function game() {
             position: { x: number; y: number };
             velocity: { x: number; y: number };
             center: { x: number; y: number };
+            enemy: Enemey;
+            radius: number;
 
-            constructor({ x = 0, y = 0 }) {
+            constructor({ x = 0, y = 0 }, enemy) {
                 this.position = { x: x, y: y };
                 this.velocity = { x: 0, y: 0 };
                 this.center = {
                     x: this.position.x + newTileSize,
                     y: this.position.y + newTileSize / 2,
                 };
+                this.radius = 6;
+                this.enemy = enemy;
             }
 
             draw() {
                 if (!ctx) throw new Error("[Canvas-ctx] Game Error");
                 ctx.beginPath();
-                ctx.arc(this.center.x, this.center.y, 6, 0, Math.PI * 2);
+                ctx.arc(
+                    this.center.x,
+                    this.center.y,
+                    this.radius,
+                    0,
+                    Math.PI * 2
+                );
                 ctx.fillStyle = "white";
                 ctx.fill();
+            }
+
+            update() {
+                this.draw();
+
+                const angle = Math.atan2(
+                    this.enemy.center.y - this.position.y,
+                    this.enemy.center.x - this.position.x
+                );
+
+                this.velocity.x = Math.cos(angle) * bulletSpeed;
+                this.velocity.y = Math.sin(angle) * bulletSpeed;
+
+                this.center.x += this.velocity.x;
+                this.center.y += this.velocity.y;
             }
         }
 
@@ -190,8 +255,8 @@ function game() {
                 if (symbol === 1211) {
                     placementTowersArray.push(
                         new PlacementTower({
-                            x: x * tileSize * mapZoom,
-                            y: y * tileSize * mapZoom,
+                            x: x * newTileSize,
+                            y: y * newTileSize,
                         })
                     );
                 }
@@ -199,10 +264,10 @@ function game() {
         });
 
         // Create enemies with X coordinats offset
-        for (let i = 1; i < 10; i++) {
-            const xOffset = i * (Math.random() * (600 - 100 + 1) + 100);
+        for (let i = 0; i < 1; i++) {
+            const xOffset = i * (Math.random() * (200 - 100 + 1) + 100);
             enemiesArray.push(
-                new Enemey({ x: path[i].x - xOffset, y: path[i].y })
+                new Enemey({ x: path[0].x - xOffset, y: path[0].y })
             );
         }
 
@@ -222,17 +287,31 @@ function game() {
             });
 
             towersArray.forEach((tower) => {
-                tower.draw();
-                tower.bullets.forEach((bullet) => {
-                    bullet.draw();
+                tower.update();
+                tower.target = null;
+                const validEnemies = enemiesArray.filter((enemy) => {
+                    const xDistance = enemy.center.x - tower.center.x;
+                    const yDistance = enemy.center.y - tower.center.y;
+                    const distance = Math.hypot(xDistance, yDistance);
+                    return distance < enemy.radius + tower.radius;
                 });
+                tower.target = validEnemies[0];
+
+                for (let i = tower.bullets.length - 1; i >= 0; i--) {
+                    const bullet = tower.bullets[i];
+
+                    bullet.update();
+
+                    const xDistance = bullet.enemy.center.x - bullet.position.x;
+                    const yDistance = bullet.enemy.center.y - bullet.position.y;
+                    const distance = Math.hypot(xDistance, yDistance);
+                    if (distance < bullet.enemy.radius + bullet.radius) {
+                        tower.bullets.splice(i, 1);
+                    }
+                }
             });
         }
 
-        console.log(
-            placementTowersArray[0].position.x,
-            placementTowersArray[0].position.y
-        );
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
 
         canvas.addEventListener("click", (event) => {

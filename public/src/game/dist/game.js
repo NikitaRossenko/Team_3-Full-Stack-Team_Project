@@ -1,10 +1,11 @@
 function game() {
     try {
-        var monsterSpeed = 200;
         var activePlacement_1 = undefined;
+        var monsterSpeed_1 = 4;
+        var bulletSpeed_1 = 2;
         var mapZoom_1 = 1.5;
-        var tileSize_1 = 12;
-        var newTileSize_1 = mapZoom_1 * tileSize_1;
+        var tileSize = 12;
+        var newTileSize_1 = mapZoom_1 * tileSize;
         var mousePos_1 = { x: undefined, y: undefined };
         var enemiesArray_1 = [];
         var placementTowers2d = [];
@@ -67,6 +68,7 @@ function game() {
                 this.height = newTileSize_1;
                 this.waypointIndex = 0;
                 this.zoom = mapZoom_1;
+                this.radius = 10;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2
@@ -76,7 +78,9 @@ function game() {
                 if (!ctx_1)
                     throw new Error("[Canvas-ctx] Game Error");
                 ctx_1.fillStyle = "purple";
-                ctx_1.fillRect(this.position.x * this.zoom, this.position.y * this.zoom, this.width, this.height);
+                ctx_1.beginPath();
+                ctx_1.arc(this.center.x * this.zoom, this.center.y * this.zoom, this.radius, 0, Math.PI * 2);
+                ctx_1.fill();
             };
             Enemey.prototype.update = function () {
                 this.draw();
@@ -84,8 +88,8 @@ function game() {
                 var yWaypoint = waypoint.y - this.center.y;
                 var xWaypoint = waypoint.x - this.center.x;
                 var angle = Math.atan2(yWaypoint, xWaypoint);
-                this.position.x += Math.cos(angle);
-                this.position.y += Math.sin(angle);
+                this.position.x += Math.cos(angle) / monsterSpeed_1;
+                this.position.y += Math.sin(angle) / monsterSpeed_1;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2
@@ -104,20 +108,36 @@ function game() {
                 this.position = { x: x, y: y };
                 this.width = newTileSize_1 * 2;
                 this.height = newTileSize_1;
-                this.bullets = [
-                    new Bullet_1({ x: this.position.x, y: this.position.y }),
-                ];
+                this.bullets = [];
+                this.center = {
+                    x: this.position.x + this.width / 2,
+                    y: this.position.y + this.height / 2
+                };
+                this.radius = 70 * mapZoom_1;
+                this.target;
+                this.frames = 0;
             }
             Tower.prototype.draw = function () {
                 if (!ctx_1)
                     throw new Error("[Canvas-ctx] Game Error");
                 ctx_1.fillStyle = "green";
                 ctx_1.fillRect(this.position.x, this.position.y, this.width, this.height);
+                ctx_1.beginPath();
+                ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
+                ctx_1.fillStyle = "rgba(255,255,255,0.2)";
+                ctx_1.fill();
+            };
+            Tower.prototype.update = function () {
+                this.draw();
+                this.frames++;
+                if (this.frames % 100 === 0 && this.target) {
+                    this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target));
+                }
             };
             return Tower;
         }());
         var Bullet_1 = /** @class */ (function () {
-            function Bullet(_a) {
+            function Bullet(_a, enemy) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
                 this.position = { x: x, y: y };
                 this.velocity = { x: 0, y: 0 };
@@ -125,14 +145,24 @@ function game() {
                     x: this.position.x + newTileSize_1,
                     y: this.position.y + newTileSize_1 / 2
                 };
+                this.radius = 6;
+                this.enemy = enemy;
             }
             Bullet.prototype.draw = function () {
                 if (!ctx_1)
                     throw new Error("[Canvas-ctx] Game Error");
                 ctx_1.beginPath();
-                ctx_1.arc(this.center.x, this.center.y, 6, 0, Math.PI * 2);
+                ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
                 ctx_1.fillStyle = "white";
                 ctx_1.fill();
+            };
+            Bullet.prototype.update = function () {
+                this.draw();
+                var angle = Math.atan2(this.enemy.center.y - this.position.y, this.enemy.center.x - this.position.x);
+                this.velocity.x = Math.cos(angle) * bulletSpeed_1;
+                this.velocity.y = Math.sin(angle) * bulletSpeed_1;
+                this.center.x += this.velocity.x;
+                this.center.y += this.velocity.y;
             };
             return Bullet;
         }());
@@ -140,16 +170,16 @@ function game() {
             row.forEach(function (symbol, x) {
                 if (symbol === 1211) {
                     placementTowersArray_1.push(new PlacementTower_1({
-                        x: x * tileSize_1 * mapZoom_1,
-                        y: y * tileSize_1 * mapZoom_1
+                        x: x * newTileSize_1,
+                        y: y * newTileSize_1
                     }));
                 }
             });
         });
         // Create enemies with X coordinats offset
-        for (var i = 1; i < 10; i++) {
-            var xOffset = i * (Math.random() * (600 - 100 + 1) + 100);
-            enemiesArray_1.push(new Enemey({ x: path[i].x - xOffset, y: path[i].y }));
+        for (var i = 0; i < 1; i++) {
+            var xOffset = i * (Math.random() * (200 - 100 + 1) + 100);
+            enemiesArray_1.push(new Enemey({ x: path[0].x - xOffset, y: path[0].y }));
         }
         // Animation function (Recursion)
         function animate() {
@@ -164,13 +194,27 @@ function game() {
                 tower.update(mousePos_1);
             });
             towersArray_1.forEach(function (tower) {
-                tower.draw();
-                tower.bullets.forEach(function (bullet) {
-                    bullet.draw();
+                tower.update();
+                tower.target = null;
+                var validEnemies = enemiesArray_1.filter(function (enemy) {
+                    var xDistance = enemy.center.x - tower.center.x;
+                    var yDistance = enemy.center.y - tower.center.y;
+                    var distance = Math.hypot(xDistance, yDistance);
+                    return distance < enemy.radius + tower.radius;
                 });
+                tower.target = validEnemies[0];
+                for (var i = tower.bullets.length - 1; i >= 0; i--) {
+                    var bullet = tower.bullets[i];
+                    bullet.update();
+                    var xDistance = bullet.enemy.center.x - bullet.position.x;
+                    var yDistance = bullet.enemy.center.y - bullet.position.y;
+                    var distance = Math.hypot(xDistance, yDistance);
+                    if (distance < bullet.enemy.radius + bullet.radius) {
+                        tower.bullets.splice(i, 1);
+                    }
+                }
             });
         }
-        console.log(placementTowersArray_1[0].position.x, placementTowersArray_1[0].position.y);
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
         canvas_1.addEventListener("click", function (event) {
             console.log(towersArray_1);
