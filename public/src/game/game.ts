@@ -8,21 +8,25 @@ function game() {
             this.sound.setAttribute("loop", "true");
             this.sound.style.display = "block";
             document.body.appendChild(this.sound);
-            this.play = function(){
-              this.sound.play();
-            }
-            this.stop = function(){
-              this.sound.pause();
-            }
-          }
+            this.play = function () {
+                this.sound.play();
+            };
+            this.stop = function () {
+                this.sound.pause();
+            };
+        }
 
         // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
 
-        const gameOver:any = document.querySelector("#gameOver")
-        const playBtnContainer:any = document.querySelector(".playBtnContainer")
-        gameOver.style.display = "none"
-        playBtnContainer.style.display = "none"
+        const mainContainer: any = document.querySelector(".mainContainer");
+        const gameOver: any = document.querySelector("#gameOver");
+        const playBtnContainer: any = document.querySelector(".playBtnContainer");
+        const playBtnH1: any = document.querySelector("#playBtnH1");
+        const playerHealthHearts: any = document.querySelector("#playerHealth");
+        gameOver.style.display = "none";
+        playBtnContainer.style.display = "none";
+        playerHealthHearts.style.display = "flex";
 
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
@@ -32,7 +36,6 @@ function game() {
 
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
-
 
         const enemySpeed = 3;
         const bulletSpeed = 2;
@@ -159,14 +162,14 @@ function game() {
                 ctx.fillStyle = "red";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - newTileSize/mapZoom,
+                    this.position.y * this.zoom - newTileSize / mapZoom,
                     this.width * mapZoom,
                     tileSize / 2
                 );
                 ctx.fillStyle = "green";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - newTileSize/mapZoom,
+                    this.position.y * this.zoom - newTileSize / mapZoom,
                     (this.width * mapZoom * this.health) / 100,
                     tileSize / 2
                 );
@@ -334,7 +337,25 @@ function game() {
             }
         }
 
-        spawnEnemies(3);
+        function drawHearts(playerHealth) {
+            playerHealthHearts.innerHTML = "";
+            for (let i = 1; i <= 10; i++) {
+                if (i <= playerHealth) {
+                    playerHealthHearts.insertAdjacentHTML(
+                        "beforeend",
+                        '<img src="../images/playerHealthHearts/Full Heart 12x12.png">'
+                    );
+                } else {
+                    playerHealthHearts.insertAdjacentHTML(
+                        "beforeend",
+                        '<img src="../images/playerHealthHearts/Empty Heart 12x12.png">'
+                    );
+                }
+            }
+        }
+
+        drawHearts(playerHealth);
+        spawnEnemies(enemyCount);
 
         // Animation function (Recursion)
         function animate() {
@@ -349,13 +370,15 @@ function game() {
                 enemy.update();
                 if (enemy.position.x * mapZoom > canvas.width) {
                     playerHealth -= 1;
+                    drawHearts(playerHealth);
                     enemiesArray.splice(i, 1);
 
-                    if (playerHealth === 0){
-                        console.log("Game Over")
-                        cancelAnimationFrame(animationFrame)
-                        gameOver.style.display = "block"
-                        playBtnContainer.style.display = "block"
+                    if (playerHealth === 0) {
+                        console.log("Game Over");
+                        cancelAnimationFrame(animationFrame);
+                        gameOver.style.display = "flex";
+                        playBtnContainer.style.display = "block";
+                        playBtnH1.innerText = "Replay!";
                     }
                 }
 
@@ -411,7 +434,7 @@ function game() {
 
                         if (enemiesArray.length === 0) {
                             enemyCount += 2;
-                            if (bulletPower > 2){
+                            if (bulletPower > 2) {
                                 bulletPower -= 0.1;
                             }
                             spawnEnemies(enemyCount);
@@ -438,8 +461,9 @@ function game() {
         });
 
         window.addEventListener("mousemove", (event) => {
-            mousePos.x = event.clientX - canvas.offsetLeft;
-            mousePos.y = event.clientY - canvas.offsetTop;
+            mousePos.x = event.clientX - mainContainer.offsetLeft;
+            mousePos.y = event.clientY - mainContainer.offsetTop;
+
             activePlacement = null;
             for (let i = 0; i < placementTowersArray.length; i++) {
                 const placement = placementTowersArray[i];
@@ -460,4 +484,3 @@ function game() {
         console.error(error);
     }
 }
-

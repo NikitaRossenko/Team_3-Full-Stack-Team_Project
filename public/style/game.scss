@@ -4,8 +4,6 @@ body {
     display: flex;
     gap: 60px;
     align-items: center;
-
-
     flex-direction: column;
 }
 
@@ -71,22 +69,45 @@ body {
 }
 
 .mainContainer{
-    position:static;
-    display: flex;
+    position:relative;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 40px;
-    // width: 1680px;
-    // height: 960px;
+    width: auto;
+    height: auto;
+
+    #playerHealth{
+        position: absolute;
+        display: none;
+        align-items: center;
+        justify-content: flex-start;
+        top: 4px;
+        left: 8px;
+        width: 24px;
+        height: 24px;
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
     
     #gameOver {
         display: none;
+        align-items: center;
+        justify-content: center;
         pointer-events: none;
         margin: 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
         position: absolute;
         font-size: 100px;
         color: white;
+        background-color: rgba(0, 0, 0, 0.2);
 
     }
 
@@ -96,9 +117,10 @@ body {
         box-shadow: 10px ;
     }
 
-    .navIcon{
-            margin-top: -20px;
-            position: relative;
+
+    .playBtnContainer{
+            position: absolute;
+            bottom: 6px;
             padding:  10px;
             display: flex;
             text-align: center;

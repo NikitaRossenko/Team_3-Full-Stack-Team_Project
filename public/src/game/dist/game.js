@@ -17,10 +17,14 @@ function game() {
         }
         // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
+        var mainContainer_1 = document.querySelector(".mainContainer");
         var gameOver_1 = document.querySelector("#gameOver");
         var playBtnContainer_1 = document.querySelector(".playBtnContainer");
+        var playBtnH1_1 = document.querySelector("#playBtnH1");
+        var playerHealthHearts_1 = document.querySelector("#playerHealth");
         gameOver_1.style.display = "none";
         playBtnContainer_1.style.display = "none";
+        playerHealthHearts_1.style.display = "flex";
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
@@ -227,7 +231,19 @@ function game() {
                 enemiesArray_1.push(new Enemey_1({ x: path[0].x - xOffset, y: path[0].y }));
             }
         }
-        spawnEnemies(3);
+        function drawHearts(playerHealth) {
+            playerHealthHearts_1.innerHTML = "";
+            for (var i = 1; i <= 10; i++) {
+                if (i <= playerHealth) {
+                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/playerHealthHearts/Full Heart 12x12.png">');
+                }
+                else {
+                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/playerHealthHearts/Empty Heart 12x12.png">');
+                }
+            }
+        }
+        drawHearts(playerHealth_1);
+        spawnEnemies(enemyCount_1);
         // Animation function (Recursion)
         function animate() {
             var animationFrame = requestAnimationFrame(animate);
@@ -241,12 +257,14 @@ function game() {
                 enemy.update();
                 if (enemy.position.x * mapZoom_1 > canvas_1.width) {
                     playerHealth_1 -= 1;
+                    drawHearts(playerHealth_1);
                     enemiesArray_1.splice(i, 1);
                     if (playerHealth_1 === 0) {
                         console.log("Game Over");
                         cancelAnimationFrame(animationFrame);
-                        gameOver_1.style.display = "block";
+                        gameOver_1.style.display = "flex";
                         playBtnContainer_1.style.display = "block";
+                        playBtnH1_1.innerText = "Replay!";
                     }
                 }
                 if (enemiesArray_1.length === 0) {
@@ -312,8 +330,8 @@ function game() {
             }
         });
         window.addEventListener("mousemove", function (event) {
-            mousePos_1.x = event.clientX - canvas_1.offsetLeft;
-            mousePos_1.y = event.clientY - canvas_1.offsetTop;
+            mousePos_1.x = event.clientX - mainContainer_1.offsetLeft;
+            mousePos_1.y = event.clientY - mainContainer_1.offsetTop;
             activePlacement_1 = null;
             for (var i = 0; i < placementTowersArray_1.length; i++) {
                 var placement = placementTowersArray_1[i];

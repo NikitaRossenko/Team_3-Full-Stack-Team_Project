@@ -58,28 +58,51 @@ body {
 }
 
 .mainContainer {
-  position: static;
-  display: flex;
+  position: relative;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 40px;
+  width: auto;
+  height: auto;
+}
+.mainContainer #playerHealth {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: flex-start;
+  top: 4px;
+  left: 8px;
+  width: 24px;
+  height: 24px;
+}
+.mainContainer #playerHealth img {
+  width: 24px;
+  height: 24px;
 }
 .mainContainer #gameOver {
   display: none;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
   margin: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   position: absolute;
   font-size: 100px;
   color: white;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 .mainContainer canvas {
   border-radius: 20px;
   box-shadow: 10px;
 }
-.mainContainer .navIcon {
-  margin-top: -20px;
-  position: relative;
+.mainContainer .playBtnContainer {
+  position: absolute;
+  bottom: 6px;
   padding: 10px;
   display: flex;
   text-align: center;
@@ -87,10 +110,10 @@ body {
   align-items: center;
   gap: 10px;
 }
-.mainContainer .navIcon img {
+.mainContainer .playBtnContainer img {
   width: 150px;
 }
-.mainContainer .navIcon h1 {
+.mainContainer .playBtnContainer h1 {
   pointer-events: none;
   bottom: 14px;
   font-size: 1.1rem;
