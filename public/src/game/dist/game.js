@@ -15,12 +15,12 @@ function game() {
                 this.sound.pause();
             };
         }
-        var mySound = new sound("../../audio/Gruber - Merciful.mp3");
-        mySound.play();
+        // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        // mySound.play()
         var gameOver_1 = document.querySelector("#gameOver");
-        var playBtnContainer = document.querySelector(".playBtnContainer");
+        var playBtnContainer_1 = document.querySelector(".playBtnContainer");
         gameOver_1.style.display = "none";
-        playBtnContainer.style.display = "none";
+        playBtnContainer_1.style.display = "none";
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
@@ -246,6 +246,7 @@ function game() {
                         console.log("Game Over");
                         cancelAnimationFrame(animationFrame);
                         gameOver_1.style.display = "block";
+                        playBtnContainer_1.style.display = "block";
                     }
                 }
                 if (enemiesArray_1.length === 0) {

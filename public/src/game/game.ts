@@ -16,8 +16,8 @@ function game() {
             }
           }
 
-        const mySound = new sound("../../audio/Gruber - Merciful.mp3");
-        mySound.play()
+        // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        // mySound.play()
 
         const gameOver:any = document.querySelector("#gameOver")
         const playBtnContainer:any = document.querySelector(".playBtnContainer")
@@ -355,6 +355,7 @@ function game() {
                         console.log("Game Over")
                         cancelAnimationFrame(animationFrame)
                         gameOver.style.display = "block"
+                        playBtnContainer.style.display = "block"
                     }
                 }
 
