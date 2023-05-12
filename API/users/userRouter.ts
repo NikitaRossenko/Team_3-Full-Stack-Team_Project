@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { UpdateUserDetailById, createUser, getUsers, login, UpdateUserDetails, getUser } from "./userControl";
+import {  createUser, getUsers, login, UpdateUserDetails, getUser, deleteUser } from "./userControl";
 
 const userRouter = Router()
 
@@ -9,7 +9,6 @@ userRouter
 .post("/login" , login)
 .put("/update-user", UpdateUserDetails)
 .get("/get-user" , getUser)
-// .put()
-.delete("delete-user" ,UpdateUserDetailById )
+.delete("/delete-user" , deleteUser)
 
 export default userRouter

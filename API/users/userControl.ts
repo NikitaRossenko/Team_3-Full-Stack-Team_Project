@@ -31,6 +31,12 @@ export const createUser = async (req: any, res: any) => {
 
 export const UpdateUserDetailById = async (req: any, res: any) => {
   try {
+    const uid = req.body ;
+    console.log(uid);
+    if(!uid) throw new Error("no uID user")
+    const updateUser = UserModel.findByIdAndUpdate(uid , {})
+    console.log(updateUser);
+    res.status(201).send({ok:true , user:updateUser})
   } catch (error) {
     console.error(error);
   }
@@ -38,11 +44,13 @@ export const UpdateUserDetailById = async (req: any, res: any) => {
 
 export const deleteUser = async (req: any, res: any) => {
   try {
-    const uID = req.body;
-    if (!uID) throw new Error("uID no founded");
-    const deleteUser = UserModel.findByIdAndDelete(uID);
+    const {uid}  = req.body;
+    if (!uid) throw new Error("uID no founded");
+    console.log(uid);
+    const deleteUser = await UserModel.findByIdAndDelete(uid);
+    console.log(deleteUser);
     if (!deleteUser) throw new Error("user no founded");
-    res.status(201).send({ ok: true });
+    res.status(201).send({ ok: true  , user:deleteUser});
   } catch (error) {
     res.status(500).send({ ok: false });
 
@@ -99,7 +107,7 @@ export const UpdateUserDetails = async (req: any, res: any) => {
 
 export const getUser = async (req: any, res: any) => {
   try {
-    const secret = process.env.JWT_SECRET;
+    const secret = process.env.JWT_SECRET || "sddslahkjaskjnbalkjs";
     const { currentUser } = req.cookies;
     if (!secret) throw new Error("No secret");
 

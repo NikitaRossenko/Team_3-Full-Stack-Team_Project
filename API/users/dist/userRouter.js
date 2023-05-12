@@ -8,5 +8,5 @@ userRouter
     .post("/create-user", userControl_1.createUser)
     .post("/login", userControl_1.login)
     .put("/update-user", userControl_1.UpdateUserDetails)
-    .get("/get-user", userControl_1.getUser)["delete"]("delete-user", userControl_1.UpdateUserDetailById);
+    .get("/get-user", userControl_1.getUser)["delete"]("/delete-user", userControl_1.deleteUser);
 exports["default"] = userRouter;
