@@ -71,14 +71,24 @@ body {
 }
 
 .mainContainer{
+    position:static;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 40px;
-    // width: 1024px;
-    // height: 576px;
+    // width: 1680px;
+    // height: 960px;
     
+    #gameOver {
+        display: none;
+        pointer-events: none;
+        margin: 0;
+        position: absolute;
+        font-size: 100px;
+        color: white;
+
+    }
 
 
     canvas{

@@ -58,11 +58,20 @@ body {
 }
 
 .mainContainer {
+  position: static;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 40px;
+}
+.mainContainer #gameOver {
+  display: none;
+  pointer-events: none;
+  margin: 0;
+  position: absolute;
+  font-size: 100px;
+  color: white;
 }
 .mainContainer canvas {
   border-radius: 20px;

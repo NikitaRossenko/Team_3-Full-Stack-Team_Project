@@ -1,14 +1,41 @@
 function game() {
     try {
+        function sound(src) {
+            this.sound = document.createElement("audio");
+            this.sound.src = src;
+            this.sound.setAttribute("preload", "auto");
+            this.sound.setAttribute("controls", "block");
+            this.sound.setAttribute("loop", "true");
+            this.sound.style.display = "block";
+            document.body.appendChild(this.sound);
+            this.play = function(){
+              this.sound.play();
+            }
+            this.stop = function(){
+              this.sound.pause();
+            }
+          }
+
+        const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        mySound.play()
+
+        const gameOver:any = document.querySelector("#gameOver")
+        const playBtnContainer:any = document.querySelector(".playBtnContainer")
+        gameOver.style.display = "none"
+        playBtnContainer.style.display = "none"
+
         let activePlacement: any = undefined;
-        let mapZoom: number = 2;
+        let mapZoom: number = 1.5;
+        let enemyCount = 4;
+        let playerHealth = 10;
+        let bulletPower = 10;
 
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
 
-        const monsterSpeed = 4;
+
+        const enemySpeed = 3;
         const bulletSpeed = 2;
-        const bulletPower = newTileSize / 6;
         const mousePos: any = { x: undefined, y: undefined };
 
         const enemiesArray: any = [];
@@ -17,9 +44,9 @@ function game() {
         const towersArray: any = [];
 
         const canvas = document.querySelector("canvas");
-        const ctx = canvas?.getContext("2d");
-
         if (!canvas) throw new Error("[Canvas] Game Error");
+
+        const ctx = canvas.getContext("2d");
         if (!ctx) throw new Error("[Canvas-ctx] Game Error");
 
         // Canvas fill is optional if using a background image
@@ -132,16 +159,16 @@ function game() {
                 ctx.fillStyle = "red";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - 6,
+                    this.position.y * this.zoom - newTileSize/mapZoom,
                     this.width * mapZoom,
-                    tileSize / mapZoom
+                    tileSize / 2
                 );
                 ctx.fillStyle = "green";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - 6,
+                    this.position.y * this.zoom - newTileSize/mapZoom,
                     (this.width * mapZoom * this.health) / 100,
-                    tileSize / mapZoom
+                    tileSize / 2
                 );
             }
 
@@ -152,8 +179,8 @@ function game() {
                 const yWaypoint = waypoint.y - this.center.y;
                 const xWaypoint = waypoint.x - this.center.x;
                 const angle = Math.atan2(yWaypoint, xWaypoint);
-                this.position.x += Math.cos(angle) / monsterSpeed;
-                this.position.y += Math.sin(angle) / monsterSpeed;
+                this.position.x += Math.cos(angle) / enemySpeed;
+                this.position.y += Math.sin(angle) / enemySpeed;
                 this.center = {
                     x: this.position.x + this.width / 2,
                     y: this.position.y + this.height / 2,
@@ -296,23 +323,45 @@ function game() {
         });
 
         // Create enemies with X coordinats offset
-        for (let i = 0; i < 10; i++) {
-            const xOffset = i * (Math.random() * (200 - 100 + 1) + 100);
-            enemiesArray.push(
-                new Enemey({ x: path[0].x - xOffset, y: path[0].y })
-            );
+        function spawnEnemies(enemyCount) {
+            for (let i = 1; i < enemyCount + 1; i++) {
+                const xOffset =
+                    i * (Math.random() * (300 - 100 + 1) + 100) +
+                    newTileSize * 2;
+                enemiesArray.push(
+                    new Enemey({ x: path[0].x - xOffset, y: path[0].y })
+                );
+            }
         }
+
+        spawnEnemies(3);
 
         // Animation function (Recursion)
         function animate() {
-            requestAnimationFrame(animate);
+            const animationFrame = requestAnimationFrame(animate);
+            if (!canvas) throw new Error("[Canvas] Game Error");
             if (!ctx) throw new Error("[Canvas-ctx] Game Error");
 
             ctx.drawImage(mapImage, 0, 0);
 
-            enemiesArray.forEach((enemy) => {
+            for (let i = enemiesArray.length - 1; i >= 0; i--) {
+                const enemy = enemiesArray[i];
                 enemy.update();
-            });
+                if (enemy.position.x * mapZoom > canvas.width) {
+                    playerHealth -= 1;
+                    enemiesArray.splice(i, 1);
+
+                    if (playerHealth === 0){
+                        console.log("Game Over")
+                        cancelAnimationFrame(animationFrame)
+                        gameOver.style.display = "block"
+                    }
+                }
+
+                if (enemiesArray.length === 0) {
+                    spawnEnemies(enemyCount);
+                }
+            }
 
             placementTowersArray.forEach((tower) => {
                 tower.update(mousePos);
@@ -348,14 +397,25 @@ function game() {
                     ) {
                         bullet.enemy.health -= bulletPower;
                         if (bullet.enemy.health <= 0) {
-                            const enemyIndex = enemiesArray.findIndex((enemy) => {
-                                return bullet.enemy === enemy;
-                            });
+                            const enemyIndex = enemiesArray.findIndex(
+                                (enemy) => {
+                                    return bullet.enemy === enemy;
+                                }
+                            );
 
-                            if (enemyIndex > -1){
-                                enemiesArray.splice(enemyIndex, 1)
+                            if (enemyIndex > -1) {
+                                enemiesArray.splice(enemyIndex, 1);
                             }
                         }
+
+                        if (enemiesArray.length === 0) {
+                            enemyCount += 2;
+                            if (bulletPower > 2){
+                                bulletPower -= 0.1;
+                            }
+                            spawnEnemies(enemyCount);
+                        }
+
                         tower.bullets.splice(i, 1);
                     }
                 }
@@ -400,4 +460,3 @@ function game() {
     }
 }
 
-game();
