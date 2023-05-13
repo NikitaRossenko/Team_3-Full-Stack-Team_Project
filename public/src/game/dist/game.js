@@ -15,21 +15,36 @@ function game() {
                 this.sound.pause();
             };
         }
-        // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        var mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
         var mainContainer_1 = document.querySelector(".mainContainer");
         var gameOver_1 = document.querySelector("#gameOver");
         var playBtnContainer_1 = document.querySelector(".playBtnContainer");
         var playBtnH1_1 = document.querySelector("#playBtnH1");
         var playerHealthHearts_1 = document.querySelector("#playerHealth");
+        var pauseBtnContainer = document.querySelector("#pauseBtnContainer");
+        var pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
+        var uiIconsContainer_1 = document.querySelector(".uiIconsContainer");
+        var playerScore = document.querySelector("#playerScore");
+        var playerCoinsBag = document.querySelector("#playerCoinsBag");
+        var playerCoins_1 = document.querySelector("#playerCoins");
+        var scoreAmount_1 = document.querySelector("#scoreAmount");
         gameOver_1.style.display = "none";
         playBtnContainer_1.style.display = "none";
         playerHealthHearts_1.style.display = "flex";
+        uiIconsContainer_1.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
         var playerHealth_1 = 10;
         var bulletPower_1 = 10;
+        var gamePaused_1 = false;
+        var score_1 = 0;
+        var coins_1 = 100;
+        scoreAmount_1.innerText = score_1;
+        playerCoins_1.innerText = coins_1;
         var tileSize_1 = 12;
         var newTileSize_1 = mapZoom_1 * tileSize_1;
         var enemySpeed_1 = 3;
@@ -235,18 +250,22 @@ function game() {
             playerHealthHearts_1.innerHTML = "";
             for (var i = 1; i <= 10; i++) {
                 if (i <= playerHealth) {
-                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/playerHealthHearts/Full Heart 12x12.png">');
+                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/icons/Full Heart 12x12.png">');
                 }
                 else {
-                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/playerHealthHearts/Empty Heart 12x12.png">');
+                    playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/icons/Empty Heart 12x12.png">');
                 }
             }
         }
+        function drawCoinsBag() { }
         drawHearts(playerHealth_1);
         spawnEnemies(enemyCount_1);
         // Animation function (Recursion)
         function animate() {
             var animationFrame = requestAnimationFrame(animate);
+            if (gamePaused_1) {
+                cancelAnimationFrame(animationFrame);
+            }
             if (!canvas_1)
                 throw new Error("[Canvas] Game Error");
             if (!ctx_1)
@@ -263,6 +282,7 @@ function game() {
                         console.log("Game Over");
                         cancelAnimationFrame(animationFrame);
                         gameOver_1.style.display = "flex";
+                        uiIconsContainer_1.style.display = "none";
                         playBtnContainer_1.style.display = "block";
                         playBtnH1_1.innerText = "Replay!";
                     }
@@ -301,6 +321,10 @@ function game() {
                                 return bullet.enemy === enemy;
                             });
                             if (enemyIndex > -1) {
+                                score_1 += 10;
+                                coins_1 += Math.floor(Math.random() * ((16 - 10 + 1) + 10));
+                                playerCoins_1.innerText = coins_1;
+                                scoreAmount_1.innerText = score_1;
                                 enemiesArray_1.splice(enemyIndex, 1);
                             }
                         }
@@ -320,6 +344,21 @@ function game() {
             });
         }
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
+        pauseBtnContainer.addEventListener("click", function (event) {
+            if (!gamePaused_1) {
+                gameOver_1.innerText = "Paused!";
+                gameOver_1.style.display = "flex";
+                pauseBtnIcon_1.setAttribute("src", "../images/icons/play 96x96.png");
+                gamePaused_1 = true;
+            }
+            else {
+                gameOver_1.innerText = "GAME OVER";
+                gameOver_1.style.display = "none";
+                pauseBtnIcon_1.setAttribute("src", "../images/icons/pause 96x96.png");
+                gamePaused_1 = false;
+                animate();
+            }
+        });
         canvas_1.addEventListener("click", function (event) {
             if (activePlacement_1 && !activePlacement_1.used) {
                 towersArray_1.push(new Tower_1({

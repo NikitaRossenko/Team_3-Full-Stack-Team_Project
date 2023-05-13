@@ -16,7 +16,7 @@ function game() {
             };
         }
 
-        // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        const mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
 
         const mainContainer: any = document.querySelector(".mainContainer");
@@ -24,15 +24,32 @@ function game() {
         const playBtnContainer: any = document.querySelector(".playBtnContainer");
         const playBtnH1: any = document.querySelector("#playBtnH1");
         const playerHealthHearts: any = document.querySelector("#playerHealth");
+        const pauseBtnContainer: any = document.querySelector("#pauseBtnContainer");
+        const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
+        const uiIconsContainer: any = document.querySelector(".uiIconsContainer");
+        const playerScore: any = document.querySelector("#playerScore");
+        const playerCoinsBag: any = document.querySelector("#playerCoinsBag");
+        const playerCoins: any = document.querySelector("#playerCoins");
+        const scoreAmount: any = document.querySelector("#scoreAmount");
+
         gameOver.style.display = "none";
         playBtnContainer.style.display = "none";
         playerHealthHearts.style.display = "flex";
+        uiIconsContainer.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
 
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
         let enemyCount = 4;
         let playerHealth = 10;
         let bulletPower = 10;
+        let gamePaused = false;
+        let score = 0;
+        let coins = 100;
+
+        scoreAmount.innerText = score;
+        playerCoins.innerText = coins;
 
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
@@ -343,16 +360,18 @@ function game() {
                 if (i <= playerHealth) {
                     playerHealthHearts.insertAdjacentHTML(
                         "beforeend",
-                        '<img src="../images/playerHealthHearts/Full Heart 12x12.png">'
+                        '<img src="../images/icons/Full Heart 12x12.png">'
                     );
                 } else {
                     playerHealthHearts.insertAdjacentHTML(
                         "beforeend",
-                        '<img src="../images/playerHealthHearts/Empty Heart 12x12.png">'
+                        '<img src="../images/icons/Empty Heart 12x12.png">'
                     );
                 }
             }
         }
+
+        function drawCoinsBag() {}
 
         drawHearts(playerHealth);
         spawnEnemies(enemyCount);
@@ -360,6 +379,9 @@ function game() {
         // Animation function (Recursion)
         function animate() {
             const animationFrame = requestAnimationFrame(animate);
+            if (gamePaused) {
+                cancelAnimationFrame(animationFrame);
+            }
             if (!canvas) throw new Error("[Canvas] Game Error");
             if (!ctx) throw new Error("[Canvas-ctx] Game Error");
 
@@ -377,6 +399,7 @@ function game() {
                         console.log("Game Over");
                         cancelAnimationFrame(animationFrame);
                         gameOver.style.display = "flex";
+                        uiIconsContainer.style.display = "none";
                         playBtnContainer.style.display = "block";
                         playBtnH1.innerText = "Replay!";
                     }
@@ -428,6 +451,10 @@ function game() {
                             );
 
                             if (enemyIndex > -1) {
+                                score += 10;
+                                coins += Math.floor(Math.random() * ((16 - 10 + 1) + 10));
+                                playerCoins.innerText = coins;
+                                scoreAmount.innerText = score;
                                 enemiesArray.splice(enemyIndex, 1);
                             }
                         }
@@ -447,6 +474,27 @@ function game() {
         }
 
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
+
+        pauseBtnContainer.addEventListener("click", (event) => {
+            if (!gamePaused) {
+                gameOver.innerText = "Paused!";
+                gameOver.style.display = "flex";
+                pauseBtnIcon.setAttribute(
+                    "src",
+                    "../images/icons/play 96x96.png"
+                );
+                gamePaused = true;
+            } else {
+                gameOver.innerText = "GAME OVER";
+                gameOver.style.display = "none";
+                pauseBtnIcon.setAttribute(
+                    "src",
+                    "../images/icons/pause 96x96.png"
+                );
+                gamePaused = false;
+                animate();
+            }
+        });
 
         canvas.addEventListener("click", (event) => {
             if (activePlacement && !activePlacement.used) {

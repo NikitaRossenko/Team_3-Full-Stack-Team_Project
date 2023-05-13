@@ -93,6 +93,77 @@ body {
             height: 24px;
         }
     }
+    #playerCoinsBag{
+        position: absolute;
+        display: none;
+        align-items: center;
+        justify-content: flex-start;
+        top: 0px;
+        right: 32px;
+        width: 56px;
+        height: 32px;
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #FCF1B2;
+            -webkit-text-stroke: 1px #D05322;
+        }
+
+        img {
+            width: 32px;
+            height: 32px;
+        }
+    }
+    #playerScore{
+        position: absolute;
+        display: none;
+        align-items: center;
+        justify-content: flex-start;
+        bottom: 4px;
+        left: 8px;
+        width: 56px;
+        height: 32px;
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #D05322;
+            -webkit-text-stroke: 1px #FCF1B2;
+        }
+
+    }
+    .uiIconsContainer{
+        position: absolute;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        bottom: 10px;
+        right: 10px;
+        gap: 10px;
+        z-index: 1;
+
+        .uiIcons {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 75px;
+            height: 75px;
+
+
+            .icon {
+                position: absolute;
+                color: white;
+            }
+
+            img {
+                border-radius: 20px;
+                width: 75px;
+                height: 75px;
+            }
+        }
+    }
     
     #gameOver {
         display: none;
@@ -108,6 +179,7 @@ body {
         font-size: 100px;
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
 
     }
 
