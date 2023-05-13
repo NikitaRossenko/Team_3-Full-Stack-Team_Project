@@ -1,3 +1,12 @@
+// function delay(milliseconds){
+
+//     console.log("1")
+//     return new Promise(resolve => {
+//         setTimeout(resolve, milliseconds);
+//     });
+// }
+
+
 function game() {
     try {
         function sound(src) {
@@ -21,6 +30,7 @@ function game() {
 
         const mainContainer: any = document.querySelector(".mainContainer");
         const gameOver: any = document.querySelector("#gameOver");
+        const scene: any = document.querySelector("#scene");
         const playBtnContainer: any = document.querySelector(".playBtnContainer");
         const playBtnH1: any = document.querySelector("#playBtnH1");
         const playerHealthHearts: any = document.querySelector("#playerHealth");
@@ -32,12 +42,9 @@ function game() {
         const playerCoins: any = document.querySelector("#playerCoins");
         const scoreAmount: any = document.querySelector("#scoreAmount");
 
+        scene.style.display = "flex";
         gameOver.style.display = "none";
         playBtnContainer.style.display = "none";
-        playerHealthHearts.style.display = "flex";
-        uiIconsContainer.style.display = "flex";
-        playerScore.style.display = "flex";
-        playerCoinsBag.style.display = "flex";
 
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
@@ -78,6 +85,12 @@ function game() {
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         const mapImage = new Image();
 
+        scene.style.display = "none";
+        playerHealthHearts.style.display = "flex";
+        uiIconsContainer.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
+
         // Set the canvas Width and Height
         if (mapZoom === 1.5) {
             canvas.width = 1260;
@@ -98,17 +111,30 @@ function game() {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
         }
 
+        class Sprite {
+            constructor() {}
+        }
+
         class PlacementTower {
             position: { x: number; y: number };
             size: number;
             color: string;
             used: boolean;
+            radius: number;
+            center: { x: number; y: number; };
+            width: number;
+            height: number;
 
             constructor({ x = 0, y = 0 }) {
                 this.position = { x: x, y: y };
                 this.size = newTileSize;
                 this.color = "rgba(128,0,128,0.2)";
                 this.used = false;
+                this.radius = 70 * mapZoom;
+                this.width = newTileSize;
+                this.height = newTileSize;
+
+                this.center = {x: this.position.x + this.width , y: this.position.y + this.height/2}
             }
 
             draw() {
@@ -131,6 +157,17 @@ function game() {
                     mousePos.y > this.position.y &&
                     mousePos.y < this.position.y + this.size
                 ) {
+                    if (!ctx) throw new Error("[Canvas-ctx] Game Error");
+                    ctx.beginPath();
+                    ctx.arc(
+                        this.center.x,
+                        this.center.y,
+                        this.radius,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fillStyle = "rgba(255,255,255,0.2)";
+                    ctx.fill();
                     this.color = "rgba(128,0,128,1)";
                 } else {
                     this.color = "rgba(128,0,128,0.2)";
@@ -251,16 +288,6 @@ function game() {
                     this.height
                 );
 
-                ctx.beginPath();
-                ctx.arc(
-                    this.center.x,
-                    this.center.y,
-                    this.radius,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fillStyle = "rgba(255,255,255,0.2)";
-                ctx.fill();
             }
 
             update() {
@@ -285,6 +312,7 @@ function game() {
             enemy: Enemey;
             radius: number;
             bulletLife: number;
+            image: HTMLImageElement;
 
             constructor({ x = 0, y = 0 }, enemy) {
                 this.position = { x: x, y: y };
@@ -296,6 +324,9 @@ function game() {
                 this.radius = 6 * mapZoom;
                 this.enemy = enemy;
                 this.bulletLife = 500;
+
+                this.image = new Image();
+                this.image.src = "";
             }
 
             draw() {
@@ -370,8 +401,6 @@ function game() {
                 }
             }
         }
-
-        function drawCoinsBag() {}
 
         drawHearts(playerHealth);
         spawnEnemies(enemyCount);
@@ -452,7 +481,9 @@ function game() {
 
                             if (enemyIndex > -1) {
                                 score += 10;
-                                coins += Math.floor(Math.random() * ((16 - 10 + 1) + 10));
+                                coins += Math.floor(
+                                    Math.random() * (16 - 10 + 1 + 10)
+                                );
                                 playerCoins.innerText = coins;
                                 scoreAmount.innerText = score;
                                 enemiesArray.splice(enemyIndex, 1);
@@ -462,7 +493,7 @@ function game() {
                         if (enemiesArray.length === 0) {
                             enemyCount += 2;
                             if (bulletPower > 2) {
-                                bulletPower -= 0.1;
+                                bulletPower -= 1;
                             }
                             spawnEnemies(enemyCount);
                         }
@@ -497,7 +528,9 @@ function game() {
         });
 
         canvas.addEventListener("click", (event) => {
-            if (activePlacement && !activePlacement.used) {
+            if (activePlacement && !activePlacement.used && coins >= 25) {
+                coins -= 25;
+                playerCoins.innerText = coins;
                 towersArray.push(
                     new Tower({
                         x: activePlacement.position.x,
@@ -532,3 +565,4 @@ function game() {
         console.error(error);
     }
 }
+

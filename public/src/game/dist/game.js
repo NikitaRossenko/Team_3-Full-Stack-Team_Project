@@ -1,3 +1,9 @@
+// function delay(milliseconds){
+//     console.log("1")
+//     return new Promise(resolve => {
+//         setTimeout(resolve, milliseconds);
+//     });
+// }
 function game() {
     try {
         function sound(src) {
@@ -19,6 +25,7 @@ function game() {
         // mySound.play()
         var mainContainer_1 = document.querySelector(".mainContainer");
         var gameOver_1 = document.querySelector("#gameOver");
+        var scene = document.querySelector("#scene");
         var playBtnContainer_1 = document.querySelector(".playBtnContainer");
         var playBtnH1_1 = document.querySelector("#playBtnH1");
         var playerHealthHearts_1 = document.querySelector("#playerHealth");
@@ -29,12 +36,9 @@ function game() {
         var playerCoinsBag = document.querySelector("#playerCoinsBag");
         var playerCoins_1 = document.querySelector("#playerCoins");
         var scoreAmount_1 = document.querySelector("#scoreAmount");
+        scene.style.display = "flex";
         gameOver_1.style.display = "none";
         playBtnContainer_1.style.display = "none";
-        playerHealthHearts_1.style.display = "flex";
-        uiIconsContainer_1.style.display = "flex";
-        playerScore.style.display = "flex";
-        playerCoinsBag.style.display = "flex";
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
@@ -66,6 +70,11 @@ function game() {
         ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         var mapImage_1 = new Image();
+        scene.style.display = "none";
+        playerHealthHearts_1.style.display = "flex";
+        uiIconsContainer_1.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
         // Set the canvas Width and Height
         if (mapZoom_1 === 1.5) {
             canvas_1.width = 1260;
@@ -86,6 +95,11 @@ function game() {
         for (var i = 0; i < placementTowers.length; i += 70) {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
         }
+        var Sprite = /** @class */ (function () {
+            function Sprite() {
+            }
+            return Sprite;
+        }());
         var PlacementTower_1 = /** @class */ (function () {
             function PlacementTower(_a) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
@@ -93,6 +107,10 @@ function game() {
                 this.size = newTileSize_1;
                 this.color = "rgba(128,0,128,0.2)";
                 this.used = false;
+                this.radius = 70 * mapZoom_1;
+                this.width = newTileSize_1;
+                this.height = newTileSize_1;
+                this.center = { x: this.position.x + this.width, y: this.position.y + this.height / 2 };
             }
             PlacementTower.prototype.draw = function () {
                 if (!ctx_1)
@@ -106,6 +124,12 @@ function game() {
                     mousePos.x < this.position.x + this.size &&
                     mousePos.y > this.position.y &&
                     mousePos.y < this.position.y + this.size) {
+                    if (!ctx_1)
+                        throw new Error("[Canvas-ctx] Game Error");
+                    ctx_1.beginPath();
+                    ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
+                    ctx_1.fillStyle = "rgba(255,255,255,0.2)";
+                    ctx_1.fill();
                     this.color = "rgba(128,0,128,1)";
                 }
                 else {
@@ -182,10 +206,6 @@ function game() {
                     throw new Error("[Canvas-ctx] Game Error");
                 ctx_1.fillStyle = "green";
                 ctx_1.fillRect(this.position.x, this.position.y, this.width, this.height);
-                ctx_1.beginPath();
-                ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
-                ctx_1.fillStyle = "rgba(255,255,255,0.2)";
-                ctx_1.fill();
             };
             Tower.prototype.update = function () {
                 this.draw();
@@ -208,6 +228,8 @@ function game() {
                 this.radius = 6 * mapZoom_1;
                 this.enemy = enemy;
                 this.bulletLife = 500;
+                this.image = new Image();
+                this.image.src = "";
             }
             Bullet.prototype.draw = function () {
                 if (!ctx_1)
@@ -257,7 +279,6 @@ function game() {
                 }
             }
         }
-        function drawCoinsBag() { }
         drawHearts(playerHealth_1);
         spawnEnemies(enemyCount_1);
         // Animation function (Recursion)
@@ -322,7 +343,7 @@ function game() {
                             });
                             if (enemyIndex > -1) {
                                 score_1 += 10;
-                                coins_1 += Math.floor(Math.random() * ((16 - 10 + 1) + 10));
+                                coins_1 += Math.floor(Math.random() * (16 - 10 + 1 + 10));
                                 playerCoins_1.innerText = coins_1;
                                 scoreAmount_1.innerText = score_1;
                                 enemiesArray_1.splice(enemyIndex, 1);
@@ -331,7 +352,7 @@ function game() {
                         if (enemiesArray_1.length === 0) {
                             enemyCount_1 += 2;
                             if (bulletPower_1 > 2) {
-                                bulletPower_1 -= 0.1;
+                                bulletPower_1 -= 1;
                             }
                             spawnEnemies(enemyCount_1);
                         }
@@ -360,7 +381,9 @@ function game() {
             }
         });
         canvas_1.addEventListener("click", function (event) {
-            if (activePlacement_1 && !activePlacement_1.used) {
+            if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 25) {
+                coins_1 -= 25;
+                playerCoins_1.innerText = coins_1;
                 towersArray_1.push(new Tower_1({
                     x: activePlacement_1.position.x,
                     y: activePlacement_1.position.y

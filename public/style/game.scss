@@ -165,7 +165,7 @@ body {
         }
     }
     
-    #gameOver {
+    .overlayText {
         display: none;
         align-items: center;
         justify-content: center;
@@ -176,11 +176,27 @@ body {
         left: 0;
         right: 0;
         position: absolute;
-        font-size: 100px;
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
         border-radius: 20px;
 
+    }
+
+    #gameOver {
+        font-size: 100px;
+    }
+    #scene {
+        position: relative;
+        width: 1260px;
+        height: 720px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 40px;
+        font-size: 20px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 20px;
     }
 
 
