@@ -4,12 +4,12 @@ backgroundSound.src = '../audio/backgroundMusicRegisterLogin.mp3'
 
 
 
-function onLoad() {
-    try {
-    } catch (error) {
-        console.error(error)
-    }
-}
+// function onLoad() {
+//     try {
+//     } catch (error) {
+//         console.error(error)
+//     }
+// }
 
 // handle functions
 

@@ -14,6 +14,7 @@ export const getUsers = async (req: any, res: any) => {
 };
 export const createUser = async (req: any, res: any) => {
   try {
+    const secret = process.env.JWT_SECRET;
     const { firstName, lastName, userName, email, password } = req.body;
     const userDB = await UserModel.create({
       firstName,
@@ -22,6 +23,9 @@ export const createUser = async (req: any, res: any) => {
       email,
       password,
     });
+    if (!secret) throw new Error("Server Error");
+    const token = jwt.encode({ userId: userDB._id}, secret);
+    res.cookie("currentUser", token, { httpOnly: true });
     res.status(201).send({ ok: true, userDB });
   } catch (error: any) {
     console.error(error);
@@ -66,7 +70,7 @@ export const addUser = async (req: any, res: any) => {
 
 export const login = async (req: any, res: any) => {
   try {
-    const secret = process.env.JWT_SECRET;
+
     const { userName, password } = req.body;
 
     const userDB = await UserModel.findOne({ userName, password });
@@ -75,9 +79,8 @@ export const login = async (req: any, res: any) => {
       res.status(401).send({ error: "email or password are inncorect" });
       return;
     }
-    if (!secret) throw new Error("Server Error");
-    const token = jwt.encode({ userId: userDB._id}, secret);
-    res.cookie("currentUser", token, { httpOnly: true });
+
+    res.cookie("ifAdmin", userDB._id, { httpOnly: true });
     res.status(201).send({ ok: true, userDB });
   } catch (error: any) {
     console.error(error);
@@ -110,14 +113,10 @@ export const getUser = async (req: any, res: any) => {
     const secret = process.env.JWT_SECRET || "sddslahkjaskjnbalkjs";
     const { currentUser } = req.cookies;
     if (!secret) throw new Error("No secret");
-
-    // 
     const decoded = jwt.decode(currentUser, secret);
     
     const { userId } = decoded;
     console.log(userId);
-    
-    // if(role === 'admin') console.log("Give all avilable data")
 
     const userDB = await UserModel.findById(userId);
 
@@ -127,3 +126,4 @@ export const getUser = async (req: any, res: any) => {
     res.status(500).send({ error: error.message });
   }
 };
+

@@ -158,6 +158,10 @@ async function renderUserList() {
                 <span id="rootNameUser">${user.email}</span>
             </div>
             <div>
+                <h5>Role</h5>
+                <span id="rootNameUser">${user.ROLE}</span>
+            </div>
+            <div>
                 <button onclick="handleClickDelUser('${user._id}')">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
