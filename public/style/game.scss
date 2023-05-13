@@ -78,6 +78,10 @@ body {
     width: auto;
     height: auto;
 
+    #replayBtn{
+        display: none;
+    }
+
     #playerHealth{
         position: absolute;
         display: none;
@@ -123,6 +127,23 @@ body {
         bottom: 4px;
         left: 8px;
         width: 56px;
+        height: 32px;
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #D05322;
+            -webkit-text-stroke: 1px #FCF1B2;
+        }
+
+    }
+    #wave{
+        position: absolute;
+        display: none;
+        align-items: center;
+        justify-content: flex-start;
+        bottom: 40px;
+        left: 8px;
         height: 32px;
 
         h1 {
@@ -192,11 +213,18 @@ body {
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin: 40px;
         font-size: 20px;
         color: white;
         background-color: rgba(0, 0, 0, 0.4);
         border-radius: 20px;
+
+        #sceneTitle{
+            border-bottom: 3px solid white;
+        }
+
+        p{
+            text-align: center;
+        }
     }
 
 
@@ -215,6 +243,7 @@ body {
             justify-content: center;
             align-items: center;
             gap: 10px;
+            z-index: 1;
 
             img {
                 width: 150px;

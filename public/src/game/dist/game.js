@@ -26,8 +26,8 @@ function game() {
         var mainContainer_1 = document.querySelector(".mainContainer");
         var gameOver_1 = document.querySelector("#gameOver");
         var scene = document.querySelector("#scene");
-        var playBtnContainer_1 = document.querySelector(".playBtnContainer");
-        var playBtnH1_1 = document.querySelector("#playBtnH1");
+        var playBtnContainer = document.querySelector(".playBtnContainer");
+        var replayBtn_1 = document.querySelector("#replayBtn");
         var playerHealthHearts_1 = document.querySelector("#playerHealth");
         var pauseBtnContainer = document.querySelector("#pauseBtnContainer");
         var pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
@@ -36,22 +36,25 @@ function game() {
         var playerCoinsBag = document.querySelector("#playerCoinsBag");
         var playerCoins_1 = document.querySelector("#playerCoins");
         var scoreAmount_1 = document.querySelector("#scoreAmount");
-        scene.style.display = "flex";
-        gameOver_1.style.display = "none";
-        playBtnContainer_1.style.display = "none";
+        var wave = document.querySelector("#wave");
+        var waveNumber_1 = document.querySelector("#waveNumber");
+        scene.style.display = "none";
+        replayBtn_1.style.display = "none";
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
         var playerHealth_1 = 10;
-        var bulletPower_1 = 10;
+        var bulletPower_1 = 20;
         var gamePaused_1 = false;
         var score_1 = 0;
         var coins_1 = 100;
+        var waveCount_1 = 1;
         scoreAmount_1.innerText = score_1;
         playerCoins_1.innerText = coins_1;
+        waveNumber_1.innerText = waveCount_1;
         var tileSize_1 = 12;
         var newTileSize_1 = mapZoom_1 * tileSize_1;
-        var enemySpeed_1 = 3;
+        var enemySpeed_1 = 2;
         var bulletSpeed_1 = 2;
         var mousePos_1 = { x: undefined, y: undefined };
         var enemiesArray_1 = [];
@@ -70,11 +73,6 @@ function game() {
         ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         var mapImage_1 = new Image();
-        scene.style.display = "none";
-        playerHealthHearts_1.style.display = "flex";
-        uiIconsContainer_1.style.display = "flex";
-        playerScore.style.display = "flex";
-        playerCoinsBag.style.display = "flex";
         // Set the canvas Width and Height
         if (mapZoom_1 === 1.5) {
             canvas_1.width = 1260;
@@ -91,6 +89,13 @@ function game() {
         else {
             throw new Error("Resolution Error!");
         }
+        wave.style.display = "flex";
+        gameOver_1.style.display = "none";
+        playBtnContainer.style.display = "none";
+        playerHealthHearts_1.style.display = "flex";
+        uiIconsContainer_1.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
         // Convert Towers coordinats to 2d
         for (var i = 0; i < placementTowers.length; i += 70) {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
@@ -292,6 +297,15 @@ function game() {
             if (!ctx_1)
                 throw new Error("[Canvas-ctx] Game Error");
             ctx_1.drawImage(mapImage_1, 0, 0);
+            if (waveCount_1 === 10) {
+                console.log("Congratulations!");
+                gameOver_1.innerText = "Congratulations! You saved the village!";
+                gameOver_1.style.fontSize = "30px";
+                gameOver_1.style.display = "flex";
+                uiIconsContainer_1.style.display = "none";
+                replayBtn_1.style.display = "flex";
+                cancelAnimationFrame(animationFrame);
+            }
             for (var i = enemiesArray_1.length - 1; i >= 0; i--) {
                 var enemy = enemiesArray_1[i];
                 enemy.update();
@@ -301,11 +315,10 @@ function game() {
                     enemiesArray_1.splice(i, 1);
                     if (playerHealth_1 === 0) {
                         console.log("Game Over");
-                        cancelAnimationFrame(animationFrame);
                         gameOver_1.style.display = "flex";
                         uiIconsContainer_1.style.display = "none";
-                        playBtnContainer_1.style.display = "block";
-                        playBtnH1_1.innerText = "Replay!";
+                        replayBtn_1.style.display = "flex";
+                        cancelAnimationFrame(animationFrame);
                     }
                 }
                 if (enemiesArray_1.length === 0) {
@@ -351,6 +364,8 @@ function game() {
                         }
                         if (enemiesArray_1.length === 0) {
                             enemyCount_1 += 2;
+                            waveCount_1 += 1;
+                            waveNumber_1.innerText = waveCount_1;
                             if (bulletPower_1 > 2) {
                                 bulletPower_1 -= 1;
                             }
@@ -381,8 +396,8 @@ function game() {
             }
         });
         canvas_1.addEventListener("click", function (event) {
-            if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 25) {
-                coins_1 -= 25;
+            if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 35) {
+                coins_1 -= 35;
                 playerCoins_1.innerText = coins_1;
                 towersArray_1.push(new Tower_1({
                     x: activePlacement_1.position.x,
