@@ -32,7 +32,7 @@ function game() {
         const gameOver: any = document.querySelector("#gameOver");
         const scene: any = document.querySelector("#scene");
         const playBtnContainer: any = document.querySelector(".playBtnContainer");
-        const playBtnH1: any = document.querySelector("#playBtnH1");
+        const replayBtn: any = document.querySelector("#replayBtn");
         const playerHealthHearts: any = document.querySelector("#playerHealth");
         const pauseBtnContainer: any = document.querySelector("#pauseBtnContainer");
         const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
@@ -41,27 +41,30 @@ function game() {
         const playerCoinsBag: any = document.querySelector("#playerCoinsBag");
         const playerCoins: any = document.querySelector("#playerCoins");
         const scoreAmount: any = document.querySelector("#scoreAmount");
+        const wave: any = document.querySelector("#wave");
+        const waveNumber: any = document.querySelector("#waveNumber");
 
-        scene.style.display = "flex";
-        gameOver.style.display = "none";
-        playBtnContainer.style.display = "none";
+        scene.style.display = "none";
+        replayBtn.style.display = "none";
 
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
         let enemyCount = 4;
         let playerHealth = 10;
-        let bulletPower = 10;
+        let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
         let coins = 100;
+        let waveCount = 1;
 
         scoreAmount.innerText = score;
         playerCoins.innerText = coins;
+        waveNumber.innerText = waveCount;
 
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
 
-        const enemySpeed = 3;
+        const enemySpeed = 2;
         const bulletSpeed = 2;
         const mousePos: any = { x: undefined, y: undefined };
 
@@ -85,11 +88,6 @@ function game() {
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         const mapImage = new Image();
 
-        scene.style.display = "none";
-        playerHealthHearts.style.display = "flex";
-        uiIconsContainer.style.display = "flex";
-        playerScore.style.display = "flex";
-        playerCoinsBag.style.display = "flex";
 
         // Set the canvas Width and Height
         if (mapZoom === 1.5) {
@@ -105,6 +103,14 @@ function game() {
         } else {
             throw new Error("Resolution Error!");
         }
+
+        wave.style.display = "flex";
+        gameOver.style.display = "none";
+        playBtnContainer.style.display = "none";
+        playerHealthHearts.style.display = "flex";
+        uiIconsContainer.style.display = "flex";
+        playerScore.style.display = "flex";
+        playerCoinsBag.style.display = "flex";
 
         // Convert Towers coordinats to 2d
         for (let i = 0; i < placementTowers.length; i += 70) {
@@ -416,6 +422,16 @@ function game() {
 
             ctx.drawImage(mapImage, 0, 0);
 
+            if (waveCount === 10) {
+                console.log("Congratulations!");
+                gameOver.innerText = "Congratulations! You saved the village!";
+                gameOver.style.fontSize = "30px"
+                gameOver.style.display = "flex";
+                uiIconsContainer.style.display = "none";
+                replayBtn.style.display = "flex";
+                cancelAnimationFrame(animationFrame);
+            }
+
             for (let i = enemiesArray.length - 1; i >= 0; i--) {
                 const enemy = enemiesArray[i];
                 enemy.update();
@@ -426,11 +442,10 @@ function game() {
 
                     if (playerHealth === 0) {
                         console.log("Game Over");
-                        cancelAnimationFrame(animationFrame);
                         gameOver.style.display = "flex";
                         uiIconsContainer.style.display = "none";
-                        playBtnContainer.style.display = "block";
-                        playBtnH1.innerText = "Replay!";
+                        replayBtn.style.display = "flex";
+                        cancelAnimationFrame(animationFrame);
                     }
                 }
 
@@ -492,6 +507,8 @@ function game() {
 
                         if (enemiesArray.length === 0) {
                             enemyCount += 2;
+                            waveCount += 1;
+                            waveNumber.innerText = waveCount;
                             if (bulletPower > 2) {
                                 bulletPower -= 1;
                             }
@@ -528,8 +545,8 @@ function game() {
         });
 
         canvas.addEventListener("click", (event) => {
-            if (activePlacement && !activePlacement.used && coins >= 25) {
-                coins -= 25;
+            if (activePlacement && !activePlacement.used && coins >= 35) {
+                coins -= 35;
                 playerCoins.innerText = coins;
                 towersArray.push(
                     new Tower({

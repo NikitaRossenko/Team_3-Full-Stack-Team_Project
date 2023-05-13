@@ -29,23 +29,30 @@
     </div>
     <div class="mainContainer">
         <div id="scene">
-            <h1 class="sceneTitle">Guide</h1>
-            <p>Welcome to Road of Glory, prepare for battle!</p>
-            <p>✦ Each tower cost 25 coins.</p>
-            <p>✦ You can build your tower only on marked spots.</p>
-            <p>✦ For each killed monster you'll receive a random amount of coins.</p>
-            <p>✦ There is 10 waves to beat.</p>
-            <p>✦ DON'T LOSE!</p>
+            <h1 id="sceneTitle">Guide</h1>
+            <p>Welcome to Road of Glory, prepare for battle!<br><br>
+            Your mission is to build towers which will defend the village.<br><br>
+            ✦ Each tower cost 35 coins, you'll start with 100 coins.<br><br>
+            ✦ You can build your tower only on marked spots.<br><br>
+            ✦ For each killed monster you'll receive a random amount of coins.<br><br>
+            ✦ There is 10 waves to beat.<br><br>
+            ✦ Each wave the enemies is stronger, upgrade your tower for 50 coins!<br><br>
+            ✦ Reach a highest score and compare it with others.<br><br>
+            ✦ You have only 10 hearts, DON'T LOSE THEM!</p>
             <div onclick="game()" class="playBtnContainer navIcon">
                 <h1 id="playBtnH1">Start!</h1>
-                <img id="playBtn" src="../images/buttons/20.png" alt="" srcset="">
+                <img id="playBtn" src="../images/buttons/20.png">
             </div>
         </div>
         <div id="playerHealth">
         </div>
         <div id="playerCoinsBag">
             <h1 id="playerCoins">999</h1>
-            <img src="../images/icons/32x32 coin bag.png" alt="" srcset="">
+            <img src="../images/icons/32x32 coin bag.png">
+        </div>
+        <div id="wave">
+            <h1 >Wave:</h1>
+            <h1 id="waveNumber">1</h1>
         </div>
         <div id="playerScore">
             <h1 >Score:</h1>
@@ -62,6 +69,10 @@
             </div>
         </div>
         <h1 class="overlayText" id="gameOver">GAME OVER</h1>
+        <div onclick="game()" id="replayBtn" class="playBtnContainer navIcon">
+            <h1 id="playBtnH1">Replay!</h1>
+            <img id="playBtn" src="../images/buttons/20.png">
+        </div>
         <canvas></canvas>
     </div>
 </body>
