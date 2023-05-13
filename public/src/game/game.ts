@@ -16,7 +16,7 @@ function game() {
             };
         }
 
-        const mySound = new sound("../../audio/Gruber - Merciful.mp3");
+        // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
 
         const mainContainer: any = document.querySelector(".mainContainer");
