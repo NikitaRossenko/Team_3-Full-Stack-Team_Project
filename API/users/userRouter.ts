@@ -7,7 +7,7 @@ const userRouter = Router()
 userRouter
 .get("/get-users" , getUsers)
 .post("/create-user" , createUser)
-.post("/login" ,adminAccess, login)
+.post("/login" , login)
 .put("/update-user", UpdateUserDetails)
 .get("/get-user" , getUser)
 .delete("/delete-user" , deleteUser)

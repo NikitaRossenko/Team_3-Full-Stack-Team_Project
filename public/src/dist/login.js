@@ -47,9 +47,6 @@ function handleLogin(ev) {
                 alert(data.error);
                 return;
             }
-            //   const {password, ...currentUser} = data.userDB
-            //   localStorage.setItem("currentUser", JSON.stringify(currentUser)) //cookie
-            //save user without password in cookies
             window.location.href = "/";
         })["catch"](function (error) {
             console.error(error);
