@@ -67,7 +67,9 @@ align-items: center;
         font-size: 1.4rem;
         text-decoration: underline;
      }
+     
     &__group{
+flex-basis: 45%;
         border-radius: 15px;
             color: rgb(0, 0, 0);
         width: 50%;
@@ -112,6 +114,7 @@ border-radius: 15px 15px 0 0;
      }
      
      button{
+        flex-basis: 51%;
   cursor: pointer;
   margin: 10px;
         color: rgb(100, 95, 95);

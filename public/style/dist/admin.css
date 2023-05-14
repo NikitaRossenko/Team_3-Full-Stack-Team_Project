@@ -268,14 +268,14 @@
   font-size: 1.2rem;
   text-transform: capitalize;
 }
-.collapse-container__form div input {
+.collapse-container__form div input, .collapse-container__form div select {
   border: none;
   outline: none;
   font-size: medium;
   padding: 10px;
   margin: 7px;
 }
-.collapse-container__form div input:active {
+.collapse-container__form div input:active, .collapse-container__form div select:active {
   background-color: #0eeb8354;
   color: white;
 }

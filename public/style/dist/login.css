@@ -88,6 +88,7 @@
   text-decoration: underline;
 }
 .container__form__group {
+  flex-basis: 51%;
   border-radius: 15px;
   color: black;
   width: 50%;
@@ -120,6 +121,7 @@
   font-size: 1rem;
 }
 .container__form button {
+  flex-basis: 51%;
   cursor: pointer;
   margin: 10px;
   color: #645f5f;

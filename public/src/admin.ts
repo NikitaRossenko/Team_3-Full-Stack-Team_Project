@@ -128,6 +128,13 @@ try {
         <label for="cPassword" >Confirm Password</label>
         <input type="text" name="cPassword" id="cPassword">
     </div>
+    <div>
+        <label for="role" >ROLE</label>
+       <select id="role" name="role">
+       <option value="public" >Public</option>
+       <option value="admin" >Admin</option>
+       </select>
+    </div>
     <button type="submit">Create Now</button>
 </form>`
 return html
@@ -313,8 +320,6 @@ function handleClickBack(){
         console.error(error)
     }
 }
-
-
 function handleClickCloseCollapseContainer(){
     try {
         const collapseFormRoot:HTMLElement = document.getElementById('collapseFormRoot')!
@@ -354,6 +359,7 @@ function handleClickCreateUserBtn(){
 }
 
 // FILL STATS 
+
 async function  FillRegisteredUsers(){
     try {
         const registeredUserFill: HTMLElement = document.getElementById('registeredUserFill')! // Fill Registered Users Number
