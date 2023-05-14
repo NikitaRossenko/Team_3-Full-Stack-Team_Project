@@ -78,6 +78,12 @@ body {
     width: auto;
     height: auto;
 
+    #bgImage{
+        position: absolute;
+        border-radius: 20px;
+        z-index: -1;
+    }
+
     #replayBtn{
         display: none;
     }

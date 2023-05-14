@@ -1,4 +1,17 @@
 // function delay(milliseconds){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 //     console.log("1")
 //     return new Promise(resolve => {
 //         setTimeout(resolve, milliseconds);
@@ -49,6 +62,8 @@ function game() {
         var score_1 = 0;
         var coins_1 = 100;
         var waveCount_1 = 1;
+        var zoomOffsetX_1 = 0;
+        var zoomOffsetY_1 = 0;
         scoreAmount_1.innerText = score_1;
         playerCoins_1.innerText = coins_1;
         waveNumber_1.innerText = waveCount_1;
@@ -72,19 +87,24 @@ function game() {
         // If using a background image this fill is optional
         ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
-        var mapImage_1 = new Image();
+        var mapImage = new Image();
         // Set the canvas Width and Height
         if (mapZoom_1 === 1.5) {
+            zoomOffsetX_1 = newTileSize_1;
+            zoomOffsetY_1 = newTileSize_1 * 2;
             canvas_1.width = 1260;
             canvas_1.height = 720;
-            mapImage_1.src =
+            mapImage.src =
                 "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
+            mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">');
         }
         else if (mapZoom_1 === 2) {
+            zoomOffsetY_1 = newTileSize_1;
             canvas_1.width = 1680;
             canvas_1.height = 960;
-            mapImage_1.src =
+            mapImage.src =
                 "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960x2.0.png";
+            mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1680x960x2.0.png">');
         }
         else {
             throw new Error("Resolution Error!");
@@ -101,8 +121,46 @@ function game() {
             placementTowers2d.push(placementTowers.slice(i, i + 70));
         }
         var Sprite = /** @class */ (function () {
-            function Sprite() {
+            function Sprite(_a, imgSource, imgFrames) {
+                var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
+                if (imgFrames === void 0) { imgFrames = 1; }
+                this.randomEnemyIndex = Math.floor(Math.random() * (imgSource.length - 1 + 1) + 1);
+                this.position = { x: x, y: y };
+                this.image = new Image();
+                this.image.src = imgSource[this.randomEnemyIndex - 1];
+                this.width = 90;
+                this.height = 90;
+                this.zoom = mapZoom_1;
+                this.imgFrames = imgFrames;
+                this.currentFrame = 0;
+                this.framesTimeout = 0;
+                this.center = {
+                    x: this.position.x * this.zoom - newTileSize_1 / mapZoom_1,
+                    y: this.position.y * this.zoom - newTileSize_1 / mapZoom_1
+                };
             }
+            Sprite.prototype.draw = function () {
+                var cropWidth = this.image.width / this.imgFrames;
+                var crop = {
+                    position: { x: cropWidth * this.currentFrame, y: 0 },
+                    width: cropWidth,
+                    height: this.image.height
+                };
+                ctx_1 === null || ctx_1 === void 0 ? void 0 : ctx_1.drawImage(this.image, crop.position.x, crop.position.y, crop.width, crop.height, this.position.x * this.zoom -
+                    newTileSize_1 +
+                    mapZoom_1 * this.zoom -
+                    zoomOffsetX_1, this.position.y * this.zoom -
+                    newTileSize_1 +
+                    mapZoom_1 * this.zoom -
+                    zoomOffsetY_1, crop.width, crop.height);
+                this.framesTimeout++;
+                if (this.framesTimeout % 9 === 0) {
+                    this.currentFrame++;
+                    if (this.currentFrame >= this.imgFrames) {
+                        this.currentFrame = 0;
+                    }
+                }
+            };
             return Sprite;
         }());
         var PlacementTower_1 = /** @class */ (function () {
@@ -115,7 +173,10 @@ function game() {
                 this.radius = 70 * mapZoom_1;
                 this.width = newTileSize_1;
                 this.height = newTileSize_1;
-                this.center = { x: this.position.x + this.width, y: this.position.y + this.height / 2 };
+                this.center = {
+                    x: this.position.x + this.width,
+                    y: this.position.y + this.height / 2
+                };
             }
             PlacementTower.prototype.draw = function () {
                 if (!ctx_1)
@@ -143,33 +204,37 @@ function game() {
             };
             return PlacementTower;
         }());
-        var Enemey_1 = /** @class */ (function () {
-            function Enemey(_a) {
+        var Enemey_1 = /** @class */ (function (_super) {
+            __extends(Enemey, _super);
+            function Enemey(_a, enemyImages) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
-                this.position = { x: x, y: y };
-                this.width = newTileSize_1;
-                this.height = newTileSize_1;
-                this.waypointIndex = 0;
-                this.zoom = mapZoom_1;
-                this.radius = newTileSize_1;
-                this.health = 100;
-                this.center = {
-                    x: this.position.x + this.width / 2,
-                    y: this.position.y + this.height / 2
+                var _this = _super.call(this, { x: 0, y: 0 }, enemyImages, 12) || this;
+                _this.position = { x: x, y: y };
+                _this.width = newTileSize_1;
+                _this.height = newTileSize_1;
+                _this.waypointIndex = 0;
+                _this.zoom = mapZoom_1;
+                _this.radius = newTileSize_1;
+                _this.health = 100;
+                _this.center = {
+                    x: _this.position.x + _this.width / 2,
+                    y: _this.position.y + _this.height / 2
                 };
+                return _this;
             }
             Enemey.prototype.draw = function () {
                 if (!ctx_1)
                     throw new Error("[Canvas-ctx] Game Error");
-                ctx_1.fillStyle = "purple";
-                ctx_1.beginPath();
-                ctx_1.arc(this.center.x * this.zoom, this.center.y * this.zoom, this.radius, 0, Math.PI * 2);
-                ctx_1.fill();
+                _super.prototype.draw.call(this);
                 // Enemy Health Bar
                 ctx_1.fillStyle = "red";
-                ctx_1.fillRect(this.position.x * this.zoom, this.position.y * this.zoom - newTileSize_1 / mapZoom_1, this.width * mapZoom_1, tileSize_1 / 2);
+                ctx_1.fillRect(this.position.x * this.zoom, this.position.y * this.zoom -
+                    newTileSize_1 / mapZoom_1 -
+                    zoomOffsetY_1, this.width * mapZoom_1, tileSize_1 / 2);
                 ctx_1.fillStyle = "green";
-                ctx_1.fillRect(this.position.x * this.zoom, this.position.y * this.zoom - newTileSize_1 / mapZoom_1, (this.width * mapZoom_1 * this.health) / 100, tileSize_1 / 2);
+                ctx_1.fillRect(this.position.x * this.zoom, this.position.y * this.zoom -
+                    newTileSize_1 / mapZoom_1 -
+                    zoomOffsetY_1, (this.width * mapZoom_1 * this.health) / 100, tileSize_1 / 2);
             };
             Enemey.prototype.update = function () {
                 this.draw();
@@ -190,7 +255,7 @@ function game() {
                 }
             };
             return Enemey;
-        }());
+        }(Sprite));
         var Tower_1 = /** @class */ (function () {
             function Tower(_a) {
                 var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
@@ -267,10 +332,16 @@ function game() {
         });
         // Create enemies with X coordinats offset
         function spawnEnemies(enemyCount) {
+            var enemyImages = [
+                "../../images/enemies/Evil-Angel_1_90x90.png",
+                "../../images/enemies/Evil-Angel_2_90x90.png",
+                "../../images/enemies/golem_1_90x90.png",
+                "../../images/enemies/golem_2_90x90.png",
+            ];
             for (var i = 1; i < enemyCount + 1; i++) {
-                var xOffset = i * (Math.random() * (300 - 100 + 1) + 100) +
+                var xOffset = i * Math.floor(Math.random() * (300 - 100 + 1) + 100) +
                     newTileSize_1 * 2;
-                enemiesArray_1.push(new Enemey_1({ x: path[0].x - xOffset, y: path[0].y }));
+                enemiesArray_1.push(new Enemey_1({ x: path[0].x - xOffset, y: path[0].y }, enemyImages));
             }
         }
         function drawHearts(playerHealth) {
@@ -296,7 +367,8 @@ function game() {
                 throw new Error("[Canvas] Game Error");
             if (!ctx_1)
                 throw new Error("[Canvas-ctx] Game Error");
-            ctx_1.drawImage(mapImage_1, 0, 0);
+            ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
+            // ctx.drawImage(mapImage, 0, 0);
             if (waveCount_1 === 10) {
                 console.log("Congratulations!");
                 gameOver_1.innerText = "Congratulations! You saved the village!";
@@ -334,7 +406,7 @@ function game() {
                 var validEnemies = enemiesArray_1.filter(function (enemy) {
                     var xDistance = enemy.center.x - tower.center.x / mapZoom_1;
                     var yDistance = enemy.center.y - tower.center.y / mapZoom_1;
-                    var distance = Math.hypot(xDistance, yDistance);
+                    var distance = Math.floor(Math.hypot(xDistance, yDistance));
                     return distance < enemy.radius + tower.radius / mapZoom_1;
                 });
                 tower.target = validEnemies[0];
@@ -346,7 +418,7 @@ function game() {
                     }
                     var xDistance = bullet.enemy.center.x - bullet.center.x / mapZoom_1;
                     var yDistance = bullet.enemy.center.y - bullet.center.y / mapZoom_1;
-                    var distance = Math.hypot(xDistance, yDistance);
+                    var distance = Math.floor(Math.hypot(xDistance, yDistance));
                     if (distance <
                         bullet.enemy.radius / mapZoom_1 + bullet.radius) {
                         bullet.enemy.health -= bulletPower_1;

@@ -6,7 +6,6 @@
 //     });
 // }
 
-
 function game() {
     try {
         function sound(src) {
@@ -31,12 +30,15 @@ function game() {
         const mainContainer: any = document.querySelector(".mainContainer");
         const gameOver: any = document.querySelector("#gameOver");
         const scene: any = document.querySelector("#scene");
-        const playBtnContainer: any = document.querySelector(".playBtnContainer");
+        const playBtnContainer: any =
+            document.querySelector(".playBtnContainer");
         const replayBtn: any = document.querySelector("#replayBtn");
         const playerHealthHearts: any = document.querySelector("#playerHealth");
-        const pauseBtnContainer: any = document.querySelector("#pauseBtnContainer");
+        const pauseBtnContainer: any =
+            document.querySelector("#pauseBtnContainer");
         const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
-        const uiIconsContainer: any = document.querySelector(".uiIconsContainer");
+        const uiIconsContainer: any =
+            document.querySelector(".uiIconsContainer");
         const playerScore: any = document.querySelector("#playerScore");
         const playerCoinsBag: any = document.querySelector("#playerCoinsBag");
         const playerCoins: any = document.querySelector("#playerCoins");
@@ -56,6 +58,8 @@ function game() {
         let score = 0;
         let coins = 100;
         let waveCount = 1;
+        let zoomOffsetX = 0;
+        let zoomOffsetY = 0;
 
         scoreAmount.innerText = score;
         playerCoins.innerText = coins;
@@ -88,18 +92,22 @@ function game() {
         // Need to declare a new image (which will create an img element) - canvas need to receive a img element
         const mapImage = new Image();
 
-
         // Set the canvas Width and Height
         if (mapZoom === 1.5) {
+            zoomOffsetX = newTileSize;
+            zoomOffsetY = newTileSize * 2;
             canvas.width = 1260;
             canvas.height = 720;
             mapImage.src =
                 "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
+            mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">')
         } else if (mapZoom === 2) {
+            zoomOffsetY = newTileSize;
             canvas.width = 1680;
             canvas.height = 960;
             mapImage.src =
                 "../../images/maps/Road-Of-Glory-peaceful-Map_1680x960x2.0.png";
+            mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1680x960x2.0.png">')
         } else {
             throw new Error("Resolution Error!");
         }
@@ -118,7 +126,66 @@ function game() {
         }
 
         class Sprite {
-            constructor() {}
+            image: HTMLImageElement;
+            position: { x: number; y: number };
+            center: { x: number; y: number };
+            width: number;
+            height: number;
+            zoom: number;
+            imgFrames: number;
+            currentFrame: number;
+            framesTimeout: number;
+            randomEnemyIndex: number;
+
+            constructor({ x = 0, y = 0 }, imgSource, imgFrames = 1) {
+                this.randomEnemyIndex = Math.floor(Math.random() * (imgSource.length - 1 + 1) + 1)
+                this.position = { x: x, y: y };
+                this.image = new Image();
+                this.image.src = imgSource[this.randomEnemyIndex-1];
+                this.width = 90;
+                this.height = 90;
+                this.zoom = mapZoom;
+                this.imgFrames = imgFrames;
+                this.currentFrame = 0;
+                this.framesTimeout = 0;
+                this.center = {
+                    x: this.position.x * this.zoom - newTileSize / mapZoom,
+                    y: this.position.y * this.zoom - newTileSize / mapZoom,
+                };
+            }
+
+            draw() {
+                const cropWidth = this.image.width / this.imgFrames;
+                const crop = {
+                    position: { x: cropWidth * this.currentFrame, y: 0 },
+                    width: cropWidth,
+                    height: this.image.height,
+                };
+                ctx?.drawImage(
+                    this.image,
+                    crop.position.x,
+                    crop.position.y,
+                    crop.width,
+                    crop.height,
+                    this.position.x * this.zoom -
+                        newTileSize +
+                        mapZoom * this.zoom -
+                        zoomOffsetX,
+                    this.position.y * this.zoom -
+                        newTileSize +
+                        mapZoom * this.zoom -
+                        zoomOffsetY,
+                    crop.width,
+                    crop.height
+                );
+                this.framesTimeout++;
+                if (this.framesTimeout % 9 === 0) {
+                    this.currentFrame++;
+                    if (this.currentFrame >= this.imgFrames) {
+                        this.currentFrame = 0;
+                    }
+                }
+            }
         }
 
         class PlacementTower {
@@ -127,7 +194,7 @@ function game() {
             color: string;
             used: boolean;
             radius: number;
-            center: { x: number; y: number; };
+            center: { x: number; y: number };
             width: number;
             height: number;
 
@@ -140,7 +207,10 @@ function game() {
                 this.width = newTileSize;
                 this.height = newTileSize;
 
-                this.center = {x: this.position.x + this.width , y: this.position.y + this.height/2}
+                this.center = {
+                    x: this.position.x + this.width,
+                    y: this.position.y + this.height / 2,
+                };
             }
 
             draw() {
@@ -153,6 +223,8 @@ function game() {
                     this.size,
                     this.size
                 );
+
+
             }
 
             update(mousePos) {
@@ -181,7 +253,7 @@ function game() {
             }
         }
 
-        class Enemey {
+        class Enemey extends Sprite {
             position: { x: number; y: number };
             width: number;
             height: number;
@@ -191,7 +263,12 @@ function game() {
             radius: number;
             health: number;
 
-            constructor({ x = 0, y = 0 }) {
+            constructor({ x = 0, y = 0 }, enemyImages) {
+                super(
+                    { x: 0, y: 0 },
+                    enemyImages,
+                    12
+                );
                 this.position = { x: x, y: y };
                 this.width = newTileSize;
                 this.height = newTileSize;
@@ -207,32 +284,29 @@ function game() {
 
             draw() {
                 if (!ctx) throw new Error("[Canvas-ctx] Game Error");
-                ctx.fillStyle = "purple";
-                ctx.beginPath();
-                ctx.arc(
-                    this.center.x * this.zoom,
-                    this.center.y * this.zoom,
-                    this.radius,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fill();
+                super.draw();
 
                 // Enemy Health Bar
                 ctx.fillStyle = "red";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - newTileSize / mapZoom,
+                    this.position.y * this.zoom -
+                        newTileSize / mapZoom -
+                        zoomOffsetY,
                     this.width * mapZoom,
                     tileSize / 2
                 );
                 ctx.fillStyle = "green";
                 ctx.fillRect(
                     this.position.x * this.zoom,
-                    this.position.y * this.zoom - newTileSize / mapZoom,
+                    this.position.y * this.zoom -
+                        newTileSize / mapZoom -
+                        zoomOffsetY,
                     (this.width * mapZoom * this.health) / 100,
                     tileSize / 2
                 );
+
+
             }
 
             update() {
@@ -293,6 +367,7 @@ function game() {
                     this.width,
                     this.height
                 );
+
 
             }
 
@@ -381,12 +456,18 @@ function game() {
 
         // Create enemies with X coordinats offset
         function spawnEnemies(enemyCount) {
+            const enemyImages = [
+                "../../images/enemies/Evil-Angel_1_90x90.png",
+                "../../images/enemies/Evil-Angel_2_90x90.png",
+                "../../images/enemies/golem_1_90x90.png",
+                "../../images/enemies/golem_2_90x90.png",
+            ];
             for (let i = 1; i < enemyCount + 1; i++) {
                 const xOffset =
-                    i * (Math.random() * (300 - 100 + 1) + 100) +
+                    i * Math.floor(Math.random() * (300 - 100 + 1) + 100) +
                     newTileSize * 2;
                 enemiesArray.push(
-                    new Enemey({ x: path[0].x - xOffset, y: path[0].y })
+                    new Enemey({ x: path[0].x - xOffset, y: path[0].y }, enemyImages)
                 );
             }
         }
@@ -419,13 +500,14 @@ function game() {
             }
             if (!canvas) throw new Error("[Canvas] Game Error");
             if (!ctx) throw new Error("[Canvas-ctx] Game Error");
+            ctx.clearRect(0,0,canvas.width, canvas.height)
 
-            ctx.drawImage(mapImage, 0, 0);
+            // ctx.drawImage(mapImage, 0, 0);
 
             if (waveCount === 10) {
                 console.log("Congratulations!");
                 gameOver.innerText = "Congratulations! You saved the village!";
-                gameOver.style.fontSize = "30px"
+                gameOver.style.fontSize = "30px";
                 gameOver.style.display = "flex";
                 uiIconsContainer.style.display = "none";
                 replayBtn.style.display = "flex";
@@ -464,7 +546,7 @@ function game() {
                 const validEnemies = enemiesArray.filter((enemy) => {
                     const xDistance = enemy.center.x - tower.center.x / mapZoom;
                     const yDistance = enemy.center.y - tower.center.y / mapZoom;
-                    const distance = Math.hypot(xDistance, yDistance);
+                    const distance = Math.floor(Math.hypot(xDistance, yDistance));
                     return distance < enemy.radius + tower.radius / mapZoom;
                 });
                 tower.target = validEnemies[0];
@@ -481,7 +563,7 @@ function game() {
                         bullet.enemy.center.x - bullet.center.x / mapZoom;
                     const yDistance =
                         bullet.enemy.center.y - bullet.center.y / mapZoom;
-                    const distance = Math.hypot(xDistance, yDistance);
+                    const distance = Math.floor(Math.hypot(xDistance, yDistance));
                     if (
                         distance <
                         bullet.enemy.radius / mapZoom + bullet.radius
@@ -519,6 +601,7 @@ function game() {
                     }
                 }
             });
+
         }
 
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
@@ -582,4 +665,3 @@ function game() {
         console.error(error);
     }
 }
-

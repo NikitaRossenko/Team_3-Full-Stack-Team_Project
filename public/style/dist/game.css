@@ -67,6 +67,11 @@ body {
   width: auto;
   height: auto;
 }
+.mainContainer #bgImage {
+  position: absolute;
+  border-radius: 20px;
+  z-index: -1;
+}
 .mainContainer #replayBtn {
   display: none;
 }
