@@ -1,13 +1,12 @@
 // Set Background Music 
 var backgroundSound = new Audio();
 backgroundSound.src = '../audio/backgroundMusicRegisterLogin.mp3';
-function onLoad() {
-    try {
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
+// function onLoad() {
+//     try {
+//     } catch (error) {
+//         console.error(error)
+//     }
+// }
 // handle functions
 function handleClickMusicBtn() {
     try {
