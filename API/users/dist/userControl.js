@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.createUser = exports.getUsers = void 0;
+exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
 var jwt_simple_1 = require("jwt-simple");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -94,6 +94,42 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
         }
     });
 }); };
+exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, firstName, lastName, userName, email, password, role, existUsername, existUserEmail, userDB, error_3;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 4, , 5]);
+                _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password, role = _a.role;
+                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName })];
+            case 1:
+                existUsername = _b.sent();
+                return [4 /*yield*/, userModel_1["default"].findOne({ email: email })];
+            case 2:
+                existUserEmail = _b.sent();
+                if (existUsername || existUserEmail)
+                    throw new Error("User already exist");
+                return [4 /*yield*/, userModel_1["default"].create({
+                        firstName: firstName,
+                        lastName: lastName,
+                        userName: userName,
+                        email: email,
+                        password: password,
+                        role: role
+                    })];
+            case 3:
+                userDB = _b.sent();
+                res.status(201).send({ ok: true, userDB: userDB });
+                return [3 /*break*/, 5];
+            case 4:
+                error_3 = _b.sent();
+                console.error(error_3);
+                res.status(500).send({ error: error_3.message });
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); };
 exports.UpdateUserDetailById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var uid, updateUser;
     return __generator(this, function (_a) {
@@ -113,7 +149,7 @@ exports.UpdateUserDetailById = function (req, res) { return __awaiter(void 0, vo
     });
 }); };
 exports.deleteUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var uid, deleteUser_1, error_3;
+    var uid, deleteUser_1, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -131,9 +167,9 @@ exports.deleteUser = function (req, res) { return __awaiter(void 0, void 0, void
                 res.status(201).send({ ok: true, user: deleteUser_1 });
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _a.sent();
+                error_4 = _a.sent();
                 res.status(500).send({ ok: false });
-                console.error(error_3);
+                console.error(error_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -150,7 +186,7 @@ exports.addUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var secret, _a, userName, password, userDB, token, error_4;
+    var secret, _a, userName, password, userDB, token, error_5;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -171,16 +207,16 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _b.sent();
-                console.error(error_4);
-                res.status(500).send({ error: error_4.message });
+                error_5 = _b.sent();
+                console.error(error_5);
+                res.status(500).send({ error: error_5.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _id, firstName, lastName, email, userName, password, userDB, error_5;
+    var _a, _id, firstName, lastName, email, userName, password, userDB, error_6;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -200,16 +236,16 @@ exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 
                 res.send({ ok: true });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _b.sent();
-                console.error(error_5);
-                res.status(500).send({ error: error_5.message });
+                error_6 = _b.sent();
+                console.error(error_6);
+                res.status(500).send({ error: error_6.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var secret, currentUser, decoded, userId, userDB, error_6;
+    var secret, currentUser, decoded, userId, userDB, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -226,9 +262,9 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 res.send({ ok: true, userId: userDB });
                 return [3 /*break*/, 3];
             case 2:
-                error_6 = _a.sent();
-                console.error(error_6);
-                res.status(500).send({ error: error_6.message });
+                error_7 = _a.sent();
+                console.error(error_7);
+                res.status(500).send({ error: error_7.message });
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }

@@ -12,5 +12,5 @@ exports.TowerSchema = new mongoose_1.Schema({
     cost: { type: Number, required: true },
     level: { type: Number, required: true }
 });
-var towerModel = mongoose_1["default"].model("tower", exports.TowerSchema);
-exports["default"] = towerModel;
+var TowerModel = mongoose_1["default"].model("tower", exports.TowerSchema);
+exports["default"] = TowerModel;

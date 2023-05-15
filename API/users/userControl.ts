@@ -37,6 +37,32 @@ export const createUser = async (req: any, res: any) => {
     res.status(500).send({ error: error.message });
   }
 };
+export const adminCreateUser = async (req: any, res: any) => {
+  try {
+
+    const { firstName, lastName, userName, email, password, role } = req.body;
+
+
+    const existUsername = await UserModel.findOne({userName:userName});
+    const existUserEmail = await UserModel.findOne({email:email});
+
+    if (existUsername || existUserEmail) throw new Error("User already exist")
+
+    const userDB = await UserModel.create({
+      firstName,
+      lastName,
+      userName,
+      email,
+      password,
+      role
+    });
+
+    res.status(201).send({ ok: true, userDB });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+};
 
 export const UpdateUserDetailById = async (req: any, res: any) => {
   try {

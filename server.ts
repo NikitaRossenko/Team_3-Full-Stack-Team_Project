@@ -1,9 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
-import userRouter from "./API/users/userRouter";
 import cookieParser from 'cookie-parser';
+import userRouter from "./API/users/userRouter";
 import enemyRouter from "./API/enemy/enemyRouter";
+import towerRouter from "./API/towers/towerRouter";
 
 
 
@@ -34,6 +35,7 @@ app.use(express.static(`./public/pages`));
 
 app.use('/api/users' ,userRouter)
 app.use('/api/enemy' ,enemyRouter)
+app.use('/api/tower' ,towerRouter)
 
 app.listen(3000, () => {
   console.log("server listen on port 3000");

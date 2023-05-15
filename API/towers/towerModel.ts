@@ -21,6 +21,6 @@ export interface Tower {
     level: { type: Number, required: true },
   });
 
-  const towerModel = mongoose.model("tower"  , TowerSchema)
+  const TowerModel = mongoose.model("tower"  , TowerSchema)
   
-  export default towerModel
+  export default TowerModel

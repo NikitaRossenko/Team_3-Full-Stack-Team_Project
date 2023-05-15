@@ -1,24 +1,22 @@
+const totalGamesPlayedFill: HTMLElement = document.getElementById(
+  "totalGamesPlayedFill"
+)!; // Fill Total Games Number
+const versionFill: HTMLElement = document.getElementById("versionFill")!; // Fill Version Number
 
-const totalGamesPlayedFill: HTMLElement = document.getElementById('totalGamesPlayedFill')! // Fill Total Games Number 
-const versionFill: HTMLElement = document.getElementById('versionFill')! // Fill Version Number
+const onLoad = () => {
+  try {
+    renderTowerList()
+    renderEnemyList();
+    renderUserList();
+    FillAdminName();
+    FillRegisteredUsers();
+  } catch (error) {}
+};
 
+// View
 
-
-const onLoad = () =>{
-try {
-    renderEnemyList()
-    renderUserList()
-    FillAdminName()
-    FillRegisteredUsers()
-} catch (error) {
-    
-}
-}
-
-// View 
-
-function renderCreateTowerSection():string{
-try {
+function renderCreateTowerSection(): string {
+  try {
     const html = `
     <div onclick="handleClickCloseCollapseContainer()" id="closeIcon" class="collapse-container__close">
     <i class="fa-solid fa-xmark"></i>
@@ -27,39 +25,39 @@ try {
 <form class="collapse-container__form" onsubmit="handleSubmitCreateTower(event)">
 
     <div>
-        <label for="name" >tower name</label>
+        <label for="name" >tower Name</label>
         <input type="text" name="name" id="name" >
     </div>
     <div>
-        <label for="type" >tower type</label>
-        <input type="text" name="type" id="type">
+        <label for="image" >Image</label>
+        <input type="text" name="image" id="image">
     </div>
     <div>
-        <label for="damage" >damage</label>
+        <label for="damage" >Damage</label>
         <input type="number" name="damage" id="damage" >
     </div>
     <div>
-        <label for="range" > range</label>
-        <input type="number" name="range" min="0" max="100" >
+        <label for="radius" > Radius</label>
+        <input type="number" name="radius" min="0" max="100" >
     </div>
     <div>
-        <label for="fireRate" > fire Rate</label>
-        <input type="number" name="fireRate" id="fireRate" >
-    </div>
-    <div>
-        <label for="cost" >cost</label>
+        <label for="cost" > Cost</label>
         <input type="number" name="cost" id="cost" >
     </div>
+    <div>
+        <label for="level" >Level</label>
+        <input type="number" name="level" id="level" >
+    </div>
     <button type="submit">Create Now</button>
-</form>`
-return html
-} catch (error) {
-    console.error(error)
-    return 'We Have A Problem Here'
+</form>`;
+    return html;
+  } catch (error) {
+    console.error(error);
+    return "We Have A Problem Here";
+  }
 }
-}
-function renderCreateEnemySection():string{
-try {
+function renderCreateEnemySection(): string {
+  try {
     const html = `
     <div onclick="handleClickCloseCollapseContainer()" id="closeIcon" class="collapse-container__close">
     <i class="fa-solid fa-xmark"></i>
@@ -72,23 +70,23 @@ try {
         <input type="text" name="name" id="name">
     </div>
     <div>
+    <label for="health" >Health</label>
+    <input type="number" name="health" id="health">
+    </div>
+    <div>
         <label for="type" >Image</label>
         <input type="text" name="image" id="type">
     </div>
-    <div>
-        <label for="health" >Health</label>
-        <input type="number" name="health" id="health">
-    </div>
     <button type="submit">Create Now</button>
-</form>`
-return html
-} catch (error) {
-    console.error(error)
-    return 'We Have A Problem Here'
+</form>`;
+    return html;
+  } catch (error) {
+    console.error(error);
+    return "We Have A Problem Here";
+  }
 }
-}
-function renderCreateUserSection():string{
-try {
+function renderCreateUserSection(): string {
+  try {
     const html = `
     <div onclick="handleClickCloseCollapseContainer()" id="closeIcon" class="collapse-container__close">
     <i class="fa-solid fa-xmark"></i>
@@ -97,20 +95,20 @@ try {
 <form class="collapse-container__form" onsubmit="handleSubmitCreateUser(event)">
 
     <div>
-        <label for="fname" >First Name</label>
-        <input type="text" name="fname" id="fname">
+        <label for="firstName" >First Name</label>
+        <input type="text" name="firstName" id="firstName">
     </div>
     <div>
-        <label for="lname" >Last Name</label>
-        <input type="text" name="lname" id="lname">
+        <label for="lastName" >Last Name</label>
+        <input type="text" name="lastName" id="lastName">
+    </div>
+    <div>
+        <label for="username" > Username</label>
+        <input type="text" name="username" id="username">
     </div>
     <div>
         <label for="email" >Email</label>
         <input type="text" name="email" id="email">
-    </div>
-    <div>
-        <label for="userName" > range</label>
-        <input type="text" name="userName" id="userName">
     </div>
     <div>
         <label for="password" >Password</label>
@@ -128,24 +126,26 @@ try {
        </select>
     </div>
     <button type="submit">Create Now</button>
-</form>`
-return html
-} catch (error) {
-    console.error(error)
-    return 'We Have A Problem Here'
-}
+</form>`;
+    return html;
+  } catch (error) {
+    console.error(error);
+    return "We Have A Problem Here";
+  }
 }
 
 // RENDER USERS LIST
 async function renderUserList() {
-    try {
-        const rootUsersDetail: HTMLElement = document.getElementById('rootUsersDetail')!
-        const dataJs = await fetch('/api/users/get-users')
-        if (!dataJs) throw new Error('no found dataJs')
-        const data = await dataJs.json();
-        const { users } = data
-        const html = users.map(user => {
-            return `
+  try {
+    const rootUsersDetail: HTMLElement =
+      document.getElementById("rootUsersDetail")!;
+    const dataJs = await fetch("/api/users/get-users");
+    if (!dataJs) throw new Error("no found dataJs");
+    const data = await dataJs.json();
+    const { users } = data;
+    const html = users
+      .map((user) => {
+        return `
             <li class="container__main__container-middle__list">
             <div>
                 <h5>Username</h5>
@@ -166,69 +166,90 @@ async function renderUserList() {
             </div>
         </li>
 
-            `
-        }).join('')
-        rootUsersDetail.innerHTML = html
-    } catch (error) {
-        console.error(error)
-    }
+            `;
+      })
+      .join("");
+    rootUsersDetail.innerHTML = html;
+  } catch (error) {
+    console.error(error);
+  }
 }
 //RENDER TOWER LISTS
-async function renderTowerList(adminID: string) {
-    try {
-        const rootUsersDetail: HTMLElement = document.getElementById('rootUsersDetail')!
-        const dataJs = await fetch('/api/towers/get-towers')
-        if (!dataJs) throw new Error('no found dataJs')
-        const data = await dataJs.json();
-        const { towers } = data
-        const html = towers.map(user => {
-            return `
+async function renderTowerList() {
+  try {
+    const rootTowersDetail: HTMLElement =
+      document.getElementById("rootTowersDetail")!;
+    const dataJs = await fetch("/api/tower/get-towers");
+    if (!dataJs) throw new Error("no found dataJs");
+    const data = await dataJs.json();
+    const { towerDB } = data;
+    const html = towerDB
+      .map((tower) => {
+        return `
             <li class="container__main__container-middle__list">
             <div>
-                <h5>Username</h5>
-                <span id="rootNameUser"></span>
+                <h5>Tower Name</h5>
+                <span id="rootTowerName">${tower.name}</span>
             </div>
             <div>
-                <h5>Email</h5>
-                <span id="rootNameUser"></span>
+                <h5>Image</h5>
+                <span id="rootTowerImage">${tower.image}</span>
             </div>
             <div>
-                <button onclick="handleClickDelTower(${adminID})">
+                <h5>Damage</h5>
+                <span id="rootTowerDamage">${tower.damage}</span>
+            </div>
+            <div>
+                <h5>Radius</h5>
+                <span id="rootTowerRadius">${tower.radius}</span>
+            </div>
+            <div>
+                <h5>Cost</h5>
+                <span id="rootTowerCost">${tower.cost}</span>
+            </div>
+            <div>
+                <h5>Level</h5>
+                <span id="rootTowerLevel">${tower.level}</span>
+            </div>
+            <div>
+                <button onclick="handleClickDelTower(${tower._id})">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
         </li>
 
-            `
-        }).join('')
-        console.log(rootUsersDetail);
-        rootUsersDetail.innerHTML = html
-    } catch (error) {
-        console.error(error)
-    }
+            `;
+      })
+      .join("");
+      rootTowersDetail.innerHTML = html;
+  } catch (error) {
+    console.error(error);
+  }
 }
 //RENDER ENEMY LISTS
 async function renderEnemyList() {
-    try {
-        const rootEnemiesDetail: HTMLElement = document.getElementById('rootEnemiesDetail')!
-        const dataJs = await fetch('/api/enemy/get-enemies')
-        if (!dataJs) throw new Error('no found dataJs')
-        const data = await dataJs.json();
-        const { enemyDB } = data;
-        const html = enemyDB.map(enemy => {
-            return `
+  try {
+    const rootEnemiesDetail: HTMLElement =
+      document.getElementById("rootEnemiesDetail")!;
+    const dataJs = await fetch("/api/enemy/get-enemies");
+    if (!dataJs) throw new Error("no found dataJs");
+    const data = await dataJs.json();
+    const { enemyDB } = data;
+    const html = enemyDB
+      .map((enemy) => {
+        return `
             <li class="container__main__container-middle__list">
             <div>
                 <h5>Enemy Name</h5>
-                <span id="rootNameUser">${enemy.name}</span>
-            </div>
-            <div>
-                <h5>Image</h5>
-                <span id="rootNameUser">${enemy.image}</span>
+                <span id="rootEnemyName">${enemy.name}</span>
             </div>
             <div>
                 <h5>Health</h5>
-                <span id="rootNameUser">${enemy.health}</span>
+                <span id="rootEnemyHealth">${enemy.health}</span>
+            </div>
+            <div>
+                <h5>Image</h5>
+                <span id="rootEnemyImage">${enemy.image}</span>
             </div>
             <div>
                 <button onclick="handleClickDelUser(${enemy._id})">
@@ -237,176 +258,267 @@ async function renderEnemyList() {
             </div>
         </li>
 
-            `
-        }).join('')
-        rootEnemiesDetail.innerHTML = html
-    } catch (error) {
-        console.error(error)
-    }
+            `;
+      })
+      .join("");
+    rootEnemiesDetail.innerHTML = html;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // Control
 
-async function handleSubmitCreateTower(ev:any){
-try {
-    
-} catch (error) {
-    console.error(error)
+async function handleSubmitCreateTower(ev: any) {
+  try {
+    ev.preventDefault();
+    const name = ev.target.elements.name.value;
+    const image = ev.target.elements.image.value;
+    const damage = ev.target.elements.damage.value;
+    const radius = ev.target.elements.radius.value;
+    const cost = ev.target.elements.cost.value;
+    const level = ev.target.elements.level.value;
+    if (!name) throw new Error("No name");
+    if (!image) throw new Error("No image");
+    if (!damage) throw new Error("No damage");
+    if (!radius) throw new Error("No radius");
+    if (!cost) throw new Error("No cost");
+    if (!level) throw new Error("No level");
+
+    const newTower = { name, image, damage, radius, cost, level };
+    fetch("/api/tower/create-tower", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTower),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          const collapse_container__form = document.querySelector(
+            ".collapse-container__form"
+          );
+          const adminNotification =
+            document.querySelector(".adminNotification");
+          if (!collapse_container__form) throw new Error("DOM Error");
+
+          if (!adminNotification) {
+            collapse_container__form.insertAdjacentHTML(
+              "afterend",
+              '<p class="adminNotification">Tower already exist<p>'
+            );
+          }
+
+          throw new Error(data.error);
+        }
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }
+async function handleSubmitCreateEnemy(ev: any) {
+  try {
+    ev.preventDefault();
+    const name = ev.target.elements.name.value;
+    const image = ev.target.elements.image.value;
+    const health = ev.target.elements.health.value;
+    if (!name) throw new Error("No name");
+    if (!image) throw new Error("No image");
+    if (!health) throw new Error("No health");
+
+    const newEnemy = { name, image, health };
+    fetch("/api/enemy/create-enemy", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newEnemy),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          const collapse_container__form = document.querySelector(
+            ".collapse-container__form"
+          );
+          const adminNotification =
+            document.querySelector(".adminNotification");
+          if (!collapse_container__form) throw new Error("DOM Error");
+
+          if (!adminNotification) {
+            collapse_container__form.insertAdjacentHTML(
+              "afterend",
+              '<p class="adminNotification">Enemy already exist<p>'
+            );
+          }
+
+          throw new Error(data.error);
+        }
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }
-async function handleSubmitCreateEnemy(ev:any){
+async function handleSubmitCreateUser(ev: any) {
     try {
         ev.preventDefault()
-        const name = ev.target.elements.name.value;
-        const image = ev.target.elements.image.value;
-        const health = ev.target.elements.health.value;
-        if (!name) throw new Error("No name");
-        if (!image) throw new Error("No image");
-        if (!health) throw new Error("No health");
-
-        const newEnemy = { name, image, health};
-        fetch("/api/enemy/create-enemy", {
+        const firstName = ev.target.elements.firstName.value;
+        const lastName = ev.target.elements.lastName.value;
+        const userName = ev.target.elements.username.value;
+        const email = ev.target.elements.email.value;
+        const password = ev.target.elements.password.value;
+        const cPassword = ev.target.elements.cPassword.value;
+        const role = ev.target.elements.role.value;
+        if (!firstName) throw new Error("No firstName");
+        if (!lastName) throw new Error("No lastName");
+        if (!userName) throw new Error("No userName");
+        if (!email) throw new Error("No email");
+        if (!password) throw new Error("No password");
+        if (!cPassword) throw new Error("No cPassword");
+        if (!role) throw new Error("No role");
+        const newUser = { firstName, lastName, email, userName, password, cPassword, role};
+        if(password !== cPassword){
+            alert("the Confirm Password isn't correct")
+            return
+        }
+        fetch("/api/users/admin-create-user", {
             method: "POST",
             headers: {
                 Accept: "application/json",
               "Content-Type": "application/json",
             },
-                  body: JSON.stringify(newEnemy)
+                  body: JSON.stringify(newUser)
                 })        
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.error) {
-                        const collapse_container__form = document.querySelector(".collapse-container__form")
-                        const adminNotification = document.querySelector(".adminNotification")
-                        if (!collapse_container__form) throw new Error("DOM Error")
+                        const rootUsersDetail = document.querySelector(".rootUsersDetail")
+                        const adminNotification = document.querySelector(".collapse-container__form")
+                        if (!rootUsersDetail) throw new Error("DOM Error")
 
                         if (!adminNotification){
-                            collapse_container__form.insertAdjacentHTML('afterend', '<p class="adminNotification">Enemy already exist<p>')
+                            rootUsersDetail.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>')
                         }
 
                         throw new Error(data.error)
                     }
+
                 })
 
     } catch (error) {
         console.error(error)
     }
 }
-async function handleSubmitCreateUser(ev:any){
-try {
-    
-} catch (error) {
-    console.error(error)
-}
 
+async function handleClickDelUser(userID: string) {
+  try {
+    if (confirm("Are you sure you want to delete the above user?")) {
+      const deleteUser = await fetch("/api/users/delete-user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({
+          uid: userID,
+        }),
+      }).then((data) => {
+        console.log(data);
+      });
 
-}
-
-
-
-async function handleClickDelUser(userID:string){
-    try {
-if(confirm("Are you sure you want to delete the above user?")){
-      const deleteUser = await fetch('/api/users/delete-user' ,{
-            method:"DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-              },
-            body:JSON.stringify({
-                uid:userID
-            })
-        }).then((data)=>{
-console.log(data);
-        })
-
-        location.reload()
-    
-}
-    } catch (error) {
-        console.error(error)
+      location.reload();
     }
+  } catch (error) {
+    console.error(error);
+  }
 }
-async function handleClickDelTower(towerID:string){
-    try {
-        console.log("delete Users");    
-    } catch (error) {
-        console.error(error)
-    }
+async function handleClickDelTower(towerID: string) {
+  try {
+    console.log("delete Users");
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // Click  return back button
-function handleClickBack(){
-    try {
-            window.location.href = "/"
-    } catch (error) {
-        console.error(error)
-    }
+function handleClickBack() {
+  try {
+    window.location.href = "/";
+  } catch (error) {
+    console.error(error);
+  }
 }
-function handleClickCloseCollapseContainer(){
-    try {
-        const collapseFormRoot:HTMLElement = document.getElementById('collapseFormRoot')!
-        collapseFormRoot.classList.remove('active')
-    } catch (error) {
-        console.error(error)
-    }
+function handleClickCloseCollapseContainer() {
+  try {
+    const collapseFormRoot: HTMLElement =
+      document.getElementById("collapseFormRoot")!;
+    collapseFormRoot.classList.remove("active");
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // bottom Buttons
-function handleClickCreateTowerBtn(){
-    try {
-        const collapseFormRoot:HTMLElement = document.getElementById('collapseFormRoot')!
-        collapseFormRoot.classList.add('active')
-        collapseFormRoot.innerHTML = renderCreateTowerSection()
-    } catch (error) {
-        console.error(error)
-    }
+function handleClickCreateTowerBtn() {
+  try {
+    const collapseFormRoot: HTMLElement =
+      document.getElementById("collapseFormRoot")!;
+    collapseFormRoot.classList.add("active");
+    collapseFormRoot.innerHTML = renderCreateTowerSection();
+  } catch (error) {
+    console.error(error);
+  }
 }
-function handleClickCreateEnemyBtn(){
-    try {
-        const collapseFormRoot:HTMLElement = document.getElementById('collapseFormRoot')!
-        collapseFormRoot.classList.add('active')
-        collapseFormRoot.innerHTML = renderCreateEnemySection()
-    } catch (error) {
-        console.error(error)
-    }
+function handleClickCreateEnemyBtn() {
+  try {
+    const collapseFormRoot: HTMLElement =
+      document.getElementById("collapseFormRoot")!;
+    collapseFormRoot.classList.add("active");
+    collapseFormRoot.innerHTML = renderCreateEnemySection();
+  } catch (error) {
+    console.error(error);
+  }
 }
-function handleClickCreateUserBtn(){
-    try {
-        const collapseFormRoot:HTMLElement = document.getElementById('collapseFormRoot')!
-        collapseFormRoot.classList.add('active')
-        collapseFormRoot.innerHTML = renderCreateUserSection()
-    } catch (error) {
-        console.error(error)
-    }
-}
-
-// FILL STATS 
-
-async function  FillRegisteredUsers(){
-    try {
-        const registeredUserFill: HTMLElement = document.getElementById('registeredUserFill')! // Fill Registered Users Number
-
-          const dataJs = await  fetch('/api/users/get-users');
-          if(!dataJs) throw new Error("no found DataJsName");
-          const data = await dataJs.json()
-          const userNumber = data.users.length.toString()
-          registeredUserFill.innerHTML = userNumber
-        } catch (error) {
-        console.error()
-    }
-}
-async function  FillAdminName(){
-    try {
-        const nameAdminFill : HTMLElement = document.getElementById('nameAdminFill')! // Fill Name Admin
-
-          const dataJs = await  fetch('/api/users/get-user');
-          if(!dataJs) throw new Error("no found DataJsName");
-          const data = await dataJs.json()
-          const name = data.userId.firstName
-          nameAdminFill.innerHTML = name
-    } catch (error) {
-        console.error()
-    }
+function handleClickCreateUserBtn() {
+  try {
+    const collapseFormRoot: HTMLElement =
+      document.getElementById("collapseFormRoot")!;
+    collapseFormRoot.classList.add("active");
+    collapseFormRoot.innerHTML = renderCreateUserSection();
+  } catch (error) {
+    console.error(error);
+  }
 }
 
+// FILL STATS
+
+async function FillRegisteredUsers() {
+  try {
+    const registeredUserFill: HTMLElement =
+      document.getElementById("registeredUserFill")!; // Fill Registered Users Number
+
+    const dataJs = await fetch("/api/users/get-users");
+    if (!dataJs) throw new Error("no found DataJsName");
+    const data = await dataJs.json();
+    const userNumber = data.users.length.toString();
+    registeredUserFill.innerHTML = userNumber;
+  } catch (error) {
+    console.error();
+  }
+}
+async function FillAdminName() {
+  try {
+    const nameAdminFill: HTMLElement =
+      document.getElementById("nameAdminFill")!; // Fill Name Admin
+
+    const dataJs = await fetch("/api/users/get-user");
+    if (!dataJs) throw new Error("no found DataJsName");
+    const data = await dataJs.json();
+    const name = data.userId.firstName;
+    nameAdminFill.innerHTML = name;
+  } catch (error) {
+    console.error();
+  }
+}

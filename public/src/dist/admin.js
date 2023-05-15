@@ -34,47 +34,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var totalGamesPlayedFill = document.getElementById('totalGamesPlayedFill'); // Fill Total Games Number 
-var versionFill = document.getElementById('versionFill'); // Fill Version Number
+var totalGamesPlayedFill = document.getElementById("totalGamesPlayedFill"); // Fill Total Games Number
+var versionFill = document.getElementById("versionFill"); // Fill Version Number
 var onLoad = function () {
     try {
+        renderTowerList();
         renderEnemyList();
         renderUserList();
         FillAdminName();
         FillRegisteredUsers();
     }
-    catch (error) {
-    }
+    catch (error) { }
 };
-// View 
+// View
 function renderCreateTowerSection() {
     try {
-        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">create Tower</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateTower(event)\">\n\n    <div>\n        <label for=\"name\" >tower name</label>\n        <input type=\"text\" name=\"name\" id=\"name\" >\n    </div>\n    <div>\n        <label for=\"type\" >tower type</label>\n        <input type=\"text\" name=\"type\" id=\"type\">\n    </div>\n    <div>\n        <label for=\"damage\" >damage</label>\n        <input type=\"number\" name=\"damage\" id=\"damage\" >\n    </div>\n    <div>\n        <label for=\"range\" > range</label>\n        <input type=\"number\" name=\"range\" min=\"0\" max=\"100\" >\n    </div>\n    <div>\n        <label for=\"fireRate\" > fire Rate</label>\n        <input type=\"number\" name=\"fireRate\" id=\"fireRate\" >\n    </div>\n    <div>\n        <label for=\"cost\" >cost</label>\n        <input type=\"number\" name=\"cost\" id=\"cost\" >\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
+        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">create Tower</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateTower(event)\">\n\n    <div>\n        <label for=\"name\" >tower Name</label>\n        <input type=\"text\" name=\"name\" id=\"name\" >\n    </div>\n    <div>\n        <label for=\"image\" >Image</label>\n        <input type=\"text\" name=\"image\" id=\"image\">\n    </div>\n    <div>\n        <label for=\"damage\" >Damage</label>\n        <input type=\"number\" name=\"damage\" id=\"damage\" >\n    </div>\n    <div>\n        <label for=\"radius\" > Radius</label>\n        <input type=\"number\" name=\"radius\" min=\"0\" max=\"100\" >\n    </div>\n    <div>\n        <label for=\"cost\" > Cost</label>\n        <input type=\"number\" name=\"cost\" id=\"cost\" >\n    </div>\n    <div>\n        <label for=\"level\" >Level</label>\n        <input type=\"number\" name=\"level\" id=\"level\" >\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
         return html;
     }
     catch (error) {
         console.error(error);
-        return 'We Have A Problem Here';
+        return "We Have A Problem Here";
     }
 }
 function renderCreateEnemySection() {
     try {
-        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create Enemy</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateEnemy(event)\">\n\n    <div>\n        <label for=\"name\" >Enemy Name</label>\n        <input type=\"text\" name=\"name\" id=\"name\">\n    </div>\n    <div>\n        <label for=\"type\" >Image</label>\n        <input type=\"text\" name=\"image\" id=\"type\">\n    </div>\n    <div>\n        <label for=\"health\" >Health</label>\n        <input type=\"number\" name=\"health\" id=\"health\">\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
+        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create Enemy</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateEnemy(event)\">\n\n    <div>\n        <label for=\"name\" >Enemy Name</label>\n        <input type=\"text\" name=\"name\" id=\"name\">\n    </div>\n    <div>\n    <label for=\"health\" >Health</label>\n    <input type=\"number\" name=\"health\" id=\"health\">\n    </div>\n    <div>\n        <label for=\"type\" >Image</label>\n        <input type=\"text\" name=\"image\" id=\"type\">\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
         return html;
     }
     catch (error) {
         console.error(error);
-        return 'We Have A Problem Here';
+        return "We Have A Problem Here";
     }
 }
 function renderCreateUserSection() {
     try {
-        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create User</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateUser(event)\">\n\n    <div>\n        <label for=\"fname\" >First Name</label>\n        <input type=\"text\" name=\"fname\" id=\"fname\">\n    </div>\n    <div>\n        <label for=\"lname\" >Last Name</label>\n        <input type=\"text\" name=\"lname\" id=\"lname\">\n    </div>\n    <div>\n        <label for=\"email\" >Email</label>\n        <input type=\"text\" name=\"email\" id=\"email\">\n    </div>\n    <div>\n        <label for=\"userName\" > range</label>\n        <input type=\"text\" name=\"userName\" id=\"userName\">\n    </div>\n    <div>\n        <label for=\"password\" >Password</label>\n        <input type=\"text\" name=\"password\" id=\"password\">\n    </div>\n    <div>\n        <label for=\"cPassword\" >Confirm Password</label>\n        <input type=\"text\" name=\"cPassword\" id=\"cPassword\">\n    </div>\n    <div>\n        <label for=\"role\" >ROLE</label>\n       <select id=\"role\" name=\"role\">\n       <option value=\"public\" >Public</option>\n       <option value=\"admin\" >Admin</option>\n       </select>\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
+        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create User</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateUser(event)\">\n\n    <div>\n        <label for=\"firstName\" >First Name</label>\n        <input type=\"text\" name=\"firstName\" id=\"firstName\">\n    </div>\n    <div>\n        <label for=\"lastName\" >Last Name</label>\n        <input type=\"text\" name=\"lastName\" id=\"lastName\">\n    </div>\n    <div>\n        <label for=\"username\" > Username</label>\n        <input type=\"text\" name=\"username\" id=\"username\">\n    </div>\n    <div>\n        <label for=\"email\" >Email</label>\n        <input type=\"text\" name=\"email\" id=\"email\">\n    </div>\n    <div>\n        <label for=\"password\" >Password</label>\n        <input type=\"text\" name=\"password\" id=\"password\">\n    </div>\n    <div>\n        <label for=\"cPassword\" >Confirm Password</label>\n        <input type=\"text\" name=\"cPassword\" id=\"cPassword\">\n    </div>\n    <div>\n        <label for=\"role\" >ROLE</label>\n       <select id=\"role\" name=\"role\">\n       <option value=\"public\" >Public</option>\n       <option value=\"admin\" >Admin</option>\n       </select>\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
         return html;
     }
     catch (error) {
         console.error(error);
-        return 'We Have A Problem Here';
+        return "We Have A Problem Here";
     }
 }
 // RENDER USERS LIST
@@ -85,19 +85,21 @@ function renderUserList() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    rootUsersDetail = document.getElementById('rootUsersDetail');
-                    return [4 /*yield*/, fetch('/api/users/get-users')];
+                    rootUsersDetail = document.getElementById("rootUsersDetail");
+                    return [4 /*yield*/, fetch("/api/users/get-users")];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
-                        throw new Error('no found dataJs');
+                        throw new Error("no found dataJs");
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
                     users = data.users;
-                    html = users.map(function (user) {
+                    html = users
+                        .map(function (user) {
                         return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\">" + user.userName + "</span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\">" + user.email + "</span>\n            </div>\n            <div>\n                <h5>Role</h5>\n                <span id=\"rootNameUser\">" + user.ROLE + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    }).join('');
+                    })
+                        .join("");
                     rootUsersDetail.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
@@ -110,28 +112,29 @@ function renderUserList() {
     });
 }
 //RENDER TOWER LISTS
-function renderTowerList(adminID) {
+function renderTowerList() {
     return __awaiter(this, void 0, void 0, function () {
-        var rootUsersDetail, dataJs, data, towers, html, error_2;
+        var rootTowersDetail, dataJs, data, towerDB, html, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    rootUsersDetail = document.getElementById('rootUsersDetail');
-                    return [4 /*yield*/, fetch('/api/towers/get-towers')];
+                    rootTowersDetail = document.getElementById("rootTowersDetail");
+                    return [4 /*yield*/, fetch("/api/tower/get-towers")];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
-                        throw new Error('no found dataJs');
+                        throw new Error("no found dataJs");
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    towers = data.towers;
-                    html = towers.map(function (user) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower(" + adminID + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    }).join('');
-                    console.log(rootUsersDetail);
-                    rootUsersDetail.innerHTML = html;
+                    towerDB = data.towerDB;
+                    html = towerDB
+                        .map(function (tower) {
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Tower Name</h5>\n                <span id=\"rootTowerName\">" + tower.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootTowerImage\">" + tower.image + "</span>\n            </div>\n            <div>\n                <h5>Damage</h5>\n                <span id=\"rootTowerDamage\">" + tower.damage + "</span>\n            </div>\n            <div>\n                <h5>Radius</h5>\n                <span id=\"rootTowerRadius\">" + tower.radius + "</span>\n            </div>\n            <div>\n                <h5>Cost</h5>\n                <span id=\"rootTowerCost\">" + tower.cost + "</span>\n            </div>\n            <div>\n                <h5>Level</h5>\n                <span id=\"rootTowerLevel\">" + tower.level + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower(" + tower._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                    })
+                        .join("");
+                    rootTowersDetail.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
                     error_2 = _a.sent();
@@ -150,19 +153,21 @@ function renderEnemyList() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    rootEnemiesDetail = document.getElementById('rootEnemiesDetail');
-                    return [4 /*yield*/, fetch('/api/enemy/get-enemies')];
+                    rootEnemiesDetail = document.getElementById("rootEnemiesDetail");
+                    return [4 /*yield*/, fetch("/api/enemy/get-enemies")];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
-                        throw new Error('no found dataJs');
+                        throw new Error("no found dataJs");
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
                     enemyDB = data.enemyDB;
-                    html = enemyDB.map(function (enemy) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootNameUser\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootNameUser\">" + enemy.image + "</span>\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootNameUser\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser(" + enemy._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    }).join('');
+                    html = enemyDB
+                        .map(function (enemy) {
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootEnemyName\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootEnemyHealth\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootEnemyImage\">" + enemy.image + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser(" + enemy._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                    })
+                        .join("");
                     rootEnemiesDetail.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
@@ -177,8 +182,50 @@ function renderEnemyList() {
 // Control
 function handleSubmitCreateTower(ev) {
     return __awaiter(this, void 0, void 0, function () {
+        var name, image, damage, radius, cost, level, newTower;
         return __generator(this, function (_a) {
             try {
+                ev.preventDefault();
+                name = ev.target.elements.name.value;
+                image = ev.target.elements.image.value;
+                damage = ev.target.elements.damage.value;
+                radius = ev.target.elements.radius.value;
+                cost = ev.target.elements.cost.value;
+                level = ev.target.elements.level.value;
+                if (!name)
+                    throw new Error("No name");
+                if (!image)
+                    throw new Error("No image");
+                if (!damage)
+                    throw new Error("No damage");
+                if (!radius)
+                    throw new Error("No radius");
+                if (!cost)
+                    throw new Error("No cost");
+                if (!level)
+                    throw new Error("No level");
+                newTower = { name: name, image: image, damage: damage, radius: radius, cost: cost, level: level };
+                fetch("/api/tower/create-tower", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newTower)
+                })
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                    if (data.error) {
+                        var collapse_container__form = document.querySelector(".collapse-container__form");
+                        var adminNotification = document.querySelector(".adminNotification");
+                        if (!collapse_container__form)
+                            throw new Error("DOM Error");
+                        if (!adminNotification) {
+                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Tower already exist<p>');
+                        }
+                        throw new Error(data.error);
+                    }
+                });
             }
             catch (error) {
                 console.error(error);
@@ -219,7 +266,7 @@ function handleSubmitCreateEnemy(ev) {
                         if (!collapse_container__form)
                             throw new Error("DOM Error");
                         if (!adminNotification) {
-                            collapse_container__form.insertAdjacentHTML('afterend', '<p class="adminNotification">Enemy already exist<p>');
+                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Enemy already exist<p>');
                         }
                         throw new Error(data.error);
                     }
@@ -234,8 +281,57 @@ function handleSubmitCreateEnemy(ev) {
 }
 function handleSubmitCreateUser(ev) {
     return __awaiter(this, void 0, void 0, function () {
+        var firstName, lastName, userName, email, password, cPassword, role, newUser;
         return __generator(this, function (_a) {
             try {
+                ev.preventDefault();
+                firstName = ev.target.elements.firstName.value;
+                lastName = ev.target.elements.lastName.value;
+                userName = ev.target.elements.username.value;
+                email = ev.target.elements.email.value;
+                password = ev.target.elements.password.value;
+                cPassword = ev.target.elements.cPassword.value;
+                role = ev.target.elements.role.value;
+                if (!firstName)
+                    throw new Error("No firstName");
+                if (!lastName)
+                    throw new Error("No lastName");
+                if (!userName)
+                    throw new Error("No userName");
+                if (!email)
+                    throw new Error("No email");
+                if (!password)
+                    throw new Error("No password");
+                if (!cPassword)
+                    throw new Error("No cPassword");
+                if (!role)
+                    throw new Error("No role");
+                newUser = { firstName: firstName, lastName: lastName, email: email, userName: userName, password: password, cPassword: cPassword, role: role };
+                if (password !== cPassword) {
+                    alert("the Confirm Password isn't correct");
+                    return [2 /*return*/];
+                }
+                fetch("/api/users/admin-create-user", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newUser)
+                })
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                    if (data.error) {
+                        var rootUsersDetail = document.querySelector(".rootUsersDetail");
+                        var adminNotification = document.querySelector(".collapse-container__form");
+                        if (!rootUsersDetail)
+                            throw new Error("DOM Error");
+                        if (!adminNotification) {
+                            rootUsersDetail.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>');
+                        }
+                        throw new Error(data.error);
+                    }
+                });
             }
             catch (error) {
                 console.error(error);
@@ -252,7 +348,7 @@ function handleClickDelUser(userID) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
                     if (!confirm("Are you sure you want to delete the above user?")) return [3 /*break*/, 2];
-                    return [4 /*yield*/, fetch('/api/users/delete-user', {
+                    return [4 /*yield*/, fetch("/api/users/delete-user", {
                             method: "DELETE",
                             headers: {
                                 "Content-Type": "application/json"
@@ -301,8 +397,8 @@ function handleClickBack() {
 }
 function handleClickCloseCollapseContainer() {
     try {
-        var collapseFormRoot = document.getElementById('collapseFormRoot');
-        collapseFormRoot.classList.remove('active');
+        var collapseFormRoot = document.getElementById("collapseFormRoot");
+        collapseFormRoot.classList.remove("active");
     }
     catch (error) {
         console.error(error);
@@ -311,8 +407,8 @@ function handleClickCloseCollapseContainer() {
 // bottom Buttons
 function handleClickCreateTowerBtn() {
     try {
-        var collapseFormRoot = document.getElementById('collapseFormRoot');
-        collapseFormRoot.classList.add('active');
+        var collapseFormRoot = document.getElementById("collapseFormRoot");
+        collapseFormRoot.classList.add("active");
         collapseFormRoot.innerHTML = renderCreateTowerSection();
     }
     catch (error) {
@@ -321,8 +417,8 @@ function handleClickCreateTowerBtn() {
 }
 function handleClickCreateEnemyBtn() {
     try {
-        var collapseFormRoot = document.getElementById('collapseFormRoot');
-        collapseFormRoot.classList.add('active');
+        var collapseFormRoot = document.getElementById("collapseFormRoot");
+        collapseFormRoot.classList.add("active");
         collapseFormRoot.innerHTML = renderCreateEnemySection();
     }
     catch (error) {
@@ -331,15 +427,15 @@ function handleClickCreateEnemyBtn() {
 }
 function handleClickCreateUserBtn() {
     try {
-        var collapseFormRoot = document.getElementById('collapseFormRoot');
-        collapseFormRoot.classList.add('active');
+        var collapseFormRoot = document.getElementById("collapseFormRoot");
+        collapseFormRoot.classList.add("active");
         collapseFormRoot.innerHTML = renderCreateUserSection();
     }
     catch (error) {
         console.error(error);
     }
 }
-// FILL STATS 
+// FILL STATS
 function FillRegisteredUsers() {
     return __awaiter(this, void 0, void 0, function () {
         var registeredUserFill, dataJs, data, userNumber, error_5;
@@ -347,9 +443,8 @@ function FillRegisteredUsers() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    registeredUserFill = document.getElementById('registeredUserFill') // Fill Registered Users Number
-                    ;
-                    return [4 /*yield*/, fetch('/api/users/get-users')];
+                    registeredUserFill = document.getElementById("registeredUserFill");
+                    return [4 /*yield*/, fetch("/api/users/get-users")];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
@@ -376,9 +471,8 @@ function FillAdminName() {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    nameAdminFill = document.getElementById('nameAdminFill') // Fill Name Admin
-                    ;
-                    return [4 /*yield*/, fetch('/api/users/get-user')];
+                    nameAdminFill = document.getElementById("nameAdminFill");
+                    return [4 /*yield*/, fetch("/api/users/get-user")];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
