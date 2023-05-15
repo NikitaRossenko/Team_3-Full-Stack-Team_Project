@@ -327,6 +327,10 @@
         }
     }
 
+    .adminNotification{
+    color: red;
+    }
+
     &__form{
         display: flex;
         flex-wrap:wrap ;
@@ -389,3 +393,4 @@
         from{transform:rotate(0deg)}
         to{transform:rotate(720deg)}
 }
+

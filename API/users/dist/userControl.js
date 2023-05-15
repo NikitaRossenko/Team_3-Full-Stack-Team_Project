@@ -83,9 +83,6 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                     })];
             case 3:
                 userDB = _b.sent();
-                // if (!secret) throw new Error("Server Error");
-                // const token = jwt.encode({ userId: userDB._id}, secret);
-                // res.cookie("currentUser", token, { httpOnly: true });
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 5];
             case 4:
@@ -153,11 +150,12 @@ exports.addUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userName, password, userDB, error_4;
+    var secret, _a, userName, password, userDB, token, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
+                secret = process.env.JWT_SECRET;
                 _a = req.body, userName = _a.userName, password = _a.password;
                 return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName, password: password })];
             case 1:
@@ -166,7 +164,10 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     res.status(401).send({ error: "email or password are inncorect" });
                     return [2 /*return*/];
                 }
-                res.cookie("ifAdmin", userDB._id, { httpOnly: true });
+                if (!secret)
+                    throw new Error("Server Error");
+                token = jwt_simple_1["default"].encode({ userId: userDB._id }, secret);
+                res.cookie("currentUser", token, { httpOnly: true });
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:
@@ -219,7 +220,6 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
                     throw new Error("No secret");
                 decoded = jwt_simple_1["default"].decode(currentUser, secret);
                 userId = decoded.userId;
-                console.log(userId);
                 return [4 /*yield*/, userModel_1["default"].findById(userId)];
             case 1:
                 userDB = _a.sent();

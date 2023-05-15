@@ -38,6 +38,7 @@ var totalGamesPlayedFill = document.getElementById('totalGamesPlayedFill'); // F
 var versionFill = document.getElementById('versionFill'); // Fill Version Number
 var onLoad = function () {
     try {
+        renderEnemyList();
         renderUserList();
         FillAdminName();
         FillRegisteredUsers();
@@ -58,7 +59,7 @@ function renderCreateTowerSection() {
 }
 function renderCreateEnemySection() {
     try {
-        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create Enemy</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateEnemy(event)\">\n\n    <div>\n        <label for=\"name\" >Enemy Name</label>\n        <input type=\"text\" name=\"name\" id=\"name\">\n    </div>\n    <div>\n        <label for=\"type\" >Enemy Type</label>\n        <input type=\"text\" name=\"type\" id=\"type\">\n    </div>\n    <div>\n        <label for=\"health\" >Health</label>\n        <input type=\"number\" name=\"health\" id=\"health\">\n    </div>\n    <div>\n        <label for=\"damage\" > Damage</label>\n        <input type=\"number\" name=\"damage\" >\n    </div>\n    <div>\n        <label for=\"speed\" > Fire Rate</label>\n        <input type=\"number\" name=\"speed\" id=\"speed\">\n    </div>\n\n    <button type=\"submit\">Create Now</button>\n</form>";
+        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create Enemy</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateEnemy(event)\">\n\n    <div>\n        <label for=\"name\" >Enemy Name</label>\n        <input type=\"text\" name=\"name\" id=\"name\">\n    </div>\n    <div>\n        <label for=\"type\" >Image</label>\n        <input type=\"text\" name=\"image\" id=\"type\">\n    </div>\n    <div>\n        <label for=\"health\" >Health</label>\n        <input type=\"number\" name=\"health\" id=\"health\">\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
         return html;
     }
     catch (error) {
@@ -94,11 +95,9 @@ function renderUserList() {
                 case 2:
                     data = _a.sent();
                     users = data.users;
-                    console.log(users);
                     html = users.map(function (user) {
                         return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\">" + user.userName + "</span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\">" + user.email + "</span>\n            </div>\n            <div>\n                <h5>Role</h5>\n                <span id=\"rootNameUser\">" + user.ROLE + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     }).join('');
-                    console.log(rootUsersDetail);
                     rootUsersDetail.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
@@ -144,15 +143,15 @@ function renderTowerList(adminID) {
     });
 }
 //RENDER ENEMY LISTS
-function renderEnemyList(adminID) {
+function renderEnemyList() {
     return __awaiter(this, void 0, void 0, function () {
-        var rootUsersDetail, dataJs, data, enemy, html, error_3;
+        var rootEnemiesDetail, dataJs, data, enemyDB, html, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 3, , 4]);
-                    rootUsersDetail = document.getElementById('rootUsersDetail');
-                    return [4 /*yield*/, fetch('/api/enemy/get-enemy')];
+                    rootEnemiesDetail = document.getElementById('rootEnemiesDetail');
+                    return [4 /*yield*/, fetch('/api/enemy/get-enemies')];
                 case 1:
                     dataJs = _a.sent();
                     if (!dataJs)
@@ -160,12 +159,11 @@ function renderEnemyList(adminID) {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    enemy = data.enemy;
-                    html = enemy.map(function (ene) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootNameUser\">" + ene.name + "</span>\n            </div>\n            <div>\n                <h5>Type</h5>\n                <span id=\"rootNameUser\">" + ene.type + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser(" + adminID + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                    enemyDB = data.enemyDB;
+                    html = enemyDB.map(function (enemy) {
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootNameUser\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootNameUser\">" + enemy.image + "</span>\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootNameUser\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser(" + enemy._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     }).join('');
-                    console.log(rootUsersDetail);
-                    rootUsersDetail.innerHTML = html;
+                    rootEnemiesDetail.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
                     error_3 = _a.sent();
@@ -191,8 +189,41 @@ function handleSubmitCreateTower(ev) {
 }
 function handleSubmitCreateEnemy(ev) {
     return __awaiter(this, void 0, void 0, function () {
+        var name, image, health, newEnemy;
         return __generator(this, function (_a) {
             try {
+                ev.preventDefault();
+                name = ev.target.elements.name.value;
+                image = ev.target.elements.image.value;
+                health = ev.target.elements.health.value;
+                if (!name)
+                    throw new Error("No name");
+                if (!image)
+                    throw new Error("No image");
+                if (!health)
+                    throw new Error("No health");
+                newEnemy = { name: name, image: image, health: health };
+                fetch("/api/enemy/create-enemy", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(newEnemy)
+                })
+                    .then(function (res) { return res.json(); })
+                    .then(function (data) {
+                    if (data.error) {
+                        var collapse_container__form = document.querySelector(".collapse-container__form");
+                        var adminNotification = document.querySelector(".adminNotification");
+                        if (!collapse_container__form)
+                            throw new Error("DOM Error");
+                        if (!adminNotification) {
+                            collapse_container__form.insertAdjacentHTML('afterend', '<p class="adminNotification">Enemy already exist<p>');
+                        }
+                        throw new Error(data.error);
+                    }
+                });
             }
             catch (error) {
                 console.error(error);

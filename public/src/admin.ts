@@ -6,6 +6,7 @@ const versionFill: HTMLElement = document.getElementById('versionFill')! // Fill
 
 const onLoad = () =>{
 try {
+    renderEnemyList()
     renderUserList()
     FillAdminName()
     FillRegisteredUsers()
@@ -71,22 +72,13 @@ try {
         <input type="text" name="name" id="name">
     </div>
     <div>
-        <label for="type" >Enemy Type</label>
-        <input type="text" name="type" id="type">
+        <label for="type" >Image</label>
+        <input type="text" name="image" id="type">
     </div>
     <div>
         <label for="health" >Health</label>
         <input type="number" name="health" id="health">
     </div>
-    <div>
-        <label for="damage" > Damage</label>
-        <input type="number" name="damage" >
-    </div>
-    <div>
-        <label for="speed" > Fire Rate</label>
-        <input type="number" name="speed" id="speed">
-    </div>
-
     <button type="submit">Create Now</button>
 </form>`
 return html
@@ -152,7 +144,6 @@ async function renderUserList() {
         if (!dataJs) throw new Error('no found dataJs')
         const data = await dataJs.json();
         const { users } = data
-        console.log(users);
         const html = users.map(user => {
             return `
             <li class="container__main__container-middle__list">
@@ -177,7 +168,6 @@ async function renderUserList() {
 
             `
         }).join('')
-        console.log(rootUsersDetail);
         rootUsersDetail.innerHTML = html
     } catch (error) {
         console.error(error)
@@ -218,27 +208,30 @@ async function renderTowerList(adminID: string) {
     }
 }
 //RENDER ENEMY LISTS
-async function renderEnemyList(adminID: string) {
+async function renderEnemyList() {
     try {
-        const rootUsersDetail: HTMLElement = document.getElementById('rootUsersDetail')!
-        const dataJs = await fetch('/api/enemy/get-enemy')
+        const rootEnemiesDetail: HTMLElement = document.getElementById('rootEnemiesDetail')!
+        const dataJs = await fetch('/api/enemy/get-enemies')
         if (!dataJs) throw new Error('no found dataJs')
         const data = await dataJs.json();
-        const { enemy } = data
-
-        const html = enemy.map(ene => {
+        const { enemyDB } = data;
+        const html = enemyDB.map(enemy => {
             return `
             <li class="container__main__container-middle__list">
             <div>
                 <h5>Enemy Name</h5>
-                <span id="rootNameUser">${ene.name}</span>
+                <span id="rootNameUser">${enemy.name}</span>
             </div>
             <div>
-                <h5>Type</h5>
-                <span id="rootNameUser">${ene.type}</span>
+                <h5>Image</h5>
+                <span id="rootNameUser">${enemy.image}</span>
             </div>
             <div>
-                <button onclick="handleClickDelUser(${adminID})">
+                <h5>Health</h5>
+                <span id="rootNameUser">${enemy.health}</span>
+            </div>
+            <div>
+                <button onclick="handleClickDelUser(${enemy._id})">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
@@ -246,8 +239,7 @@ async function renderEnemyList(adminID: string) {
 
             `
         }).join('')
-        console.log(rootUsersDetail);
-        rootUsersDetail.innerHTML = html
+        rootEnemiesDetail.innerHTML = html
     } catch (error) {
         console.error(error)
     }
@@ -263,11 +255,42 @@ try {
 }
 }
 async function handleSubmitCreateEnemy(ev:any){
-try {
-    
-} catch (error) {
-    console.error(error)
-}
+    try {
+        ev.preventDefault()
+        const name = ev.target.elements.name.value;
+        const image = ev.target.elements.image.value;
+        const health = ev.target.elements.health.value;
+        if (!name) throw new Error("No name");
+        if (!image) throw new Error("No image");
+        if (!health) throw new Error("No health");
+
+        const newEnemy = { name, image, health};
+        fetch("/api/enemy/create-enemy", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+                  body: JSON.stringify(newEnemy)
+                })        
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.error) {
+                        const collapse_container__form = document.querySelector(".collapse-container__form")
+                        const adminNotification = document.querySelector(".adminNotification")
+                        if (!collapse_container__form) throw new Error("DOM Error")
+
+                        if (!adminNotification){
+                            collapse_container__form.insertAdjacentHTML('afterend', '<p class="adminNotification">Enemy already exist<p>')
+                        }
+
+                        throw new Error(data.error)
+                    }
+                })
+
+    } catch (error) {
+        console.error(error)
+    }
 }
 async function handleSubmitCreateUser(ev:any){
 try {

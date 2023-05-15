@@ -5,6 +5,7 @@ var mongoose_1 = require("mongoose");
 var dotenv = require("dotenv");
 var userRouter_1 = require("./API/users/userRouter");
 var cookie_parser_1 = require("cookie-parser");
+var enemyRouter_1 = require("./API/enemy/enemyRouter");
 var app = express_1["default"]();
 dotenv.config();
 app.use(cookie_parser_1["default"]());
@@ -23,6 +24,7 @@ else {
 app.use(express_1["default"].static("./public"));
 app.use(express_1["default"].static("./public/pages"));
 app.use('/api/users', userRouter_1["default"]);
+app.use('/api/enemy', enemyRouter_1["default"]);
 app.listen(3000, function () {
     console.log("server listen on port 3000");
 });

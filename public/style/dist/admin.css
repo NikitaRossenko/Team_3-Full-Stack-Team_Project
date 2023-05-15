@@ -258,6 +258,9 @@
 .collapse-container #closeIcon i {
   font-size: 1.6rem;
 }
+.collapse-container .adminNotification {
+  color: red;
+}
 .collapse-container__form {
   display: flex;
   flex-wrap: wrap;

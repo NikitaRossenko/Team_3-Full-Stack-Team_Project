@@ -14,6 +14,6 @@ export const EnemySchema = new Schema({
   
 });
 
-const enemyModel = mongoose.model("enemies" , EnemySchema)
+const EnemyModel = mongoose.model("enemies" , EnemySchema)
 
-export default enemyModel
+export default EnemyModel

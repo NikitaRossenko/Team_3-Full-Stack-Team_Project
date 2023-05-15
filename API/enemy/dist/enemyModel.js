@@ -7,5 +7,5 @@ exports.EnemySchema = new mongoose_1.Schema({
     image: { type: String, required: true },
     health: { type: Number, required: true }
 });
-var enemyModel = mongoose_1["default"].model("enemies", exports.EnemySchema);
-exports["default"] = enemyModel;
+var EnemyModel = mongoose_1["default"].model("enemies", exports.EnemySchema);
+exports["default"] = EnemyModel;
