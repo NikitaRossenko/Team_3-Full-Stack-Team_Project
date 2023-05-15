@@ -48,6 +48,9 @@
   box-shadow: 0 0 8px;
   border-radius: 15px;
 }
+.container__container-form .userNotification {
+  color: red;
+}
 .container__form {
   width: 100%;
   display: flex;

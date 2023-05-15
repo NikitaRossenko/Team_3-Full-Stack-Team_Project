@@ -6,10 +6,9 @@ var mongoose_1 = require("mongoose");
 // Define Mongoose schema for Tower document
 exports.TowerSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
-    type: { type: String, required: true },
+    image: { type: String, required: true },
     damage: { type: Number, required: true },
-    range: { type: Number, required: true },
-    fireRate: { type: Number, required: true },
+    radius: { type: Number, required: true },
     cost: { type: Number, required: true },
     level: { type: Number, required: true }
 });

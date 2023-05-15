@@ -44,8 +44,14 @@ function handleLogin(ev) {
             .then(function (res) { return res.json(); })
             .then(function (data) {
             if (data.error) {
-                alert(data.error);
-                return;
+                var container__form = document.querySelector(".container__form");
+                var userNotification = document.querySelector(".userNotification");
+                if (!container__form)
+                    throw new Error("DOM Error");
+                if (!userNotification) {
+                    container__form.insertAdjacentHTML('afterend', '<p class="userNotification">Wrong Username or Password<p>');
+                }
+                throw new Error(data.error);
             }
             window.location.href = "/";
         })["catch"](function (error) {

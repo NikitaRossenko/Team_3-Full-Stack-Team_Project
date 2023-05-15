@@ -56,7 +56,7 @@ function game() {
         var activePlacement_1 = undefined;
         var mapZoom_1 = 1.5;
         var enemyCount_1 = 4;
-        var playerHealth_1 = 10;
+        var playerHealth_1 = 3;
         var bulletPower_1 = 20;
         var gamePaused_1 = false;
         var score_1 = 0;
@@ -346,7 +346,7 @@ function game() {
         }
         function drawHearts(playerHealth) {
             playerHealthHearts_1.innerHTML = "";
-            for (var i = 1; i <= 10; i++) {
+            for (var i = 1; i <= playerHealth; i++) {
                 if (i <= playerHealth) {
                     playerHealthHearts_1.insertAdjacentHTML("beforeend", '<img src="../images/icons/Full Heart 12x12.png">');
                 }

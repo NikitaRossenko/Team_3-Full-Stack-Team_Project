@@ -49,8 +49,15 @@ function handleClickMusicBtn() {
       .then((res) => res.json())
       .then((data) => {
           if(data.error) {
-              alert(data.error)
-              return
+            const container__form = document.querySelector(".container__form")
+            const userNotification = document.querySelector(".userNotification")
+            if (!container__form) throw new Error("DOM Error")
+            
+            if (!userNotification){
+              container__form.insertAdjacentHTML('afterend', '<p class="userNotification">Wrong Username or Password<p>')
+            }
+
+            throw new Error(data.error)
             }
             window.location.href = "/";
         })

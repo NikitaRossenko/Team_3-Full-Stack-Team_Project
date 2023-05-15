@@ -24,7 +24,6 @@ function handleSubmitRegisterForm(ev) {
             alert("the Confirm Password isn't correct");
             return;
         }
-        window.location.href = "/login.html";
         fetch("/api/users/create-user", {
             method: "POST",
             headers: {
@@ -35,6 +34,17 @@ function handleSubmitRegisterForm(ev) {
         })
             .then(function (res) { return res.json(); })
             .then(function (data) {
+            if (data.error) {
+                var container__form = document.querySelector(".container__form");
+                var userNotification = document.querySelector(".userNotification");
+                if (!container__form)
+                    throw new Error("DOM Error");
+                if (!userNotification) {
+                    container__form.insertAdjacentHTML('afterend', '<p class="userNotification">Username or Email already exist<p>');
+                }
+                throw new Error(data.error);
+            }
+            window.location.href = "/login.html";
         });
     }
     catch (error) {

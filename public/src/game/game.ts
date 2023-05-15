@@ -8,6 +8,7 @@
 
 function game() {
     try {
+        
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;
@@ -52,7 +53,7 @@ function game() {
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
         let enemyCount = 4;
-        let playerHealth = 10;
+        let playerHealth = 3;
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
@@ -474,7 +475,7 @@ function game() {
 
         function drawHearts(playerHealth) {
             playerHealthHearts.innerHTML = "";
-            for (let i = 1; i <= 10; i++) {
+            for (let i = 1; i <= playerHealth; i++) {
                 if (i <= playerHealth) {
                     playerHealthHearts.insertAdjacentHTML(
                         "beforeend",

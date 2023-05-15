@@ -96,7 +96,7 @@ function renderUserList() {
                     users = data.users;
                     console.log(users);
                     html = users.map(function (user) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>User Name</h5>\n                <span id=\"rootNameUser\">" + user.userName + "</span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\">" + user.email + "</span>\n            </div>\n            <div>\n                <h5>Role</h5>\n                <span id=\"rootNameUser\">" + user.ROLE + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\">" + user.userName + "</span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\">" + user.email + "</span>\n            </div>\n            <div>\n                <h5>Role</h5>\n                <span id=\"rootNameUser\">" + user.ROLE + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     }).join('');
                     console.log(rootUsersDetail);
                     rootUsersDetail.innerHTML = html;
@@ -129,7 +129,7 @@ function renderTowerList(adminID) {
                     data = _a.sent();
                     towers = data.towers;
                     html = towers.map(function (user) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>User Name</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower(" + adminID + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\"></span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower(" + adminID + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     }).join('');
                     console.log(rootUsersDetail);
                     rootUsersDetail.innerHTML = html;

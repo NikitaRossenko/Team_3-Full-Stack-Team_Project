@@ -18,7 +18,6 @@ function handleSubmitRegisterForm(ev: any) {
             alert("the Confirm Password isn't correct")
             return
         }
-        window.location.href = "/login.html";
         fetch("/api/users/create-user", {
             method: "POST",
             headers: {
@@ -29,6 +28,19 @@ function handleSubmitRegisterForm(ev: any) {
                 })        
                 .then((res) => res.json())
                 .then((data) => {
+                    if (data.error) {
+                        const container__form = document.querySelector(".container__form")
+                        const userNotification = document.querySelector(".userNotification")
+                        if (!container__form) throw new Error("DOM Error")
+
+                        if (!userNotification){
+                            container__form.insertAdjacentHTML('afterend', '<p class="userNotification">Username or Email already exist<p>')
+                        }
+
+                        throw new Error(data.error)
+                    }
+
+                    window.location.href = "/login.html";
 
                 })
 

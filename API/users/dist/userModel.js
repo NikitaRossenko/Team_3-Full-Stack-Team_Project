@@ -40,6 +40,10 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         require: false
     },
+    gamesPlayed: {
+        type: Number,
+        require: false
+    },
     ROLE: {
         type: String,
         "enum": ROLE,

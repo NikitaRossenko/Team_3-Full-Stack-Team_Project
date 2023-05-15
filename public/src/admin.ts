@@ -157,7 +157,7 @@ async function renderUserList() {
             return `
             <li class="container__main__container-middle__list">
             <div>
-                <h5>User Name</h5>
+                <h5>Username</h5>
                 <span id="rootNameUser">${user.userName}</span>
             </div>
             <div>
@@ -195,7 +195,7 @@ async function renderTowerList(adminID: string) {
             return `
             <li class="container__main__container-middle__list">
             <div>
-                <h5>User Name</h5>
+                <h5>Username</h5>
                 <span id="rootNameUser"></span>
             </div>
             <div>

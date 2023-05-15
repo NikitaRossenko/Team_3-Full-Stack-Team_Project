@@ -60,13 +60,20 @@ exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var secret, _a, firstName, lastName, userName, email, password, userDB, token, error_2;
+    var _a, firstName, lastName, userName, email, password, existUsername, existUserEmail, userDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 2, , 3]);
-                secret = process.env.JWT_SECRET;
+                _b.trys.push([0, 4, , 5]);
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
+                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName })];
+            case 1:
+                existUsername = _b.sent();
+                return [4 /*yield*/, userModel_1["default"].findOne({ email: email })];
+            case 2:
+                existUserEmail = _b.sent();
+                if (existUsername || existUserEmail)
+                    throw new Error("User already exist");
                 return [4 /*yield*/, userModel_1["default"].create({
                         firstName: firstName,
                         lastName: lastName,
@@ -74,20 +81,19 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                         email: email,
                         password: password
                     })];
-            case 1:
+            case 3:
                 userDB = _b.sent();
-                if (!secret)
-                    throw new Error("Server Error");
-                token = jwt_simple_1["default"].encode({ userId: userDB._id }, secret);
-                res.cookie("currentUser", token, { httpOnly: true });
+                // if (!secret) throw new Error("Server Error");
+                // const token = jwt.encode({ userId: userDB._id}, secret);
+                // res.cookie("currentUser", token, { httpOnly: true });
                 res.status(201).send({ ok: true, userDB: userDB });
-                return [3 /*break*/, 3];
-            case 2:
+                return [3 /*break*/, 5];
+            case 4:
                 error_2 = _b.sent();
                 console.error(error_2);
                 res.status(500).send({ error: error_2.message });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
         }
     });
 }); };

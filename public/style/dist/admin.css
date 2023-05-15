@@ -161,6 +161,14 @@
   display: flex;
   margin: 5px;
 }
+.container__main__container-middle__list #enemyImage {
+  width: 90px;
+  height: 90px;
+}
+.container__main__container-middle__list #towerImage {
+  width: 64px;
+  height: 104px;
+}
 .container__main__container-middle__list div {
   width: 100%;
   text-align: center;

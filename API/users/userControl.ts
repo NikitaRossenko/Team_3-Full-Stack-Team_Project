@@ -14,8 +14,15 @@ export const getUsers = async (req: any, res: any) => {
 };
 export const createUser = async (req: any, res: any) => {
   try {
-    const secret = process.env.JWT_SECRET;
+    // const secret = process.env.JWT_SECRET;
     const { firstName, lastName, userName, email, password } = req.body;
+
+
+    const existUsername = await UserModel.findOne({userName:userName});
+    const existUserEmail = await UserModel.findOne({email:email});
+
+    if (existUsername || existUserEmail) throw new Error("User already exist")
+
     const userDB = await UserModel.create({
       firstName,
       lastName,
@@ -23,9 +30,9 @@ export const createUser = async (req: any, res: any) => {
       email,
       password,
     });
-    if (!secret) throw new Error("Server Error");
-    const token = jwt.encode({ userId: userDB._id}, secret);
-    res.cookie("currentUser", token, { httpOnly: true });
+    // if (!secret) throw new Error("Server Error");
+    // const token = jwt.encode({ userId: userDB._id}, secret);
+    // res.cookie("currentUser", token, { httpOnly: true });
     res.status(201).send({ ok: true, userDB });
   } catch (error: any) {
     console.error(error);
@@ -82,6 +89,7 @@ export const login = async (req: any, res: any) => {
 
     res.cookie("ifAdmin", userDB._id, { httpOnly: true });
     res.status(201).send({ ok: true, userDB });
+
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });

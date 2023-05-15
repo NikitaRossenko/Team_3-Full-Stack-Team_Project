@@ -2,10 +2,9 @@ import mongoose, {Schema} from 'mongoose'
 
 export interface Tower {
     name: string;
-    type: string;
+    image: string;
     damage: number;
-    range: number;
-    fireRate: number;
+    radius: number;
     cost: number;
     level: number;
   }
@@ -15,10 +14,9 @@ export interface Tower {
   // Define Mongoose schema for Tower document
   export const TowerSchema = new Schema({
     name: { type: String, required: true },
-    type: { type: String, required: true },
+    image: { type: String, required: true },
     damage: { type: Number, required: true },
-    range: { type: Number, required: true },
-    fireRate: { type: Number, required: true },
+    radius: { type: Number, required: true },
     cost: { type: Number, required: true },
     level: { type: Number, required: true },
   });
