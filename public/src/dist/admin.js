@@ -322,13 +322,13 @@ function handleSubmitCreateUser(ev) {
                     .then(function (res) { return res.json(); })
                     .then(function (data) {
                     if (data.error) {
-                        var rootUsersDetail = document.querySelector(".rootUsersDetail");
+                        var rootUsersDetail = document.querySelector("#rootUsersDetail");
                         var adminNotification = document.querySelector(".collapse-container__form");
-                        if (!rootUsersDetail)
+                        if (!adminNotification)
                             throw new Error("DOM Error");
-                        if (!adminNotification) {
-                            rootUsersDetail.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>');
-                        }
+                        // if (!adminNotification){
+                        adminNotification.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>');
+                        // }
                         throw new Error(data.error);
                     }
                 });

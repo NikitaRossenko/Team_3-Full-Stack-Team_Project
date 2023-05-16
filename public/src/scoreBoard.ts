@@ -9,16 +9,16 @@ interface User {
   coin?: number;
 }
 
-async function renderScoreUser(user: User) {
+async function renderScoreUser() {
     try {
       const response = await fetch('/api/users/get-user');
       const data = await response.json();
-      const { userId } = data;
+      const { user } = data;
       const html = `
       <li class="person">
         <p class="icon">${'<img class="playericons" src="../images/PlayerIcons/13.png" alt="">'}</p>
-        <p class="nickname">#2 - ${userId.userName}</p>
-        <p class="score">${userId.highScore?userId.highScore:0}</p>
+        <p class="nickname">#2 - ${user.userName}</p>
+        <p class="score">${user.highScore?user.highScore:0}</p>
         <ul class="point-btns"></ul>
       </li>
     `;

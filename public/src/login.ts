@@ -4,12 +4,13 @@ backgroundSound.src = '../audio/backgroundMusicRegisterLogin.mp3'
 
 
 
-// function onLoad() {
-//     try {
-//     } catch (error) {
-//         console.error(error)
-//     }
-// }
+function onLoad() {
+    try {
+      logout()
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 // handle functions
 
@@ -67,5 +68,16 @@ function handleClickMusicBtn() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+
+  function logout(){
+    fetch("/api/users/delete-cookie", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
   }
 

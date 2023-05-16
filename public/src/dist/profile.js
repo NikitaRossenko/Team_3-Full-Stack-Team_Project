@@ -118,7 +118,7 @@ function handleUserUpdate(ev, _id) {
 }
 function handleGetUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, userId, html, CardRoot, error_1;
+        var response, data, user, html, CardRoot, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -129,8 +129,8 @@ function handleGetUser() {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     data = _a.sent();
-                    userId = data.userId;
-                    html = "\n      <form class=\"form\" action=\"\" method=\"get\" onsubmit=\"handleUserUpdate(event, '" + userId._id + "')\">\n      <label class=\"title\">firstName:</label>\n      <input id=\"fName\" class=\"value\" contenteditable value=\"" + userId.firstName + "\"></input>\n      <label class=\"title\">lastName:</label>\n      <input id=\"lName\" class=\"value\" contenteditable value=\"" + userId.lastName + "\" ></input>\n      <label class=\"title\">Email:</label>\n      <input id=\"email\" class=\"value\" contenteditable value=\"" + userId.email + "\"></input>\n      <label class=\"title\">UserName:</label>\n      <input  id=\"userName\"class=\"value\" contenteditable value=\"" + userId.userName + "\"></input>\n      <label class=\"title\">Password:</label>\n      <input id=\"password\" class=\"value\" contenteditable value=\"" + userId.password + "\"></input>\n      <label class=\"title\">high score:</label>\n      <div id=\"highScore\" class=\"value\">" + (userId.highScore ? userId.highScore : 0) + "</div>\n      <button type=\"submit\"> Update</button>\n      </form>\n  ";
+                    user = data.user;
+                    html = "\n      <form class=\"form\" action=\"\" method=\"get\" onsubmit=\"handleUserUpdate(event, '" + user._id + "')\">\n      <label class=\"title\">firstName:</label>\n      <input id=\"fName\" class=\"value\" contenteditable value=\"" + user.firstName + "\"></input>\n      <label class=\"title\">lastName:</label>\n      <input id=\"lName\" class=\"value\" contenteditable value=\"" + user.lastName + "\" ></input>\n      <label class=\"title\">Email:</label>\n      <input id=\"email\" class=\"value\" contenteditable value=\"" + user.email + "\"></input>\n      <label class=\"title\">UserName:</label>\n      <input  id=\"userName\"class=\"value\" contenteditable value=\"" + user.userName + "\"></input>\n      <label class=\"title\">Password:</label>\n      <input id=\"password\" class=\"value\" contenteditable value=\"" + user.password + "\"></input>\n      <label class=\"title\">high score:</label>\n      <div id=\"highScore\" class=\"value\">" + (user.highScore ? user.highScore : 0) + "</div>\n      <button type=\"submit\"> Update</button>\n      </form>\n  ";
                     CardRoot = document.querySelector("#cardRoot");
                     if (!CardRoot)
                         throw new Error("CardRoot not found");

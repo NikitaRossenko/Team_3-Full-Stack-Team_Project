@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
+exports.logout = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
 var jwt_simple_1 = require("jwt-simple");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -95,19 +95,16 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, userName, email, password, role, existUsername, existUserEmail, userDB, error_3;
+    var _a, firstName, lastName, userName, email, password, role, existUser, userDB, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
-                _b.trys.push([0, 4, , 5]);
+                _b.trys.push([0, 3, , 4]);
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password, role = _a.role;
-                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName })];
+                return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
             case 1:
-                existUsername = _b.sent();
-                return [4 /*yield*/, userModel_1["default"].findOne({ email: email })];
-            case 2:
-                existUserEmail = _b.sent();
-                if (existUsername || existUserEmail)
+                existUser = _b.sent();
+                if (existUser)
                     throw new Error("User already exist");
                 return [4 /*yield*/, userModel_1["default"].create({
                         firstName: firstName,
@@ -115,18 +112,18 @@ exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0,
                         userName: userName,
                         email: email,
                         password: password,
-                        role: role
+                        ROLE: role
                     })];
-            case 3:
+            case 2:
                 userDB = _b.sent();
                 res.status(201).send({ ok: true, userDB: userDB });
-                return [3 /*break*/, 5];
-            case 4:
+                return [3 /*break*/, 4];
+            case 3:
                 error_3 = _b.sent();
                 console.error(error_3);
                 res.status(500).send({ error: error_3.message });
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); };
@@ -250,7 +247,7 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                secret = process.env.JWT_SECRET || "sddslahkjaskjnbalkjs";
+                secret = process.env.JWT_SECRET;
                 currentUser = req.cookies.currentUser;
                 if (!secret)
                     throw new Error("No secret");
@@ -259,7 +256,7 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [4 /*yield*/, userModel_1["default"].findById(userId)];
             case 1:
                 userDB = _a.sent();
-                res.send({ ok: true, userId: userDB });
+                res.send({ ok: true, user: userDB });
                 return [3 /*break*/, 3];
             case 2:
                 error_7 = _a.sent();
@@ -268,5 +265,18 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
+    });
+}); };
+exports.logout = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        try {
+            res.clearCookie('currentUser');
+            res.send('Cookie deleted!');
+        }
+        catch (error) {
+            console.error(error);
+            res.status(500).send({ error: error.message });
+        }
+        return [2 /*return*/];
     });
 }); };

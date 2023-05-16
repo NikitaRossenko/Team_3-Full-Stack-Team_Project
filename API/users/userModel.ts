@@ -9,6 +9,7 @@ export interface User {
   password: string;
   highScore: number;
   coin: number;
+  ROLE: ROLE;
 }
 
 export enum ROLE {

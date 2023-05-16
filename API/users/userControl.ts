@@ -42,11 +42,9 @@ export const adminCreateUser = async (req: any, res: any) => {
 
     const { firstName, lastName, userName, email, password, role } = req.body;
 
+    const existUser = await UserModel.findOne({$or:[{userName},{email}]});
 
-    const existUsername = await UserModel.findOne({userName:userName});
-    const existUserEmail = await UserModel.findOne({email:email});
-
-    if (existUsername || existUserEmail) throw new Error("User already exist")
+    if (existUser) throw new Error("User already exist")
 
     const userDB = await UserModel.create({
       firstName,
@@ -54,7 +52,7 @@ export const adminCreateUser = async (req: any, res: any) => {
       userName,
       email,
       password,
-      role
+      ROLE:role,
     });
 
     res.status(201).send({ ok: true, userDB });
@@ -143,7 +141,7 @@ export const UpdateUserDetails = async (req: any, res: any) => {
 
 export const getUser = async (req: any, res: any) => {
   try {
-    const secret = process.env.JWT_SECRET || "sddslahkjaskjnbalkjs";
+    const secret = process.env.JWT_SECRET;
     const { currentUser } = req.cookies;
     if (!secret) throw new Error("No secret");
     const decoded = jwt.decode(currentUser, secret);
@@ -152,10 +150,21 @@ export const getUser = async (req: any, res: any) => {
 
     const userDB = await UserModel.findById(userId);
 
-    res.send({ ok: true, userId: userDB });
+    res.send({ ok: true, user: userDB });
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });
   }
-};
+}
+export const logout = async (req: any, res: any) => {
+  try {
+      res.clearCookie('currentUser');
+      res.send('Cookie deleted!');
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+}
+
+
 

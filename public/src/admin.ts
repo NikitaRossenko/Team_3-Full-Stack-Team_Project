@@ -394,13 +394,13 @@ async function handleSubmitCreateUser(ev: any) {
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.error) {
-                        const rootUsersDetail = document.querySelector(".rootUsersDetail")
+                        const rootUsersDetail = document.querySelector("#rootUsersDetail")
                         const adminNotification = document.querySelector(".collapse-container__form")
-                        if (!rootUsersDetail) throw new Error("DOM Error")
+                        if (!adminNotification) throw new Error("DOM Error")
 
-                        if (!adminNotification){
-                            rootUsersDetail.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>')
-                        }
+                        // if (!adminNotification){
+                            adminNotification.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>')
+                        // }
 
                         throw new Error(data.error)
                     }

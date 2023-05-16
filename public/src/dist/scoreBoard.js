@@ -34,9 +34,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function renderScoreUser(user) {
+function renderScoreUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, userId, html, ScoreRoot, error_1;
+        var response, data, user, html, ScoreRoot, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -47,8 +47,8 @@ function renderScoreUser(user) {
                     return [4 /*yield*/, response.json()];
                 case 2:
                     data = _a.sent();
-                    userId = data.userId;
-                    html = "\n      <li class=\"person\">\n        <p class=\"icon\">" + '<img class="playericons" src="../images/PlayerIcons/13.png" alt="">' + "</p>\n        <p class=\"nickname\">#2 - " + userId.userName + "</p>\n        <p class=\"score\">" + (userId.highScore ? userId.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
+                    user = data.user;
+                    html = "\n      <li class=\"person\">\n        <p class=\"icon\">" + '<img class="playericons" src="../images/PlayerIcons/13.png" alt="">' + "</p>\n        <p class=\"nickname\">#2 - " + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
                     ScoreRoot = document.querySelector("#scoreRoot");
                     if (!ScoreRoot)
                         throw new Error("ScoreRoot not found");
