@@ -131,7 +131,7 @@ function renderTowerList() {
                     towerDB = data.towerDB;
                     html = towerDB
                         .map(function (tower) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Tower Name</h5>\n                <span id=\"rootTowerName\">" + tower.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootTowerImage\">" + tower.image + "</span>\n            </div>\n            <div>\n                <h5>Damage</h5>\n                <span id=\"rootTowerDamage\">" + tower.damage + "</span>\n            </div>\n            <div>\n                <h5>Radius</h5>\n                <span id=\"rootTowerRadius\">" + tower.radius + "</span>\n            </div>\n            <div>\n                <h5>Cost</h5>\n                <span id=\"rootTowerCost\">" + tower.cost + "</span>\n            </div>\n            <div>\n                <h5>Level</h5>\n                <span id=\"rootTowerLevel\">" + tower.level + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower(" + tower._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Tower Name</h5>\n                <span id=\"rootTowerName\">" + tower.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootTowerImage\">" + tower.image + "</span>\n            </div>\n            <div>\n                <h5>Damage</h5>\n                <span id=\"rootTowerDamage\">" + tower.damage + "</span>\n            </div>\n            <div>\n                <h5>Radius</h5>\n                <span id=\"rootTowerRadius\">" + tower.radius + "</span>\n            </div>\n            <div>\n                <h5>Cost</h5>\n                <span id=\"rootTowerCost\">" + tower.cost + "</span>\n            </div>\n            <div>\n                <h5>Level</h5>\n                <span id=\"rootTowerLevel\">" + tower.level + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower('" + tower._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     })
                         .join("");
                     rootTowersDetail.innerHTML = html;
@@ -165,7 +165,7 @@ function renderEnemyList() {
                     enemyDB = data.enemyDB;
                     html = enemyDB
                         .map(function (enemy) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootEnemyName\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootEnemyHealth\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootEnemyImage\">" + enemy.image + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser(" + enemy._id + ")\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
+                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Enemy Name</h5>\n                <span id=\"rootEnemyName\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootEnemyHealth\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <span id=\"rootEnemyImage\">" + enemy.image + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelEnemy('" + enemy._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
                     })
                         .join("");
                     rootEnemiesDetail.innerHTML = html;
@@ -221,10 +221,11 @@ function handleSubmitCreateTower(ev) {
                         if (!collapse_container__form)
                             throw new Error("DOM Error");
                         if (!adminNotification) {
-                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Tower already exist<p>');
+                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Tower already exist OR unauthorized<p>');
                         }
                         throw new Error(data.error);
                     }
+                    location.reload();
                 });
             }
             catch (error) {
@@ -266,10 +267,11 @@ function handleSubmitCreateEnemy(ev) {
                         if (!collapse_container__form)
                             throw new Error("DOM Error");
                         if (!adminNotification) {
-                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Enemy already exist<p>');
+                            collapse_container__form.insertAdjacentHTML("afterend", '<p class="adminNotification">Enemy already exist OR unauthorized<p>');
                         }
                         throw new Error(data.error);
                     }
+                    location.reload();
                 });
             }
             catch (error) {
@@ -321,7 +323,6 @@ function handleSubmitCreateUser(ev) {
                 })
                     .then(function (res) { return res.json(); })
                     .then(function (data) {
-                    console.log(data);
                     if (data.error) {
                         var adminNotification = document.querySelector(".adminNotification");
                         var adminNotificationRoot = document.querySelector("#adminNotificationRoot");
@@ -332,6 +333,7 @@ function handleSubmitCreateUser(ev) {
                         }
                         throw new Error(data.error);
                     }
+                    location.reload();
                 });
             }
             catch (error) {
@@ -352,13 +354,13 @@ function handleClickDelUser(userID) {
                     return [4 /*yield*/, fetch("/api/users/delete-user", {
                             method: "DELETE",
                             headers: {
+                                Accept: "application/json",
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({
                                 uid: userID
                             })
                         }).then(function (data) {
-                            console.log(data);
                         })];
                 case 1:
                     deleteUser = _a.sent();
@@ -374,16 +376,65 @@ function handleClickDelUser(userID) {
         });
     });
 }
-function handleClickDelTower(towerID) {
+function handleClickDelTower(towerId) {
     return __awaiter(this, void 0, void 0, function () {
+        var deleteTower, error_5;
         return __generator(this, function (_a) {
-            try {
-                console.log("delete Users");
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    if (!confirm("Are you sure you want to delete the above tower?")) return [3 /*break*/, 2];
+                    return [4 /*yield*/, fetch("/api/tower/delete-tower", {
+                            method: "DELETE",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ towerId: towerId })
+                        }).then(function (data) {
+                        })];
+                case 1:
+                    deleteTower = _a.sent();
+                    location.reload();
+                    _a.label = 2;
+                case 2: return [3 /*break*/, 4];
+                case 3:
+                    error_5 = _a.sent();
+                    console.error(error_5);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
-            catch (error) {
-                console.error(error);
+        });
+    });
+}
+function handleClickDelEnemy(enemyId) {
+    return __awaiter(this, void 0, void 0, function () {
+        var deleteenemy, error_6;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    if (!confirm("Are you sure you want to delete the above enemy?")) return [3 /*break*/, 2];
+                    return [4 /*yield*/, fetch("/api/enemy/delete-enemy", {
+                            method: "DELETE",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ enemyId: enemyId })
+                        }).then(function (data) {
+                        })];
+                case 1:
+                    deleteenemy = _a.sent();
+                    location.reload();
+                    _a.label = 2;
+                case 2: return [3 /*break*/, 4];
+                case 3:
+                    error_6 = _a.sent();
+                    console.error(error_6);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
-            return [2 /*return*/];
         });
     });
 }
@@ -439,7 +490,7 @@ function handleClickCreateUserBtn() {
 // FILL STATS
 function FillRegisteredUsers() {
     return __awaiter(this, void 0, void 0, function () {
-        var registeredUserFill, dataJs, data, userNumber, error_5;
+        var registeredUserFill, dataJs, data, userNumber, error_7;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -457,7 +508,7 @@ function FillRegisteredUsers() {
                     registeredUserFill.innerHTML = userNumber;
                     return [3 /*break*/, 4];
                 case 3:
-                    error_5 = _a.sent();
+                    error_7 = _a.sent();
                     console.error();
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -465,16 +516,31 @@ function FillRegisteredUsers() {
         });
     });
 }
-// async function FillAdminName() {
-//   try {
-//     const nameAdminFill: HTMLElement =
-//       document.getElementById("nameAdminFill")!; // Fill Name Admin
-//     const dataJs = await fetch("/api/users/get-user");
-//     if (!dataJs) throw new Error("no found DataJsName");
-//     const data = await dataJs.json();
-//     const name = data.userId.firstName;
-//     nameAdminFill.innerHTML = name;
-//   } catch (error) {
-//     console.error();
-//   }
-// }
+function FillAdminName() {
+    return __awaiter(this, void 0, void 0, function () {
+        var nameAdminFill, dataJs, data, name, error_8;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    nameAdminFill = document.getElementById("nameAdminFill");
+                    return [4 /*yield*/, fetch("/api/users/get-user")];
+                case 1:
+                    dataJs = _a.sent();
+                    if (!dataJs)
+                        throw new Error("no found DataJsName");
+                    return [4 /*yield*/, dataJs.json()];
+                case 2:
+                    data = _a.sent();
+                    name = data.userId.firstName;
+                    nameAdminFill.innerHTML = name;
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_8 = _a.sent();
+                    console.error();
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}

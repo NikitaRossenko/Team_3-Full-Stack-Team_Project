@@ -33,3 +33,19 @@ export const createEnemy = async (req: any, res: any) => {
     res.status(500).send({ error: error.message });
   }
 };
+
+
+export const deleteEnemy = async (req: any, res: any) => {
+  try {
+    const {enemyId}  = req.body;
+    if (!enemyId) throw new Error("uID no founded");
+    const deleteEnemy = await EnemyModel.findByIdAndDelete(enemyId);
+    console.log(deleteEnemy);
+    if (!deleteEnemy) throw new Error("deleteEnemy no founded");
+    res.status(201).send({ ok: true  , enemy:deleteEnemy});
+  } catch (error) {
+    res.status(500).send({ ok: false });
+
+    console.error(error);
+  }
+};

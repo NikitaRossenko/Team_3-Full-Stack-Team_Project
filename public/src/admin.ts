@@ -213,7 +213,7 @@ async function renderTowerList() {
                 <span id="rootTowerLevel">${tower.level}</span>
             </div>
             <div>
-                <button onclick="handleClickDelTower(${tower._id})">
+                <button onclick="handleClickDelTower('${tower._id}')">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
@@ -253,7 +253,7 @@ async function renderEnemyList() {
                 <span id="rootEnemyImage">${enemy.image}</span>
             </div>
             <div>
-                <button onclick="handleClickDelUser(${enemy._id})">
+                <button onclick="handleClickDelEnemy('${enemy._id}')">
                     <i class="fa-solid fa-trash-can"></i>
                 </button>
             </div>
@@ -308,12 +308,13 @@ async function handleSubmitCreateTower(ev: any) {
           if (!adminNotification) {
             collapse_container__form.insertAdjacentHTML(
               "afterend",
-              '<p class="adminNotification">Tower already exist<p>'
+              '<p class="adminNotification">Tower already exist OR unauthorized<p>'
             );
           }
 
           throw new Error(data.error);
         }
+        location.reload();
       });
   } catch (error) {
     console.error(error);
@@ -351,12 +352,13 @@ async function handleSubmitCreateEnemy(ev: any) {
           if (!adminNotification) {
             collapse_container__form.insertAdjacentHTML(
               "afterend",
-              '<p class="adminNotification">Enemy already exist<p>'
+              '<p class="adminNotification">Enemy already exist OR unauthorized<p>'
             );
           }
 
           throw new Error(data.error);
         }
+        location.reload();
       });
   } catch (error) {
     console.error(error);
@@ -394,7 +396,6 @@ async function handleSubmitCreateUser(ev: any) {
                 })        
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data);
                     if (data.error) {
                         const adminNotification = document.querySelector(".adminNotification")
                         const adminNotificationRoot = document.querySelector("#adminNotificationRoot")
@@ -405,7 +406,7 @@ async function handleSubmitCreateUser(ev: any) {
                         }
                         throw new Error(data.error)
                     }
-
+                    location.reload();
                 })
 
     } catch (error) {
@@ -419,14 +420,13 @@ async function handleClickDelUser(userID: string) {
       const deleteUser = await fetch("/api/users/delete-user", {
         method: "DELETE",
         headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
+          Accept: "application/json",
+        "Content-Type": "application/json",
+      },
         body: JSON.stringify({
           uid: userID,
         }),
       }).then((data) => {
-        console.log(data);
       });
 
       location.reload();
@@ -435,13 +435,45 @@ async function handleClickDelUser(userID: string) {
     console.error(error);
   }
 }
-async function handleClickDelTower(towerID: string) {
+async function handleClickDelTower(towerId:string) {
   try {
-    console.log("delete Users");
+    if (confirm("Are you sure you want to delete the above tower?")) {
+      const deleteTower = await fetch("/api/tower/delete-tower", {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+        body: JSON.stringify({towerId}),
+      }).then((data) => {
+      });
+
+      location.reload();
+    }
   } catch (error) {
     console.error(error);
   }
 }
+async function handleClickDelEnemy(enemyId:string) {
+  try {
+    if (confirm("Are you sure you want to delete the above enemy?")) {
+      const deleteenemy = await fetch("/api/enemy/delete-enemy", {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+        body: JSON.stringify({enemyId}),
+      }).then((data) => {
+      });
+
+      location.reload();
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 
 // Click  return back button
 function handleClickBack() {
@@ -509,17 +541,17 @@ async function FillRegisteredUsers() {
     console.error();
   }
 }
-// async function FillAdminName() {
-//   try {
-//     const nameAdminFill: HTMLElement =
-//       document.getElementById("nameAdminFill")!; // Fill Name Admin
+async function FillAdminName() {
+  try {
+    const nameAdminFill: HTMLElement =
+      document.getElementById("nameAdminFill")!; // Fill Name Admin
 
-//     const dataJs = await fetch("/api/users/get-user");
-//     if (!dataJs) throw new Error("no found DataJsName");
-//     const data = await dataJs.json();
-//     const name = data.userId.firstName;
-//     nameAdminFill.innerHTML = name;
-//   } catch (error) {
-//     console.error();
-//   }
-// }
+    const dataJs = await fetch("/api/users/get-user");
+    if (!dataJs) throw new Error("no found DataJsName");
+    const data = await dataJs.json();
+    const name = data.userId.firstName;
+    nameAdminFill.innerHTML = name;
+  } catch (error) {
+    console.error();
+  }
+}

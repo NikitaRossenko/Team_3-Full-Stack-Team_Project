@@ -1,11 +1,13 @@
 import {Router} from "express";
-import { createTower, getTowers } from "./towerControl";
+import { createTower, deleteTower, getTowers } from "./towerControl";
+import { adminAccess } from "../users/userMiddlwares";
 
 
 const towerRouter = Router()
 
 towerRouter
 .get("/get-towers" ,getTowers )
-.post("/create-tower",createTower)
+.post("/create-tower",adminAccess,createTower)
+.delete("/delete-tower",adminAccess,deleteTower)
 
 export default towerRouter
