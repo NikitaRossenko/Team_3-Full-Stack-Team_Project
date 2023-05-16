@@ -15,6 +15,7 @@ body {
 }
 
 .collapseContainerChooseProfileImage {
+  padding: 15px;
   border-radius: 20px;
   background-color: #4ea804;
   position: absolute;
