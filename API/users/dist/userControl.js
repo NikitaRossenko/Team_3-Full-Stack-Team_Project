@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.logout = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
+exports.changeUserIcon = exports.logout = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
 var jwt_simple_1 = require("jwt-simple");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -60,11 +60,13 @@ exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, userName, email, password, existUser, userDB, error_2;
+    var randomNumber, srcRandom, _a, firstName, lastName, userName, email, password, existUser, userDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
+                randomNumber = Math.ceil(Math.random() * 48);
+                srcRandom = "../images/PlayerIcons/" + randomNumber + ".png";
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
                 return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
             case 1:
@@ -76,7 +78,8 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                         lastName: lastName,
                         userName: userName,
                         email: email,
-                        password: password
+                        password: password,
+                        src: srcRandom
                     })];
             case 2:
                 userDB = _b.sent();
@@ -275,5 +278,43 @@ exports.logout = function (req, res) { return __awaiter(void 0, void 0, void 0, 
             res.status(500).send({ error: error.message });
         }
         return [2 /*return*/];
+    });
+}); };
+exports.changeUserIcon = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var secret, currentUser, decoded, userId, userDB, uID, src, changeSrcUser, error_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                secret = process.env.JWT_SECRET;
+                currentUser = req.cookies.currentUser;
+                if (!secret)
+                    throw new Error("No secret");
+                decoded = jwt_simple_1["default"].decode(currentUser, secret);
+                userId = decoded.userId;
+                return [4 /*yield*/, userModel_1["default"].findById(userId)];
+            case 1:
+                userDB = _a.sent();
+                console.log(userDB);
+                if (!userDB)
+                    throw new Error("no found UserDB");
+                uID = userDB._id;
+                src = req.body.src;
+                if (!src)
+                    throw new Error("no found src");
+                return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(uID, { src: src })];
+            case 2:
+                changeSrcUser = _a.sent();
+                if (!changeSrcUser)
+                    throw new Error("no found user DB");
+                res.status(201).send({ ok: true, user: changeSrcUser });
+                return [3 /*break*/, 4];
+            case 3:
+                error_8 = _a.sent();
+                console.error(error_8);
+                res.status(500).send({ error: error_8.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
     });
 }); };

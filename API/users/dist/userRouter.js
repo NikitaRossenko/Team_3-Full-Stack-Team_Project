@@ -11,5 +11,6 @@ userRouter
     .post("/login", userControl_1.login)
     .put("/update-user", userControl_1.UpdateUserDetails)
     .get("/get-user", userControl_1.getUser)["delete"]("/delete-user", userControl_1.deleteUser)
-    .get("/delete-cookie", userControl_1.logout);
+    .get("/delete-cookie", userControl_1.logout)
+    .patch('/change-icon', userControl_1.changeUserIcon);
 exports["default"] = userRouter;

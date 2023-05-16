@@ -11,6 +11,7 @@ export interface User {
   coin: number;
   ROLE: ROLE;
   gamesPlayed:number;
+  src?:string
 }
 
 export enum ROLE {
@@ -59,6 +60,7 @@ export const UserSchema = new Schema<User>({
     enum: ROLE,
     default: ROLE.PUBLIC,
   },
+  src:String
 });
 
 const UserModel = mongoose.model("users", UserSchema);

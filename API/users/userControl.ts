@@ -14,7 +14,8 @@ export const getUsers = async (req: any, res: any) => {
 };
 export const createUser = async (req: any, res: any) => {
   try {
-
+    const  randomNumber = Math.ceil(Math.random()*48);
+    const srcRandom = `../images/PlayerIcons/${randomNumber}.png`
     const { firstName, lastName, userName, email, password } = req.body;
 
 
@@ -28,6 +29,7 @@ export const createUser = async (req: any, res: any) => {
       userName,
       email,
       password,
+      src:srcRandom
     });
 
     res.status(201).send({ ok: true, userDB });
@@ -149,7 +151,7 @@ export const getUser = async (req: any, res: any) => {
 
     const userDB = await UserModel.findById(userId);
 
-    res.send({ ok: true, user: userDB });
+    res.send({ ok: true, user:userDB });
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });
@@ -165,5 +167,29 @@ export const logout = async (req: any, res: any) => {
   }
 }
 
+export const changeUserIcon = async (req:any , res:any) =>{
+  try {
+    const secret = process.env.JWT_SECRET;
+    const { currentUser } = req.cookies;
+    if (!secret) throw new Error("No secret");
+    const decoded = jwt.decode(currentUser, secret);
+    
+    const { userId } = decoded;
+
+    const userDB = await UserModel.findById(userId);
+    console.log(userDB);
+    if(!userDB) throw new Error("no found UserDB")
+    const uID = userDB._id
+    const {src} = req.body;
+
+    if(!src) throw new Error("no found src")
+    const changeSrcUser = await UserModel.findByIdAndUpdate(uID , {src}) 
+    if(!changeSrcUser) throw new Error("no found user DB")
+    res.status(201).send({ok:true , user:changeSrcUser})
+  } catch (error:any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+}
 
 

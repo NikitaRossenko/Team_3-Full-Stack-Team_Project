@@ -47,7 +47,8 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         "enum": ROLE,
         "default": ROLE.PUBLIC
-    }
+    },
+    src: String
 });
 var UserModel = mongoose_1["default"].model("users", exports.UserSchema);
 exports["default"] = UserModel;

@@ -281,7 +281,7 @@ function handleSubmitCreateEnemy(ev) {
 }
 function handleSubmitCreateUser(ev) {
     return __awaiter(this, void 0, void 0, function () {
-        var firstName, lastName, userName, email, password, cPassword, role, newUser;
+        var firstName, lastName, userName, email, password, cPassword, role, newUser, collapseFormRoot;
         return __generator(this, function (_a) {
             try {
                 ev.preventDefault();
@@ -333,6 +333,11 @@ function handleSubmitCreateUser(ev) {
                         throw new Error(data.error);
                     }
                 });
+                alert("The user  was created successfully");
+                collapseFormRoot = document.getElementById("collapseFormRoot");
+                collapseFormRoot.classList.remove("active");
+                ev.target.reset();
+                location.reload();
             }
             catch (error) {
                 console.error(error);
@@ -465,16 +470,33 @@ function FillRegisteredUsers() {
         });
     });
 }
-// async function FillAdminName() {
-//   try {
-//     const nameAdminFill: HTMLElement =
-//       document.getElementById("nameAdminFill")!; // Fill Name Admin
-//     const dataJs = await fetch("/api/users/get-user");
-//     if (!dataJs) throw new Error("no found DataJsName");
-//     const data = await dataJs.json();
-//     const name = data.userId.firstName;
-//     nameAdminFill.innerHTML = name;
-//   } catch (error) {
-//     console.error();
-//   }
-// }
+function FillAdminName() {
+    return __awaiter(this, void 0, void 0, function () {
+        var nameAdminFill, dataJs, data, name, error_6;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    nameAdminFill = document.getElementById("nameAdminFill");
+                    return [4 /*yield*/, fetch("/api/users/get-user")];
+                case 1:
+                    dataJs = _a.sent();
+                    if (!dataJs)
+                        throw new Error("no found DataJsName");
+                    return [4 /*yield*/, dataJs.json()];
+                case 2:
+                    data = _a.sent();
+                    console.log(data);
+                    name = data.user.firstName;
+                    console.log(name);
+                    nameAdminFill.innerHTML = name;
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_6 = _a.sent();
+                    console.error();
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}

@@ -88,3 +88,34 @@ function renderProfileComponent() {
         throw new Error("navigationRoot not found");
     navigationRoot.innerHTML += html;
 }
+function handleClickPlayBtn() {
+    return __awaiter(this, void 0, void 0, function () {
+        var dataJs, data, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch("api/users/get-user")];
+                case 1:
+                    dataJs = _a.sent();
+                    if (!dataJs)
+                        throw new Error("no found Data Js");
+                    return [4 /*yield*/, dataJs.json()];
+                case 2:
+                    data = _a.sent();
+                    if (data.ok === true) {
+                        window.location.href = "/game.html";
+                    }
+                    else {
+                        window.location.href = "/login.html";
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_2 = _a.sent();
+                    console.error(error_2);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}

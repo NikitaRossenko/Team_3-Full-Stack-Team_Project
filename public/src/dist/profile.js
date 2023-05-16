@@ -69,6 +69,41 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 //     console.error(error);
 //   }
 // }
+fillContainerIcon();
+getSrcFromCurrentUser();
+function getSrcFromCurrentUser() {
+    return __awaiter(this, void 0, void 0, function () {
+        var profileImgElement, dataJs, data, src, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    profileImgElement = document.querySelector(".profile-image img");
+                    if (!profileImgElement)
+                        throw new Error("no found IMG element");
+                    return [4 /*yield*/, fetch("/api/users/get-user")];
+                case 1:
+                    dataJs = _a.sent();
+                    if (!dataJs)
+                        throw new Error("no found DataJsName");
+                    return [4 /*yield*/, dataJs.json()];
+                case 2:
+                    data = _a.sent();
+                    console.log(data);
+                    src = data.user.src;
+                    if (!src)
+                        return [2 /*return*/, console.log("no found src")];
+                    profileImgElement.setAttribute("src", src);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.error();
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
 function handelRenderProfilUser() {
     try {
         fetch("/api/users/get-users")
@@ -118,7 +153,7 @@ function handleUserUpdate(ev, _id) {
 }
 function handleGetUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, user, html, CardRoot, error_1;
+        var response, data, user, html, CardRoot, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -137,10 +172,72 @@ function handleGetUser() {
                     CardRoot.innerHTML = html;
                     return [3 /*break*/, 4];
                 case 3:
-                    error_1 = _a.sent();
-                    console.error(error_1);
+                    error_2 = _a.sent();
+                    console.error(error_2);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function handleClickChangeIcon() {
+    try {
+        var collapseContainer = document.querySelector('.collapseContainerChooseProfileImage');
+        if (!collapseContainer)
+            throw new Error("no found collapse Container Element");
+        collapseContainer.classList.toggle('active');
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+function fillContainerIcon() {
+    try {
+        var collapseContainer = document.querySelector('.collapseContainerChooseProfileImage');
+        if (!collapseContainer)
+            throw new Error("no found collapse Container Element");
+        var html = '';
+        for (var i = 1; i <= 48; i++) {
+            html += "<img class=\"iconProfile\" src='../images/PlayerIcons/" + i + ".png' onclick='handleClickIcon(event)'>";
+        }
+        collapseContainer.innerHTML = html;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+function handleClickIcon(event) {
+    return __awaiter(this, void 0, void 0, function () {
+        var number, error_3;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    number = Number(event.target.src.slice(-6, -4));
+                    if (!Number(number)) {
+                        number = Number(event.target.src.slice(-5, -4));
+                    }
+                    return [4 /*yield*/, fetch('/api/users/change-icon', {
+                            method: 'PATCH',
+                            body: JSON.stringify({
+                                src: "../images/PlayerIcons/" + number.toString() + ".png"
+                            }),
+                            headers: {
+                                'Content-type': 'application/json; charset=UTF-8'
+                            }
+                        })
+                            .then(function (response) { return response.json(); })
+                            .then(function (json) { return console.log(json); })];
+                case 1:
+                    _a.sent();
+                    fillContainerIcon();
+                    location.reload();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _a.sent();
+                    console.error(error_3);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });

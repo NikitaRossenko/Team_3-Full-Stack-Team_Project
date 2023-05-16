@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {  createUser, getUsers, login, UpdateUserDetails, getUser, deleteUser, adminCreateUser, logout } from "./userControl";
+import {  createUser, getUsers, login, UpdateUserDetails, getUser, deleteUser, adminCreateUser, logout, changeUserIcon } from "./userControl";
 import { adminAccess } from "./userMiddlwares";
 
 const userRouter = Router()
@@ -13,5 +13,6 @@ userRouter
 .get("/get-user" , getUser)
 .delete("/delete-user" , deleteUser)
 .get("/delete-cookie" , logout)
+.patch('/change-icon' , changeUserIcon)
 
 export default userRouter

@@ -407,6 +407,11 @@ async function handleSubmitCreateUser(ev: any) {
                     }
 
                 })
+                alert("The user  was created successfully")
+                const collapseFormRoot: HTMLElement = document.getElementById("collapseFormRoot")!;
+                collapseFormRoot.classList.remove("active");
+                ev.target.reset()
+                location.reload()
 
     } catch (error) {
         console.error(error)
@@ -509,17 +514,19 @@ async function FillRegisteredUsers() {
     console.error();
   }
 }
-// async function FillAdminName() {
-//   try {
-//     const nameAdminFill: HTMLElement =
-//       document.getElementById("nameAdminFill")!; // Fill Name Admin
 
-//     const dataJs = await fetch("/api/users/get-user");
-//     if (!dataJs) throw new Error("no found DataJsName");
-//     const data = await dataJs.json();
-//     const name = data.userId.firstName;
-//     nameAdminFill.innerHTML = name;
-//   } catch (error) {
-//     console.error();
-//   }
-// }
+async function FillAdminName() {
+  try {
+    const nameAdminFill: HTMLElement =
+      document.getElementById("nameAdminFill")!; // Fill Name Admin;
+    const dataJs = await fetch("/api/users/get-user");
+    if (!dataJs) throw new Error("no found DataJsName");
+    const data = await dataJs.json();
+    console.log(data);
+    const name = data.user.firstName;
+    console.log(name);
+    nameAdminFill.innerHTML = name;
+  } catch (error) {
+    console.error();
+  }
+}

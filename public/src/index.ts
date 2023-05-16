@@ -54,4 +54,18 @@ function renderProfileComponent() {
   }
 
 
+async function handleClickPlayBtn(){
+  try {
+    const dataJs = await fetch(`api/users/get-user`)
+    if(!dataJs) throw new Error("no found Data Js")
+    const data = await dataJs.json()
+   if(data.ok === true){
+window.location.href = "/game.html"
+   } else {
+    window.location.href = "/login.html"
+   }
+  } catch (error) {
+    console.error(error)
+  }
+}
 

@@ -3,7 +3,7 @@
 
 :root {
     //COLOR 
-    --color:rgb(41, 37, 37);
+    --color:rgb(0, 0, 0);
     --blue:#2f5266;
     --background-color-light: #528daf80;
     --background-color-dark: #2f52669d;
@@ -41,7 +41,7 @@
         }
     }
 .container {
-    background-image: url("../../images/backgroundDashbaord.png");
+    background: linear-gradient(45deg ,  rgba(255, 255, 255, 0.164) , rgba(255, 252, 252, 0.281)) , url("../../images/background1.jpg");
     background-size: cover;
     background-position: center;
     color: var(--color);

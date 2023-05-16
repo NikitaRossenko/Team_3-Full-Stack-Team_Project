@@ -34,6 +34,24 @@
 //     console.error(error);
 //   }
 // }
+fillContainerIcon()
+getSrcFromCurrentUser()
+async function getSrcFromCurrentUser() {
+  try {
+    const profileImgElement:HTMLElement | null = document.querySelector(".profile-image img"); // Fill Name Admin;
+   if(!profileImgElement) throw new Error("no found IMG element")
+    const dataJs = await fetch("/api/users/get-user");
+    if (!dataJs) throw new Error("no found DataJsName");
+    const data = await dataJs.json();
+    console.log(data);
+    const src = data.user.src;
+    if(!src) return console.log("no found src");
+    profileImgElement.setAttribute("src" , src )
+  } catch (error) {
+    console.error();
+  }
+}
+
 
 function handelRenderProfilUser() {
   try {
@@ -72,7 +90,7 @@ function handleUserUpdate(ev: any, _id: string) {
         lastName: lName.value,
         password: password.value,
         userName: userName.value,
-        email: email.value
+        email: email.value ,
       }),
     });
   } catch (error) {
@@ -108,5 +126,53 @@ async function handleGetUser() {
     CardRoot.innerHTML = html
   } catch (error) {
     console.error(error);
+  }
+}
+
+function handleClickChangeIcon(){
+  try {
+    const collapseContainer:HTMLElement | null = document.querySelector('.collapseContainerChooseProfileImage')
+    if(!collapseContainer) throw new Error("no found collapse Container Element")
+    collapseContainer.classList.toggle('active')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function fillContainerIcon(){
+  try {
+    const collapseContainer:HTMLElement | null = document.querySelector('.collapseContainerChooseProfileImage')
+    if(!collapseContainer) throw new Error("no found collapse Container Element")
+      let html = ''
+    for(let i = 1 ; i <= 48 ; i++ ){
+      html += `<img class="iconProfile" src='../images/PlayerIcons/${i}.png' onclick='handleClickIcon(event)'>`
+    }
+    collapseContainer.innerHTML = html
+  } catch (error) {
+    console.error(error)
+  }
+} 
+
+async function handleClickIcon(event:any){
+  try {
+    let number =  Number(event.target.src.slice(-6 , -4))
+    if(!Number(number)){
+      number  = Number(event.target.src.slice(-5 , -4))
+    } 
+    await fetch('/api/users/change-icon' ,{
+      method: 'PATCH',
+      body: JSON.stringify({
+        src:`../images/PlayerIcons/${number.toString()}.png`,
+      }),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json));
+      fillContainerIcon()
+      location.reload()
+  } catch (error) {
+    console.error(error)
   }
 }
