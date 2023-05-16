@@ -18,10 +18,9 @@ export const createUser = async (req: any, res: any) => {
     const { firstName, lastName, userName, email, password } = req.body;
 
 
-    const existUsername = await UserModel.findOne({userName:userName});
-    const existUserEmail = await UserModel.findOne({email:email});
+    const existUser = await UserModel.findOne({$or:[{userName},{email}]});
 
-    if (existUsername || existUserEmail) throw new Error("User already exist")
+    if (existUser) throw new Error("User already exist")
 
     const userDB = await UserModel.create({
       firstName,

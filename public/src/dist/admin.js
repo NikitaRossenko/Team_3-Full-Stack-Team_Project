@@ -69,7 +69,7 @@ function renderCreateEnemySection() {
 }
 function renderCreateUserSection() {
     try {
-        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create User</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateUser(event)\">\n\n    <div>\n        <label for=\"firstName\" >First Name</label>\n        <input type=\"text\" name=\"firstName\" id=\"firstName\">\n    </div>\n    <div>\n        <label for=\"lastName\" >Last Name</label>\n        <input type=\"text\" name=\"lastName\" id=\"lastName\">\n    </div>\n    <div>\n        <label for=\"username\" > Username</label>\n        <input type=\"text\" name=\"username\" id=\"username\">\n    </div>\n    <div>\n        <label for=\"email\" >Email</label>\n        <input type=\"text\" name=\"email\" id=\"email\">\n    </div>\n    <div>\n        <label for=\"password\" >Password</label>\n        <input type=\"text\" name=\"password\" id=\"password\">\n    </div>\n    <div>\n        <label for=\"cPassword\" >Confirm Password</label>\n        <input type=\"text\" name=\"cPassword\" id=\"cPassword\">\n    </div>\n    <div>\n        <label for=\"role\" >ROLE</label>\n       <select id=\"role\" name=\"role\">\n       <option value=\"public\" >Public</option>\n       <option value=\"admin\" >Admin</option>\n       </select>\n    </div>\n    <button type=\"submit\">Create Now</button>\n</form>";
+        var html = "\n    <div onclick=\"handleClickCloseCollapseContainer()\" id=\"closeIcon\" class=\"collapse-container__close\">\n    <i class=\"fa-solid fa-xmark\"></i>\n</div>\n<h2 class=\"collapse-container__title\">Create User</h2>\n<form class=\"collapse-container__form\" onsubmit=\"handleSubmitCreateUser(event)\">\n\n    <div>\n        <label for=\"firstName\" >First Name</label>\n        <input type=\"text\" name=\"firstName\" id=\"firstName\">\n    </div>\n    <div>\n        <label for=\"lastName\" >Last Name</label>\n        <input type=\"text\" name=\"lastName\" id=\"lastName\">\n    </div>\n    <div>\n        <label for=\"username\" > Username</label>\n        <input type=\"text\" name=\"username\" id=\"username\">\n    </div>\n    <div>\n        <label for=\"email\" >Email</label>\n        <input type=\"text\" name=\"email\" id=\"email\">\n    </div>\n    <div>\n        <label for=\"password\" >Password</label>\n        <input type=\"text\" name=\"password\" id=\"password\">\n    </div>\n    <div>\n        <label for=\"cPassword\" >Confirm Password</label>\n        <input type=\"text\" name=\"cPassword\" id=\"cPassword\">\n    </div>\n    <div>\n        <label for=\"role\" >ROLE</label>\n       <select id=\"role\" name=\"role\">\n       <option value=\"public\" >Public</option>\n       <option value=\"admin\" >Admin</option>\n       </select>\n    </div>\n    <div id=\"adminNotificationRoot\"></div>\n    <button type=\"submit\">Create Now</button>\n</form>";
         return html;
     }
     catch (error) {
@@ -321,14 +321,15 @@ function handleSubmitCreateUser(ev) {
                 })
                     .then(function (res) { return res.json(); })
                     .then(function (data) {
+                    console.log(data);
                     if (data.error) {
-                        var rootUsersDetail = document.querySelector("#rootUsersDetail");
-                        var adminNotification = document.querySelector(".collapse-container__form");
-                        if (!adminNotification)
+                        var adminNotification = document.querySelector(".adminNotification");
+                        var adminNotificationRoot = document.querySelector("#adminNotificationRoot");
+                        if (!adminNotificationRoot)
                             throw new Error("DOM Error");
-                        // if (!adminNotification){
-                        adminNotification.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>');
-                        // }
+                        if (!adminNotification) {
+                            adminNotificationRoot.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist OR unauthorized<p>');
+                        }
                         throw new Error(data.error);
                     }
                 });
@@ -464,31 +465,16 @@ function FillRegisteredUsers() {
         });
     });
 }
-function FillAdminName() {
-    return __awaiter(this, void 0, void 0, function () {
-        var nameAdminFill, dataJs, data, name, error_6;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    nameAdminFill = document.getElementById("nameAdminFill");
-                    return [4 /*yield*/, fetch("/api/users/get-user")];
-                case 1:
-                    dataJs = _a.sent();
-                    if (!dataJs)
-                        throw new Error("no found DataJsName");
-                    return [4 /*yield*/, dataJs.json()];
-                case 2:
-                    data = _a.sent();
-                    name = data.userId.firstName;
-                    nameAdminFill.innerHTML = name;
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_6 = _a.sent();
-                    console.error();
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
-            }
-        });
-    });
-}
+// async function FillAdminName() {
+//   try {
+//     const nameAdminFill: HTMLElement =
+//       document.getElementById("nameAdminFill")!; // Fill Name Admin
+//     const dataJs = await fetch("/api/users/get-user");
+//     if (!dataJs) throw new Error("no found DataJsName");
+//     const data = await dataJs.json();
+//     const name = data.userId.firstName;
+//     nameAdminFill.innerHTML = name;
+//   } catch (error) {
+//     console.error();
+//   }
+// }

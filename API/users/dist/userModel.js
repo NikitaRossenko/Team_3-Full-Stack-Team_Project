@@ -28,21 +28,20 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         require: true
     },
-    src: {
-        type: String,
-        required: false
-    },
     highScore: {
-        type: String,
-        require: false
+        type: Number,
+        require: false,
+        "default": 0
     },
     coin: {
-        type: String,
-        require: false
+        type: Number,
+        require: false,
+        "default": 0
     },
     gamesPlayed: {
         type: Number,
-        require: false
+        require: false,
+        "default": 0
     },
     ROLE: {
         type: String,

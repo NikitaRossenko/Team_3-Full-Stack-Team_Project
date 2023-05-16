@@ -125,6 +125,7 @@ function renderCreateUserSection(): string {
        <option value="admin" >Admin</option>
        </select>
     </div>
+    <div id="adminNotificationRoot"></div>
     <button type="submit">Create Now</button>
 </form>`;
     return html;
@@ -393,15 +394,15 @@ async function handleSubmitCreateUser(ev: any) {
                 })        
                 .then((res) => res.json())
                 .then((data) => {
+                  console.log(data);
                     if (data.error) {
-                        const rootUsersDetail = document.querySelector("#rootUsersDetail")
-                        const adminNotification = document.querySelector(".collapse-container__form")
-                        if (!adminNotification) throw new Error("DOM Error")
+                        const adminNotification = document.querySelector(".adminNotification")
+                        const adminNotificationRoot = document.querySelector("#adminNotificationRoot")
+                        if (!adminNotificationRoot) throw new Error("DOM Error")
 
-                        // if (!adminNotification){
-                            adminNotification.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist<p>')
-                        // }
-
+                        if (!adminNotification){
+                          adminNotificationRoot.insertAdjacentHTML('afterend', '<p class="adminNotification">Username or Email already exist OR unauthorized<p>')
+                        }
                         throw new Error(data.error)
                     }
 
@@ -508,17 +509,17 @@ async function FillRegisteredUsers() {
     console.error();
   }
 }
-async function FillAdminName() {
-  try {
-    const nameAdminFill: HTMLElement =
-      document.getElementById("nameAdminFill")!; // Fill Name Admin
+// async function FillAdminName() {
+//   try {
+//     const nameAdminFill: HTMLElement =
+//       document.getElementById("nameAdminFill")!; // Fill Name Admin
 
-    const dataJs = await fetch("/api/users/get-user");
-    if (!dataJs) throw new Error("no found DataJsName");
-    const data = await dataJs.json();
-    const name = data.userId.firstName;
-    nameAdminFill.innerHTML = name;
-  } catch (error) {
-    console.error();
-  }
-}
+//     const dataJs = await fetch("/api/users/get-user");
+//     if (!dataJs) throw new Error("no found DataJsName");
+//     const data = await dataJs.json();
+//     const name = data.userId.firstName;
+//     nameAdminFill.innerHTML = name;
+//   } catch (error) {
+//     console.error();
+//   }
+// }

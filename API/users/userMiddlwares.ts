@@ -1,18 +1,20 @@
 import UserModel, { ROLE } from "./userModel";
+import jwt from "jwt-simple";
 
 export async function adminAccess(req: any, res: any, next: any) {
   try {
-    console.log("user is admin?");
-    const { ifAdmin } = req.cookies;
+    const secret = process.env.JWT_SECRET;
+    const { currentUser } = req.cookies;
+    if (!secret) throw new Error("No secret");
+    const decoded = jwt.decode(currentUser, secret);
+    
+    const { userId } = decoded;
 
-    const userDB:any = await UserModel.findById(ifAdmin);
-    console.log(userDB);
-
-    const {role} = userDB;
-
-    // if(role !== ROLE.ADMIN) {
-    //     throw new Error("User is not allowed")
-    // }
+    const userDB = await UserModel.findById(userId);
+    if(userDB?.ROLE !== `admin`){
+      throw new Error("unauthorized");
+    }
+    
 
     next();
   } catch (error: any) {

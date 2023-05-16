@@ -36,38 +36,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.adminAccess = void 0;
-var userModel_1 = require("./userModel");
-var jwt_simple_1 = require("jwt-simple");
-function adminAccess(req, res, next) {
-    return __awaiter(this, void 0, void 0, function () {
-        var secret, currentUser, decoded, userId, userDB, error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    secret = process.env.JWT_SECRET;
-                    currentUser = req.cookies.currentUser;
-                    if (!secret)
-                        throw new Error("No secret");
-                    decoded = jwt_simple_1["default"].decode(currentUser, secret);
-                    userId = decoded.userId;
-                    return [4 /*yield*/, userModel_1["default"].findById(userId)];
-                case 1:
-                    userDB = _a.sent();
-                    if ((userDB === null || userDB === void 0 ? void 0 : userDB.ROLE) !== "admin") {
-                        throw new Error("unauthorized");
-                    }
-                    next();
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    res.status(401).send({ error: error_1.message });
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
+exports.getGames = void 0;
+var gameModel_1 = require("./gameModel");
+exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var gamesDB, error_1;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, gameModel_1["default"].find({}).populate(["enemies", "towers"]).populate({ path: "player", select: "-password" })];
+            case 1:
+                gamesDB = _a.sent();
+                res.send({ ok: true, gamesDB: gamesDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_1 = _a.sent();
+                res.status(500).send({ ok: false });
+                console.error(error_1);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
     });
-}
-exports.adminAccess = adminAccess;
+}); };
+//creat game -> playerId = userid  
+//creat game -> enemiesId[].map  
+//creat game -> towersId[].map

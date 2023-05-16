@@ -10,6 +10,7 @@ export interface User {
   highScore: number;
   coin: number;
   ROLE: ROLE;
+  gamesPlayed:number;
 }
 
 export enum ROLE {
@@ -17,7 +18,7 @@ export enum ROLE {
   ADMIN = "admin",
 }
 
-export const UserSchema = new Schema({
+export const UserSchema = new Schema<User>({
   firstName: {
     type: String,
     require: true,
@@ -38,22 +39,20 @@ export const UserSchema = new Schema({
     type: String,
     require: true,
   },
-  src: {
-      type:String ,
-      required:false
-
-  } ,
   highScore:{
-      type:String,
-      require:false
+      type:Number,
+      require:false,
+      default: 0,
   } ,
   coin:{
-      type:String,
-      require:false
+      type:Number,
+      require:false,
+      default: 0,
   } ,
   gamesPlayed:{
       type:Number,
-      require:false
+      require:false,
+      default: 0,
   } ,
   ROLE: {
     type: String,
