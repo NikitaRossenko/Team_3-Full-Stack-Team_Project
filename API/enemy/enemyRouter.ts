@@ -1,11 +1,13 @@
 import {Router} from "express";
-import { createEnemy, getEnemies } from "./enemyControl";
+import { createEnemy, deleteEnemy, getEnemies } from "./enemyControl";
+import { adminAccess } from "../users/userMiddlwares";
 
 
 const enemyRouter = Router()
 
 enemyRouter
 .get("/get-enemies" ,getEnemies )
-.post("/create-enemy",createEnemy)
+.post("/create-enemy",adminAccess,createEnemy)
+.delete("/delete-enemy",adminAccess,deleteEnemy)
 
 export default enemyRouter
