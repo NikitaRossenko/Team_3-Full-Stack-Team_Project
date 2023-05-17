@@ -13,6 +13,23 @@
   font-family: "Martian Mono", monospace;
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+body {
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0.164), rgba(255, 252, 252, 0.281)), url("../../images/background1.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+  width: 100vw;
+  height: 100vh;
+}
+
 #loadingIcon {
   animation: infinite spin 0.5s;
   width: 30px;
@@ -32,12 +49,9 @@
 }
 
 .container {
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.164), rgba(255, 252, 252, 0.281)), url("../../images/background1.jpg");
-  background-size: cover;
-  background-position: center;
+  width: 100vw;
+  height: 100vh;
   color: var(--color);
-  width: inherit;
-  height: inherit;
 }
 .container__header {
   text-align: center;
@@ -127,7 +141,7 @@
   padding-top: 5px;
 }
 .container__main__container-middle {
-  margin: 10px;
+  padding: 10px;
   position: relative;
   display: flex;
 }
@@ -142,17 +156,19 @@
   padding: 15px;
 }
 .container__main__container-middle__userList, .container__main__container-middle__enemyList, .container__main__container-middle__towerList {
-  overflow-y: scroll;
+  overflow: scroll;
   min-height: 450px;
   max-height: 500px;
   margin: 8px;
   border-radius: 20px;
-  flex-basis: calc(100%/3);
+  flex-basis: calc(100% / 3);
   text-align: center;
   background-color: var(--background-color-dark);
 }
 .container__main__container-middle__userList::-webkit-scrollbar, .container__main__container-middle__enemyList::-webkit-scrollbar, .container__main__container-middle__towerList::-webkit-scrollbar {
-  width: 1px;
+  height: 3px;
+  width: 100%;
+  color: var(--blue);
 }
 .container__main__container-middle__list {
   border-radius: 5px;
@@ -161,13 +177,9 @@
   display: flex;
   margin: 5px;
 }
-.container__main__container-middle__list #enemyImage {
-  width: 90px;
-  height: 90px;
-}
-.container__main__container-middle__list #towerImage {
-  width: 64px;
-  height: 104px;
+.container__main__container-middle__list #enemyImage, .container__main__container-middle__list #towerImage {
+  width: 70px;
+  height: 70px;
 }
 .container__main__container-middle__list div {
   width: 100%;
@@ -266,13 +278,14 @@
   display: flex;
   flex-wrap: wrap;
   padding: 16px;
-  width: 65%;
+  width: 80%;
   color: var(--color);
 }
 .collapse-container__form div {
+  width: 50%;
   text-align: center;
-  flex-basis: 50%;
   display: flex;
+  justify-content: center;
   flex-direction: column;
 }
 .collapse-container__form div label {
@@ -284,7 +297,7 @@
   border: none;
   outline: none;
   font-size: medium;
-  padding: 10px;
+  padding: 5px;
   margin: 7px;
 }
 .collapse-container__form div input:active, .collapse-container__form div select:active {

@@ -20,6 +20,23 @@
     // margin: 0;
     // box-sizing: border-box;
 }
+
+//main 
+.flex {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    gap: 5px;
+}
+body {
+    background: linear-gradient(45deg ,  rgba(255, 255, 255, 0.164) , rgba(255, 252, 252, 0.281)) , url("../../images/background1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
+    width: 100vw;
+    height: 100vh;
+}
     //ID 
 
         #loadingIcon{
@@ -41,12 +58,10 @@
         }
     }
 .container {
-    background: linear-gradient(45deg ,  rgba(255, 255, 255, 0.164) , rgba(255, 252, 252, 0.281)) , url("../../images/background1.jpg");
-    background-size: cover;
-    background-position: center;
+    width: 100vw;
+height: 100vh;
+
     color: var(--color);
-    width: inherit;
-    height: inherit;
 
     &__header {
         text-align: center;
@@ -171,9 +186,11 @@
         }
 
         &__container-middle {
-            margin: 10px;
+            padding: 10px;
             position: relative;
             display: flex;
+
+         
 
 
             h1 {
@@ -190,18 +207,20 @@
             &__userList,
             &__enemyList,
             &__towerList {
-           
-                overflow-y: scroll;
+                
+                overflow: scroll;
                 min-height: 450px;
                 max-height: 500px;
                 margin: 8px;
                 border-radius: 20px;
-                flex-basis: calc(100%/3);
+                flex-basis: calc(100% / 3);
                 text-align: center;
                 background-color: var(--background-color-dark);
 
                 &::-webkit-scrollbar{
-                    width: 1px;
+                    height: 3px;
+                    width: 100%;
+                    color: var(--blue);
                 }
             }
 
@@ -213,14 +232,11 @@
                 display: flex;
                 margin: 5px;
 
-                #enemyImage{
-                    width: 90px;
-                    height: 90px;
+                #enemyImage , #towerImage{
+                    width: 70px;
+                    height: 70px;
                 }
-                #towerImage{
-                    width: 64px;
-                    height: 104px;
-                }
+      
 
 
                 div {
@@ -334,15 +350,16 @@
 
     &__form{
         display: flex;
-        flex-wrap:wrap ;
+flex-wrap: wrap;
         padding: 16px;
-        width: 65%;
+        width: 80%;
         color: var(--color);
 
         div{
+            width: 50%;
         text-align: center;
-          flex-basis: 50%;
             display: flex;
+            justify-content: center;
             flex-direction: column;
             label{
                 color: white;
@@ -350,10 +367,11 @@
                 text-transform: capitalize;
             }
             input , select{
+
                 border: none;
                 outline: none;
                 font-size: medium;
-           padding: 10px;
+           padding: 5px;
            margin: 7px;
 
                 &:active{
