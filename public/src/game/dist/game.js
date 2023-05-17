@@ -1,4 +1,17 @@
-// function delay(milliseconds){
+// function handleUserUpdatecreatGame(playerId: string, enemyId: string, towersId: string) {
+//     try {
+//         fetch("/api/users/creat-game", {
+//             method: "POST",
+//             headers: {
+//                 Accept: "application/json",
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({playerId, enemyId, towersId}),
+//         });
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -12,13 +25,22 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+// function delay(milliseconds){
 //     console.log("1")
 //     return new Promise(resolve => {
 //         setTimeout(resolve, milliseconds);
 //     });
 // }
-function game() {
+function game(playerId, enemyId, towersId) {
     try {
+        fetch("/api/users/creat-game", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ playerId: playerId, enemyId: enemyId, towersId: towersId })
+        });
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;

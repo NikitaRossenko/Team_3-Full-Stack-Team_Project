@@ -12,6 +12,8 @@ export const getUsers = async (req: any, res: any) => {
     console.error(error);
   }
 };
+
+
 export const createUser = async (req: any, res: any) => {
   try {
     const  randomNumber = Math.ceil(Math.random()*48);
@@ -177,7 +179,6 @@ export const changeUserIcon = async (req:any , res:any) =>{
     const { userId } = decoded;
 
     const userDB = await UserModel.findById(userId);
-    console.log(userDB);
     if(!userDB) throw new Error("no found UserDB")
     const uID = userDB._id
     const {src} = req.body;

@@ -1,3 +1,20 @@
+// function handleUserUpdatecreatGame(playerId: string, enemyId: string, towersId: string) {
+//     try {
+//         fetch("/api/users/creat-game", {
+//             method: "POST",
+//             headers: {
+//                 Accept: "application/json",
+//                 "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({playerId, enemyId, towersId}),
+//         });
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+
+
+
 // function delay(milliseconds){
 
 //     console.log("1")
@@ -6,9 +23,16 @@
 //     });
 // }
 
-function game() {
+function game(playerId: string, enemyId: string, towersId: string) {
     try {
-        
+        fetch("/api/users/creat-game", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({playerId, enemyId, towersId}),
+        });
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;

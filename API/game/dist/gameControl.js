@@ -44,7 +44,9 @@ exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, gameModel_1["default"].find({}).populate(["enemies", "towers"]).populate({ path: "player", select: "-password" })];
+                return [4 /*yield*/, gameModel_1["default"].find({})
+                        .populate(["enemies", "towers"])
+                        .populate({ path: "player", select: "-password" })];
             case 1:
                 gamesDB = _a.sent();
                 res.send({ ok: true, gamesDB: gamesDB });
@@ -58,6 +60,23 @@ exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
-//creat game -> playerId = userid  
-//creat game -> enemiesId[].map  
+//creat game -> playerId = userid
+//creat game -> enemiesId[].map
 //creat game -> towersId[].map
+// export const createGame = async (req: any, res: any) => {
+//   try {
+//     const { playerId, enemyId, towersId, game, score, level } = req.body;
+//     const gameDB = await GameModel.create({
+//     userId:playerId,
+//     enemyId,
+//     towersId,
+//     game,
+//     score,
+//     level,
+//     });
+//     res.status(201).send({ ok: true, gameDB });
+//   } catch (error: any) {
+//     console.error(error);
+//     res.status(500).send({ error: error.message });
+//   }
+// };

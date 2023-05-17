@@ -1,13 +1,3 @@
-// interface User {
-//   _id: string;
-//   firstName: string;
-//   lastName: string;
-//   userName: string;
-//   email: string;
-//   password: string;
-//   highScore?: number;
-//   coin?: number;
-// }
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,31 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-// function renderProfilUser(user: User) {
-//   try {
-//     const html = `
-//       <form class="form" action="">
-//       <div class="title">firstName:</div>
-//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.firstName}</div>
-//       <div class="title">lastName:</div>
-//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.lastName}</div>
-//       <div class="title">Email:</div>
-//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.email}</div>
-//       <div class="title">UserName:</div>
-//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.userName}</div>
-//       <div class="title">Password:</div>
-//       <div class="value" contenteditable oninput="handleUserUpdate(event,'${user._id}')">${user.password}</div>
-//       <div class="title">high score:</div>
-//       <div class="value">${user.highScore}</div>
-//       </form>
-//   `;
-//     const CardRoot = document.querySelector("#cardRoot");
-//     if (!CardRoot) throw new Error("CardRoot not found");
-//     CardRoot.innerHTML = html;
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
 fillContainerIcon();
 getSrcFromCurrentUser();
 function getSrcFromCurrentUser() {

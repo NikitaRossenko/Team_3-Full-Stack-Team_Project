@@ -295,7 +295,6 @@ exports.changeUserIcon = function (req, res) { return __awaiter(void 0, void 0, 
                 return [4 /*yield*/, userModel_1["default"].findById(userId)];
             case 1:
                 userDB = _a.sent();
-                console.log(userDB);
                 if (!userDB)
                     throw new Error("no found UserDB");
                 uID = userDB._id;
