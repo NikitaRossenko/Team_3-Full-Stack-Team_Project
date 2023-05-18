@@ -48,10 +48,10 @@ export const getGameCoins = async (req:any, res:any) => {
     const {gameId} = jwt.decode(currentGame, secret)
     const game = await GameModel.findOne({_id:gameId}).lean()
     if (!game) throw new Error("Server Error")
-    const coins = game.coins
-    console.log(coins)
     
-    res.status(200).send({ ok: true, coins:coins });
+    const coins = game.coins
+    
+    res.status(200).send({ ok: true, coins:coins});
     
   } catch (error) {
     res.status(500).send({ ok: false });
@@ -59,9 +59,25 @@ export const getGameCoins = async (req:any, res:any) => {
   }
 }
 
-//creat game -> playerId = userid
-//creat game -> enemiesId[].map
-//creat game -> towersId[].map
+export const getGameWaveCount = async (req:any, res:any) => {
+  try {
+    const {currentGame} = req.cookies;
+    const secret = process.env.JWT_SECRET
+    if (!secret) throw new Error("Server Error")
+
+    const {gameId} = jwt.decode(currentGame, secret)
+    const game = await GameModel.findOne({_id:gameId}).lean()
+    if (!game) throw new Error("Server Error")
+    
+    const waveCount = game.waveCount
+    
+    res.status(200).send({ ok: true, waveCount:waveCount});
+    
+  } catch (error) {
+    res.status(500).send({ ok: false });
+    console.error(error);
+  }
+}
 
 export const createGame = async (req: any, res: any) => {
   try {

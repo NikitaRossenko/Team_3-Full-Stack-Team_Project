@@ -78,9 +78,10 @@ async function game() {
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
-        let coinsDB = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
-        const {coins} = await coinsDB.json()
-        let waveCount = 1;
+        const coinsDB = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
+        let {coins} = await coinsDB.json()
+        const waveCountDB = await fetch("/api/game/get-game-wave-count"); //Create a route to fetch from gameId the coins
+        let {waveCount} = await waveCountDB.json()
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;
 

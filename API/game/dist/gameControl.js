@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createGame = exports.getGameCoins = exports.increaseHighscore = exports.getGames = void 0;
+exports.createGame = exports.getGameWaveCount = exports.getGameCoins = exports.increaseHighscore = exports.getGames = void 0;
 var enemyModel_1 = require("../enemy/enemyModel");
 var towerModel_1 = require("../towers/towerModel");
 var userModel_1 = require("../users/userModel");
@@ -115,7 +115,6 @@ exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, vo
                 if (!game)
                     throw new Error("Server Error");
                 coins = game.coins;
-                console.log(coins);
                 res.status(200).send({ ok: true, coins: coins });
                 return [3 /*break*/, 3];
             case 2:
@@ -127,11 +126,36 @@ exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
-//creat game -> playerId = userid
-//creat game -> enemiesId[].map
-//creat game -> towersId[].map
+exports.getGameWaveCount = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var currentGame, secret, gameId, game, waveCount, error_4;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                currentGame = req.cookies.currentGame;
+                secret = process.env.JWT_SECRET;
+                if (!secret)
+                    throw new Error("Server Error");
+                gameId = jwt_simple_1["default"].decode(currentGame, secret).gameId;
+                return [4 /*yield*/, gameModel_1["default"].findOne({ _id: gameId }).lean()];
+            case 1:
+                game = _a.sent();
+                if (!game)
+                    throw new Error("Server Error");
+                waveCount = game.waveCount;
+                res.status(200).send({ ok: true, waveCount: waveCount });
+                return [3 /*break*/, 3];
+            case 2:
+                error_4 = _a.sent();
+                res.status(500).send({ ok: false });
+                console.error(error_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentUser, secret, userId, user, increasedGamePlayed, enemies, towers, gameDB, _id, gameToken, error_4;
+    var currentUser, secret, userId, user, increasedGamePlayed, enemies, towers, gameDB, _id, gameToken, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -175,9 +199,9 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                 res.status(201).send({ ok: true });
                 return [3 /*break*/, 9];
             case 8:
-                error_4 = _a.sent();
-                console.error(error_4);
-                res.status(500).send({ error: error_4.message });
+                error_5 = _a.sent();
+                console.error(error_5);
+                res.status(500).send({ error: error_5.message });
                 return [3 /*break*/, 9];
             case 9: return [2 /*return*/];
         }
