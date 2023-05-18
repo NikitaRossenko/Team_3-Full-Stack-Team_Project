@@ -11,7 +11,7 @@ var GameSchema = new mongoose_1.Schema({
         required: true
     },
     player: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "users" },
-    towers: [{ type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "tower" }],
+    towers: [{ type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "towers" }],
     enemies: [{ type: mongoose_1.Schema.Types.ObjectId, required: true, ref: "enemies" }]
 });
 var GameModel = mongoose_1["default"].model("game", GameSchema);

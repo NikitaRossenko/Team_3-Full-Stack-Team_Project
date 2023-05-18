@@ -44,7 +44,7 @@ function renderLoginComponent(textNav: string = "Login") {
 function renderProfileComponent() {
     const html = `
     <div class="profileBtnContainer navIcon">
-    <h1>profile</h1>
+    <h1>Profile</h1>
     <a href="./profile.html"><img id="profileBtn" src="../images/buttons/20.png"></a>
 </div>
       `;

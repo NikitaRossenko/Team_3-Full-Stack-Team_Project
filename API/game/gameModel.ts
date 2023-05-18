@@ -22,7 +22,7 @@ const GameSchema = new Schema<Game>({
         required: true
     },
     player: {type:Schema.Types.ObjectId ,required: true, ref:"users"},
-    towers: [{type:Schema.Types.ObjectId ,required: true, ref:"tower"}],
+    towers: [{type:Schema.Types.ObjectId ,required: true, ref:"towers"}],
     enemies: [{type:Schema.Types.ObjectId ,required: true, ref:"enemies"}],
 });
 

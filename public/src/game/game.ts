@@ -23,16 +23,13 @@
 //     });
 // }
 
-function game(playerId: string, enemyId: string, towersId: string) {
+async function game() {
     try {
-        fetch("/api/users/creat-game", {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({playerId, enemyId, towersId}),
-        });
+
+
+        const newGame = await fetch("/api/game/create-game");
+        console.log(newGame)
+
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;
@@ -529,7 +526,7 @@ function game(playerId: string, enemyId: string, towersId: string) {
 
             // ctx.drawImage(mapImage, 0, 0);
 
-            if (waveCount === 10) {
+            if (waveCount === 2) {
                 console.log("Congratulations!");
                 gameOver.innerText = "Congratulations! You saved the village!";
                 gameOver.style.fontSize = "30px";
@@ -537,6 +534,14 @@ function game(playerId: string, enemyId: string, towersId: string) {
                 uiIconsContainer.style.display = "none";
                 replayBtn.style.display = "flex";
                 cancelAnimationFrame(animationFrame);
+                const updateHighscore = fetch("/api/game/increase-highscore", {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({score}),
+                });
             }
 
             for (let i = enemiesArray.length - 1; i >= 0; i--) {

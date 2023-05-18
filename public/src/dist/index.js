@@ -82,7 +82,7 @@ function renderLoginComponent(textNav) {
     rightNavIconsContainerRoot.innerHTML += html;
 }
 function renderProfileComponent() {
-    var html = "\n    <div class=\"profileBtnContainer navIcon\">\n    <h1>profile</h1>\n    <a href=\"./profile.html\"><img id=\"profileBtn\" src=\"../images/buttons/20.png\"></a>\n</div>\n      ";
+    var html = "\n    <div class=\"profileBtnContainer navIcon\">\n    <h1>Profile</h1>\n    <a href=\"./profile.html\"><img id=\"profileBtn\" src=\"../images/buttons/20.png\"></a>\n</div>\n      ";
     var navigationRoot = document.querySelector("#navigationTabs");
     if (!navigationRoot)
         throw new Error("navigationRoot not found");

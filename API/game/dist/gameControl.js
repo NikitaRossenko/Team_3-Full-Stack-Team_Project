@@ -36,8 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getGames = void 0;
+exports.createGame = exports.increaseHighscore = exports.getGames = void 0;
+var enemyModel_1 = require("../enemy/enemyModel");
+var towerModel_1 = require("../towers/towerModel");
+var userModel_1 = require("../users/userModel");
 var gameModel_1 = require("./gameModel");
+var jwt_simple_1 = require("jwt-simple");
 exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var gamesDB, error_1;
     return __generator(this, function (_a) {
@@ -60,23 +64,73 @@ exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var currentUser, score, secret, userId, user, updatedHighscore, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 4, , 5]);
+                currentUser = req.cookies.currentUser;
+                score = req.body.score;
+                secret = process.env.JWT_SECRET;
+                if (!secret)
+                    throw new Error("Server Error");
+                userId = jwt_simple_1["default"].decode(currentUser, secret).userId;
+                return [4 /*yield*/, userModel_1["default"].findOne({ _id: userId })];
+            case 1:
+                user = _a.sent();
+                if (!user)
+                    throw new Error("Server Error");
+                if (!(user.highScore < score)) return [3 /*break*/, 3];
+                return [4 /*yield*/, userModel_1["default"].findOneAndUpdate({ _id: userId }, { highScore: score })];
+            case 2:
+                updatedHighscore = _a.sent();
+                _a.label = 3;
+            case 3: return [3 /*break*/, 5];
+            case 4:
+                error_2 = _a.sent();
+                res.status(500).send({ ok: false });
+                console.error(error_2);
+                return [3 /*break*/, 5];
+            case 5: return [2 /*return*/];
+        }
+    });
+}); };
 //creat game -> playerId = userid
 //creat game -> enemiesId[].map
 //creat game -> towersId[].map
-// export const createGame = async (req: any, res: any) => {
-//   try {
-//     const { playerId, enemyId, towersId, game, score, level } = req.body;
-//     const gameDB = await GameModel.create({
-//     userId:playerId,
-//     enemyId,
-//     towersId,
-//     game,
-//     score,
-//     level,
-//     });
-//     res.status(201).send({ ok: true, gameDB });
-//   } catch (error: any) {
-//     console.error(error);
-//     res.status(500).send({ error: error.message });
-//   }
-// };
+exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var currentUser, secret, userId, enemies, towers, gameDB, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                currentUser = req.cookies.currentUser;
+                secret = process.env.JWT_SECRET;
+                if (!secret)
+                    throw new Error("Server Error");
+                return [4 /*yield*/, jwt_simple_1["default"].decode(currentUser, secret)];
+            case 1:
+                userId = (_a.sent()).userId;
+                enemies = enemyModel_1["default"].find({});
+                towers = towerModel_1["default"].find({});
+                return [4 /*yield*/, gameModel_1["default"].create({
+                        userId: userId,
+                        enemies: enemies,
+                        towers: towers,
+                        score: 100,
+                        level: 1
+                    })];
+            case 2:
+                gameDB = _a.sent();
+                res.status(201).send({ ok: true, gameDB: gameDB });
+                return [3 /*break*/, 4];
+            case 3:
+                error_3 = _a.sent();
+                console.error(error_3);
+                res.status(500).send({ error: error_3.message });
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); };
