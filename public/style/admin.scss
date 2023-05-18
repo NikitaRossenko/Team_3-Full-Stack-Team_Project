@@ -10,8 +10,12 @@
     // --background-color-dark: rgb(192, 190, 190);
 }
 
-* {
+body {
+    overflow-y: scroll;
+    background-color:#07150A;
+}
 
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -29,14 +33,6 @@
     justify-content: center;
     gap: 5px;
 }
-body {
-    background: linear-gradient(45deg ,  rgba(255, 255, 255, 0.164) , rgba(255, 252, 252, 0.281)) , url("../../images/background1.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: repeat;
-    width: 100vw;
-    height: 100vh;
-}
     //ID 
 
         #loadingIcon{
@@ -47,6 +43,7 @@ body {
 
     #btnBackHome{
         cursor: pointer;
+        color: rgb(209, 209, 209);
         border: none;
         background-color: unset;
         position: absolute;
@@ -73,7 +70,6 @@ height: 100vh;
         // }
 
         &__title {
- 
             color: rgb(27, 25, 25);
             font-size: 1.1rem;
             padding-bottom: 3px;
@@ -81,7 +77,7 @@ height: 100vh;
 
         &__subtitle {
             font-size: 0.8rem;
-            color: gray;
+            color: rgb(209, 209, 209);
         }
 
         &__nav {
@@ -146,13 +142,16 @@ height: 100vh;
 
                 flex-basis: calc(100%/3.5);
                 border-left: 1px solid gray;
+                border-right: 1px solid gray;
                 padding: 10px;
                 padding-left: 20px;
                 display: flex;
-                justify-content: start;
+                justify-content: center;
                 align-items: center;
                 text-align: center;
                 min-height: 90px;
+                background-color: #93a4ae71;
+                border-radius: 20px;
 
      
                 &__icon {
@@ -305,6 +304,10 @@ height: 100vh;
                     width: 100%;
                     height: 100%;
                     transition: 0.2s ease all;
+
+                    h1 {
+                        color: white;
+                    }
                     &:hover{
                         background-color: var(--background-color-dark);
                     }

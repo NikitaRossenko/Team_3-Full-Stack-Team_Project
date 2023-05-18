@@ -25,7 +25,7 @@ function renderCreateTowerSection(): string {
 <form class="collapse-container__form" onsubmit="handleSubmitCreateTower(event)">
 
     <div>
-        <label for="name" >tower Name</label>
+        <label for="name" >Name</label>
         <input type="text" name="name" id="name" >
     </div>
     <div>
@@ -66,7 +66,7 @@ function renderCreateEnemySection(): string {
 <form class="collapse-container__form" onsubmit="handleSubmitCreateEnemy(event)">
 
     <div>
-        <label for="name" >Enemy Name</label>
+        <label for="name" >Name</label>
         <input type="text" name="name" id="name">
     </div>
     <div>
@@ -189,7 +189,7 @@ async function renderTowerList() {
         return `
             <li class="container__main__container-middle__list">
             <div>
-                <h5>Tower Name</h5>
+                <h5>Name</h5>
                 <span id="rootTowerName">${tower.name}</span>
             </div>
             <div>
@@ -241,7 +241,7 @@ async function renderEnemyList() {
         return `
             <li class="container__main__container-middle__list">
             <div>
-                <h5>Enemy Name</h5>
+                <h5>Name</h5>
                 <span id="rootEnemyName">${enemy.name}</span>
             </div>
             <div>

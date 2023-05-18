@@ -6,6 +6,11 @@
   --background-color-dark: #2f52669d;
 }
 
+body {
+  overflow-y: scroll;
+  background-color: #07150A;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -21,15 +26,6 @@
   gap: 5px;
 }
 
-body {
-  background: linear-gradient(45deg, rgba(255, 255, 255, 0.164), rgba(255, 252, 252, 0.281)), url("../../images/background1.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: repeat;
-  width: 100vw;
-  height: 100vh;
-}
-
 #loadingIcon {
   animation: infinite spin 0.5s;
   width: 30px;
@@ -37,6 +33,7 @@ body {
 
 #btnBackHome {
   cursor: pointer;
+  color: #d1d1d1;
   border: none;
   background-color: unset;
   position: absolute;
@@ -65,7 +62,7 @@ body {
 }
 .container__header__subtitle {
   font-size: 0.8rem;
-  color: gray;
+  color: #d1d1d1;
 }
 .container__header__nav {
   min-width: 500px;
@@ -113,13 +110,16 @@ body {
 .container__main__container-top__box {
   flex-basis: calc(100%/3.5);
   border-left: 1px solid gray;
+  border-right: 1px solid gray;
   padding: 10px;
   padding-left: 20px;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 90px;
+  background-color: #93a4ae71;
+  border-radius: 20px;
 }
 .container__main__container-top__box__icon {
   box-shadow: -5px 10px 15px rgba(26, 88, 124, 0.493), inset 0px 2px 15px rgba(64, 76, 83, 0.986);
@@ -236,6 +236,9 @@ body {
   width: 100%;
   height: 100%;
   transition: 0.2s ease all;
+}
+.container__main__container-bottom__box button h1 {
+  color: white;
 }
 .container__main__container-bottom__box button:hover {
   background-color: var(--background-color-dark);
