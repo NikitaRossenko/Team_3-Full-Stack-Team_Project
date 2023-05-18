@@ -28,7 +28,7 @@ async function game() {
 
 
         const newGame = await fetch("/api/game/create-game");
-        console.log(newGame)
+        // console.log(newGame)
 
         function sound(src) {
             this.sound = document.createElement("audio");

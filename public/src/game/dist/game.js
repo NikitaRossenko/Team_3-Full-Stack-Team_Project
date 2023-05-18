@@ -69,6 +69,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 // }
 function game() {
     return __awaiter(this, void 0, void 0, function () {
+        // console.log(newGame)
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;
@@ -219,7 +220,6 @@ function game() {
                     return [4 /*yield*/, fetch("/api/game/create-game")];
                 case 1:
                     newGame = _a.sent();
-                    console.log(newGame);
                     mainContainer_1 = document.querySelector(".mainContainer");
                     gameOver_1 = document.querySelector("#gameOver");
                     scene = document.querySelector("#scene");

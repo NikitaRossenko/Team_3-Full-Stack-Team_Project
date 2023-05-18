@@ -49,20 +49,20 @@ export const createGame = async (req: any, res: any) => {
     if (!secret) throw new Error("Server Error")
 
     const {userId} = await jwt.decode(currentUser, secret)
-
-    const enemies = EnemyModel.find({})
-    const towers = TowerModel.find({})
+console.log("hiiiiiiii");
+    const enemy = EnemyModel.find({})
+    const tower = TowerModel.find({})
     
 
     const gameDB = await GameModel.create({
-    userId:userId,
-    enemies,
-    towers,
+    player:userId,
+    enemy,
+    tower,
     score:100,
     level:1,
     });
 
-    res.status(201).send({ ok: true, gameDB });
+    res.status(201).send({ ok: true});
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });

@@ -100,7 +100,7 @@ exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 
 //creat game -> enemiesId[].map
 //creat game -> towersId[].map
 exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentUser, secret, userId, enemies, towers, gameDB, error_3;
+    var currentUser, secret, userId, enemy, tower, gameDB, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -112,18 +112,19 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, jwt_simple_1["default"].decode(currentUser, secret)];
             case 1:
                 userId = (_a.sent()).userId;
-                enemies = enemyModel_1["default"].find({});
-                towers = towerModel_1["default"].find({});
+                console.log("hiiiiiiii");
+                enemy = enemyModel_1["default"].find({});
+                tower = towerModel_1["default"].find({});
                 return [4 /*yield*/, gameModel_1["default"].create({
-                        userId: userId,
-                        enemies: enemies,
-                        towers: towers,
+                        player: userId,
+                        enemy: enemy,
+                        tower: tower,
                         score: 100,
                         level: 1
                     })];
             case 2:
                 gameDB = _a.sent();
-                res.status(201).send({ ok: true, gameDB: gameDB });
+                res.status(201).send({ ok: true });
                 return [3 /*break*/, 4];
             case 3:
                 error_3 = _a.sent();
