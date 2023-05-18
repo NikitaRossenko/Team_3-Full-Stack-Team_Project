@@ -6,7 +6,11 @@ var GameSchema = new mongoose_1.Schema({
         type: Number,
         required: true
     },
-    level: {
+    waveCount: {
+        type: Number,
+        required: true
+    },
+    coins: {
         type: Number,
         required: true
     },

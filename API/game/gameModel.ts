@@ -6,7 +6,8 @@ import { UserSchema, User } from "../users/userModel";
 export interface Game {
     player: User;
     score: number;
-    level: number;
+    coins: number;
+    waveCount: number;
     enemies: Enemy[];
     towers: Tower[];
 }
@@ -17,7 +18,11 @@ const GameSchema = new Schema<Game>({
         type: Number,
         required: true
     },
-    level: {
+    waveCount: {
+        type: Number,
+        required: true
+    },
+    coins: {
         type: Number,
         required: true
     },

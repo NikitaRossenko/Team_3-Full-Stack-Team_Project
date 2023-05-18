@@ -8,7 +8,6 @@ export interface User {
   email: string;
   password: string;
   highScore: number;
-  coin: number;
   ROLE: ROLE;
   gamesPlayed:number;
   src?:string
@@ -41,11 +40,6 @@ export const UserSchema = new Schema<User>({
     require: true,
   },
   highScore:{
-      type:Number,
-      require:false,
-      default: 0,
-  } ,
-  coin:{
       type:Number,
       require:false,
       default: 0,

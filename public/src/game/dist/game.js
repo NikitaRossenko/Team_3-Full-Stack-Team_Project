@@ -69,7 +69,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 // }
 function game() {
     return __awaiter(this, void 0, void 0, function () {
-        // console.log(newGame)
         function sound(src) {
             this.sound = document.createElement("audio");
             this.sound.src = src;
@@ -216,7 +215,7 @@ function game() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 3, , 4]);
                     return [4 /*yield*/, fetch("/api/game/create-game")];
                 case 1:
                     newGame = _a.sent();
@@ -244,7 +243,10 @@ function game() {
                     bulletPower_1 = 20;
                     gamePaused_1 = false;
                     score_1 = 0;
-                    coins_1 = 100;
+                    return [4 /*yield*/, fetch("/api/game/get-game-coins")];
+                case 2:
+                    coins_1 = _a.sent();
+                    console.log(coins_1);
                     waveCount_1 = 1;
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
@@ -558,12 +560,12 @@ function game() {
                         }
                     });
                     animate();
-                    return [3 /*break*/, 3];
-                case 2:
+                    return [3 /*break*/, 4];
+                case 3:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });

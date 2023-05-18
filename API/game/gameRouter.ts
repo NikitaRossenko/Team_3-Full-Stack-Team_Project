@@ -1,5 +1,5 @@
 import {Router} from "express";
-import { createGame, getGames, increaseHighscore } from "./gameControl";
+import { createGame, getGameCoins, getGames, increaseHighscore } from "./gameControl";
 
 
 const gameRouter = Router()
@@ -7,6 +7,7 @@ const gameRouter = Router()
 gameRouter
 .get("/get-games" ,getGames )
 .get("/create-game" , createGame)
+.get("/get-game-coins" , getGameCoins)
 .post("/increase-highscore" , increaseHighscore )
 
 

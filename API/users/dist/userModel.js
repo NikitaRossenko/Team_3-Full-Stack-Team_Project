@@ -33,11 +33,6 @@ exports.UserSchema = new mongoose_1.Schema({
         require: false,
         "default": 0
     },
-    coin: {
-        type: Number,
-        require: false,
-        "default": 0
-    },
     gamesPlayed: {
         type: Number,
         require: false,

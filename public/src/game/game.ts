@@ -28,7 +28,6 @@ async function game() {
 
 
         const newGame = await fetch("/api/game/create-game");
-        // console.log(newGame)
 
         function sound(src) {
             this.sound = document.createElement("audio");
@@ -78,7 +77,8 @@ async function game() {
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
-        let coins = 100;
+        let coins = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
+        console.log(coins)
         let waveCount = 1;
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;

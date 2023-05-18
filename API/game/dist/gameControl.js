@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createGame = exports.increaseHighscore = exports.getGames = void 0;
+exports.createGame = exports.getGameCoins = exports.increaseHighscore = exports.getGames = void 0;
 var enemyModel_1 = require("../enemy/enemyModel");
 var towerModel_1 = require("../towers/towerModel");
 var userModel_1 = require("../users/userModel");
@@ -86,7 +86,9 @@ exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 
             case 2:
                 updatedHighscore = _a.sent();
                 _a.label = 3;
-            case 3: return [3 /*break*/, 5];
+            case 3:
+                res.status(200).send({ ok: true });
+                return [3 /*break*/, 5];
             case 4:
                 error_2 = _a.sent();
                 res.status(500).send({ ok: false });
@@ -96,15 +98,44 @@ exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 
         }
     });
 }); };
+exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var currentGame, secret, gameId, game, coinsDB, error_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                currentGame = req.cookies.currentGame;
+                secret = process.env.JWT_SECRET;
+                if (!secret)
+                    throw new Error("Server Error");
+                gameId = jwt_simple_1["default"].decode(currentGame, secret).gameId;
+                return [4 /*yield*/, gameModel_1["default"].findOne({ _id: gameId }).lean()];
+            case 1:
+                game = _a.sent();
+                if (!game)
+                    throw new Error("Server Error");
+                coinsDB = game.coins;
+                console.log(coinsDB);
+                res.status(200).send({ ok: coinsDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_3 = _a.sent();
+                res.status(500).send({ ok: false });
+                console.error(error_3);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 //creat game -> playerId = userid
 //creat game -> enemiesId[].map
 //creat game -> towersId[].map
 exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentUser, secret, userId, enemy, tower, gameDB, error_3;
+    var currentUser, secret, userId, user, increasedGamePlayed, enemies, towers, gameDB, _id, gameToken, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
+                _a.trys.push([0, 8, , 9]);
                 currentUser = req.cookies.currentUser;
                 secret = process.env.JWT_SECRET;
                 if (!secret)
@@ -112,26 +143,43 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, jwt_simple_1["default"].decode(currentUser, secret)];
             case 1:
                 userId = (_a.sent()).userId;
-                console.log("hiiiiiiii");
-                enemy = enemyModel_1["default"].find({});
-                tower = towerModel_1["default"].find({});
+                return [4 /*yield*/, userModel_1["default"].findOne({ _id: userId }).lean()];
+            case 2:
+                user = _a.sent();
+                if (!user)
+                    throw new Error("Server Error");
+                return [4 /*yield*/, userModel_1["default"].findOneAndUpdate({ _id: userId }, { gamesPlayed: user.gamesPlayed + 1 })];
+            case 3:
+                increasedGamePlayed = _a.sent();
+                return [4 /*yield*/, enemyModel_1["default"].find({}).lean()];
+            case 4:
+                enemies = _a.sent();
+                return [4 /*yield*/, towerModel_1["default"].find({}).lean()];
+            case 5:
+                towers = _a.sent();
                 return [4 /*yield*/, gameModel_1["default"].create({
                         player: userId,
-                        enemy: enemy,
-                        tower: tower,
-                        score: 100,
-                        level: 1
+                        enemies: enemies,
+                        towers: towers,
+                        score: 0,
+                        coins: 100,
+                        waveCount: 1
                     })];
-            case 2:
+            case 6:
                 gameDB = _a.sent();
+                _id = gameDB._id;
+                return [4 /*yield*/, jwt_simple_1["default"].encode({ gameId: _id }, secret)];
+            case 7:
+                gameToken = _a.sent();
+                res.cookie("currentGame", gameToken);
                 res.status(201).send({ ok: true });
-                return [3 /*break*/, 4];
-            case 3:
-                error_3 = _a.sent();
-                console.error(error_3);
-                res.status(500).send({ error: error_3.message });
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 9];
+            case 8:
+                error_4 = _a.sent();
+                console.error(error_4);
+                res.status(500).send({ error: error_4.message });
+                return [3 /*break*/, 9];
+            case 9: return [2 /*return*/];
         }
     });
 }); };

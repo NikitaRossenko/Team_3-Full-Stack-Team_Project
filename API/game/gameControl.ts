@@ -31,6 +31,28 @@ export const increaseHighscore = async (req:any, res:any) => {
       const updatedHighscore = await UserModel.findOneAndUpdate({_id:userId}, {highScore:score})
     }
 
+    res.status(200).send({ ok: true});
+
+  } catch (error) {
+    res.status(500).send({ ok: false });
+    console.error(error);
+  }
+}
+
+export const getGameCoins = async (req:any, res:any) => {
+  try {
+    const {currentGame} = req.cookies;
+    const secret = process.env.JWT_SECRET
+    if (!secret) throw new Error("Server Error")
+
+    const {gameId} = jwt.decode(currentGame, secret)
+    const game = await GameModel.findOne({_id:gameId}).lean()
+    if (!game) throw new Error("Server Error")
+    const coinsDB = game.coins
+    console.log(coinsDB)
+    
+    res.status(200).send({ ok: coinsDB });
+    
   } catch (error) {
     res.status(500).send({ ok: false });
     console.error(error);
@@ -47,20 +69,30 @@ export const createGame = async (req: any, res: any) => {
     const {currentUser} = req.cookies;
     const secret = process.env.JWT_SECRET
     if (!secret) throw new Error("Server Error")
-
-    const {userId} = await jwt.decode(currentUser, secret)
-console.log("hiiiiiiii");
-    const enemy = EnemyModel.find({})
-    const tower = TowerModel.find({})
     
+    const {userId} = await jwt.decode(currentUser, secret)
+    const user = await UserModel.findOne({_id:userId}).lean()
+    if (!user) throw new Error("Server Error")
+
+    // Increase Users gamesPlayed +1
+    const increasedGamePlayed = await UserModel.findOneAndUpdate({_id:userId}, {gamesPlayed:user.gamesPlayed+1})
+
+    const enemies = await EnemyModel.find({}).lean()
+    const towers = await TowerModel.find({}).lean()
 
     const gameDB = await GameModel.create({
     player:userId,
-    enemy,
-    tower,
-    score:100,
-    level:1,
+    enemies,
+    towers,
+    score:0,
+    coins:100,
+    waveCount:1,
     });
+
+    const {_id} = gameDB
+    const gameToken = await jwt.encode({gameId:_id}, secret)
+
+    res.cookie("currentGame", gameToken)
 
     res.status(201).send({ ok: true});
   } catch (error: any) {
