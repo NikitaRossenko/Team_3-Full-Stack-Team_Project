@@ -1,5 +1,9 @@
 async function renderComponentsByRole() {
   try {
+    const scoreboardBtn = document.querySelector(".scoreboardBtnContainer")
+    if (scoreboardBtn){
+      scoreboardBtn.style.display = "flex"
+    }
     const response = await fetch("/api/users/get-user");
     const data = await response.json();
     const { user } = data;

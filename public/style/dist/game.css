@@ -2,62 +2,16 @@ body {
   width: 100vw;
   height: 100vh;
   display: flex;
-  gap: 60px;
+  gap: 20px;
   align-items: center;
   flex-direction: column;
 }
 
-.navBar {
-  width: 100%;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.navBar .gameTitle {
+.gameTitle {
   font-size: 100px;
   font-family: "Times New Roman", Times, serif;
   color: white;
   margin: 0;
-}
-.navBar .rightNavIconsContainer {
-  justify-content: flex-end;
-}
-.navBar .navIconsContainer {
-  width: auto;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-.navBar .navIconsContainer .navIcon {
-  position: relative;
-  width: 240px;
-  height: 60px;
-  padding: 10px;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.navBar .navIconsContainer .navIcon img {
-  width: 150px;
-}
-.navBar .navIconsContainer .navIcon h1 {
-  pointer-events: none;
-  bottom: 14px;
-  font-size: 1.1rem;
-  text-align: center;
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-}
-.navBar .navIconsContainer .scoreboardBtnContainer {
-  display: none;
 }
 
 .mainContainer {

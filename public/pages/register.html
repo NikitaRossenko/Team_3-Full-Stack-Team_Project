@@ -8,28 +8,33 @@
     <!-- Link css file -->
     <link rel="stylesheet" href="../style/dist/style.css" />
     <link rel="stylesheet" href="../style/dist/register.css" />
+    <link rel="stylesheet" href="../style/dist/navBarIcons.css">
 
     <!-- Link JS files -->
 
     <script src="../src/dist/register.js" defer></script>
-    <title>REGISTER PAGE</title>
+    <title>Road of Glory - Register</title>
   </head>
 
   <body>
+    <div class="navBar">
+      <div class="navIconsContainer">
+          <div class="homeBtnContainer navIcon">
+              <h1>Home</h1>
+              <a href="/"><img id="homeBtn" src="../images/buttons/20.png"></a>
+          </div>
+      </div>
+    </div>
+    
     <div class="container">
 
-      <div class=" navIcon">
-        <a href="/"><img id="scoreboardBtn" src="../images/buttons/20.png">
-          <h1>Home</h1>
-        </a>
-    </div>
       <div class="container__container-form">
         <form
           action=""
           class="container__form"
           onsubmit="handleSubmitRegisterForm(event)"
         >
-          <h2 class="container__form__title">Registration Form</h2>
+          <h2 class="container__form__title">Registration</h2>
           <div class="container__form__group">
             <label for="fName">First Name</label>
             <input required type="text" id="fName" name="firstName" />

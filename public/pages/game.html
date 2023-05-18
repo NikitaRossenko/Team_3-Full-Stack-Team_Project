@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style/dist/style.css">
     <link rel="stylesheet" href="../style/dist/game.css">
+    <link rel="stylesheet" href="../style/dist/navBarIcons.css">
+    <script src="../src/game/dist/canvas.js" defer></script>
     <script src="../src/game/dist/pathWaypoints.js" defer></script>
     <script src="../src/game/dist/placementTowers.js" defer></script>
     <script src="../src/game/dist/game.js" defer></script>
@@ -14,19 +16,20 @@
 <body>
     <div class="navBar">
         <div class="navIconsContainer">
+            
             <div class="scoreboardBtnContainer navIcon">
                 <h1>Scoreboard</h1>
                 <a href="./scoreBoard.html"><img id="scoreboardBtn" src="../images/buttons/20.png"></a>
             </div>
         </div>
-        <h1 class="gameTitle">Road Of Glory</h1>
         <div class="navIconsContainer rightNavIconsContainer">
             <div class="loginBtnContainer navIcon">
-                <h1>Logout</h1>
-                <a href="./login.html"><img id="loginBtn" src="../images/buttons/20.png"></a>
+                <h1>Back</h1>
+                <a href="/"><img id="backBtn" src="../images/buttons/20.png"></a>
             </div>
         </div>
     </div>
+    <h1 class="gameTitle">Road Of Glory</h1>
     <div class="mainContainer">
         <div id="scene">
             <h1 id="sceneTitle">Guide</h1>

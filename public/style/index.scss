@@ -4,62 +4,12 @@ body {
   justify-content: center;
   align-items: center;
 }
-.navIcon:hover {
-  scale: 1.1;
-}
-.navIcon:active {
-  scale: 0.98;
-}
 
-.navBar {
-  width: 100%;
-  height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  .rightNavIconsContainer {
-    justify-content: flex-end;
-  }
-
-  .navIconsContainer {
-    width: auto;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-
-    .navIcon {
-      position: relative;
-      width: 240px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 20px;
-      cursor: pointer;
-
-      img {
-        width: 240px;
-      }
-
-      h1 {
-        pointer-events: none;
-        bottom: 14px;
-        width: 240px;
-        text-align: center;
-        position: absolute;
-        color: white;
-      }
-    }
-  }
-}
 
 .mainContainer {
   width: 100%;
   height: 100%;
   display: flex;
-  // justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 40px;

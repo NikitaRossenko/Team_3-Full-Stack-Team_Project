@@ -1,27 +1,3 @@
-// function handleUserUpdatecreatGame(playerId: string, enemyId: string, towersId: string) {
-//     try {
-//         fetch("/api/users/creat-game", {
-//             method: "POST",
-//             headers: {
-//                 Accept: "application/json",
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({playerId, enemyId, towersId}),
-//         });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-
-
-
-// function delay(milliseconds){
-
-//     console.log("1")
-//     return new Promise(resolve => {
-//         setTimeout(resolve, milliseconds);
-//     });
-// }
 
 async function game() {
     try {
@@ -559,11 +535,19 @@ async function game() {
                     if (playerHealth === 0) {
                         console.log("Game Over");
                         gameOver.style.display = "flex";
-                        uiIconsContainer.style.display = "none";
+                        uiIconsContainer.remove()
                         replayBtn.style.display = "flex";
                         scoreboardBtnContainer.style.display = "flex"
 
                         cancelAnimationFrame(animationFrame);
+                        const updateHighscore = fetch("/api/game/increase-highscore", {
+                            method: "POST",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({score}),
+                        });
                     }
                 }
 
