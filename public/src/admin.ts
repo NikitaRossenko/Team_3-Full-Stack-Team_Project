@@ -194,7 +194,7 @@ async function renderTowerList() {
             </div>
             <div>
                 <h5>Image</h5>
-                <span id="rootTowerImage">${tower.image}</span>
+                <img id="towerImage" src="${tower.image}">
             </div>
             <div>
                 <h5>Damage</h5>
@@ -245,12 +245,12 @@ async function renderEnemyList() {
                 <span id="rootEnemyName">${enemy.name}</span>
             </div>
             <div>
-                <h5>Health</h5>
-                <span id="rootEnemyHealth">${enemy.health}</span>
+                <h5>Image</h5>
+                <img id="enemyImage" src="${enemy.image}">
             </div>
             <div>
-                <h5>Image</h5>
-                <span id="rootEnemyImage">${enemy.image}</span>
+                <h5>Health</h5>
+                <span id="rootEnemyHealth">${enemy.health}</span>
             </div>
             <div>
                 <button onclick="handleClickDelEnemy('${enemy._id}')">
