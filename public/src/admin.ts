@@ -144,34 +144,39 @@ async function renderUserList() {
     const dataJs = await fetch("/api/users/get-users");
     if (!dataJs) throw new Error("no found dataJs");
     const data = await dataJs.json();
-    const { users } = data;
-    const html = users
-      .map((user) => {
-        return `
-            <li class="container__main__container-middle__list">
-            <div>
-                <h5>Username</h5>
-                <span id="rootNameUser">${user.userName}</span>
-            </div>
-            <div>
-                <h5>Email</h5>
-                <span id="rootNameUser">${user.email}</span>
-            </div>
-            <div>
-                <h5>Role</h5>
-                <span id="rootNameUser">${user.ROLE}</span>
-            </div>
-            <div>
-                <button onclick="handleClickDelUser('${user._id}')">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        </li>
+    if (data.ok === false){
+      rootUsersDetail.innerHTML = "N/A";
+    } else {
 
-            `;
-      })
-      .join("");
-    rootUsersDetail.innerHTML = html;
+      const { users } = data;
+      const html = users
+        .map((user) => {
+          return `
+              <li class="container__main__container-middle__list">
+              <div>
+                  <h5>Username</h5>
+                  <span id="rootNameUser">${user.userName}</span>
+              </div>
+              <div>
+                  <h5>Email</h5>
+                  <span id="rootNameUser">${user.email}</span>
+              </div>
+              <div>
+                  <h5>Role</h5>
+                  <span id="rootNameUser">${user.ROLE}</span>
+              </div>
+              <div>
+                  <button onclick="handleClickDelUser('${user._id}')">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </button>
+              </div>
+          </li>
+  
+              `;
+        })
+        .join("");
+      rootUsersDetail.innerHTML = html;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -184,46 +189,50 @@ async function renderTowerList() {
     const dataJs = await fetch("/api/tower/get-towers");
     if (!dataJs) throw new Error("no found dataJs");
     const data = await dataJs.json();
-    const { towerDB } = data;
-    const html = towerDB
-      .map((tower) => {
-        return `
-            <li class="container__main__container-middle__list">
-            <div>
-                <h5>Name</h5>
-                <span id="rootTowerName">${tower.name}</span>
-            </div>
-            <div>
-                <h5>Image</h5>
-                <img id="towerImage" src="${tower.image}">
-            </div>
-            <div>
-                <h5>Damage</h5>
-                <span id="rootTowerDamage">${tower.damage}</span>
-            </div>
-            <div>
-                <h5>Radius</h5>
-                <span id="rootTowerRadius">${tower.radius}</span>
-            </div>
-            <div>
-                <h5>Cost</h5>
-                <span id="rootTowerCost">${tower.cost}</span>
-            </div>
-            <div>
-                <h5>Level</h5>
-                <span id="rootTowerLevel">${tower.level}</span>
-            </div>
-            <div>
-                <button onclick="handleClickDelTower('${tower._id}')">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        </li>
-
-            `;
-      })
-      .join("");
-      rootTowersDetail.innerHTML = html;
+    if (data.ok === false){
+      rootTowersDetail.innerHTML = "N/A";
+    } else {
+      const { towerDB } = data;
+      const html = towerDB
+        .map((tower) => {
+          return `
+              <li class="container__main__container-middle__list">
+              <div>
+                  <h5>Name</h5>
+                  <span id="rootTowerName">${tower.name}</span>
+              </div>
+              <div>
+                  <h5>Image</h5>
+                  <img id="towerImage" src="${tower.image}">
+              </div>
+              <div>
+                  <h5>Damage</h5>
+                  <span id="rootTowerDamage">${tower.damage}</span>
+              </div>
+              <div>
+                  <h5>Radius</h5>
+                  <span id="rootTowerRadius">${tower.radius}</span>
+              </div>
+              <div>
+                  <h5>Cost</h5>
+                  <span id="rootTowerCost">${tower.cost}</span>
+              </div>
+              <div>
+                  <h5>Level</h5>
+                  <span id="rootTowerLevel">${tower.level}</span>
+              </div>
+              <div>
+                  <button onclick="handleClickDelTower('${tower._id}')">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </button>
+              </div>
+          </li>
+  
+              `;
+        })
+        .join("");
+        rootTowersDetail.innerHTML = html;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -236,34 +245,38 @@ async function renderEnemyList() {
     const dataJs = await fetch("/api/enemy/get-enemies");
     if (!dataJs) throw new Error("no found dataJs");
     const data = await dataJs.json();
-    const { enemyDB } = data;
-    const html = enemyDB
-      .map((enemy) => {
-        return `
-            <li class="container__main__container-middle__list">
-            <div>
-                <h5>Name</h5>
-                <span id="rootEnemyName">${enemy.name}</span>
-            </div>
-            <div>
-                <h5>Image</h5>
-                <img id="enemyImage" src="${enemy.image}">
-            </div>
-            <div>
-                <h5>Health</h5>
-                <span id="rootEnemyHealth">${enemy.health}</span>
-            </div>
-            <div>
-                <button onclick="handleClickDelEnemy('${enemy._id}')">
-                    <i class="fa-solid fa-trash-can"></i>
-                </button>
-            </div>
-        </li>
-
-            `;
-      })
-      .join("");
-    rootEnemiesDetail.innerHTML = html;
+    if (data.ok === false){
+      rootEnemiesDetail.innerHTML = "N/A";
+    }else {
+      const { enemyDB } = data;
+      const html = enemyDB
+        .map((enemy) => {
+          return `
+              <li class="container__main__container-middle__list">
+              <div>
+                  <h5>Name</h5>
+                  <span id="rootEnemyName">${enemy.name}</span>
+              </div>
+              <div>
+                  <h5>Image</h5>
+                  <img id="enemyImage" src="${enemy.image}">
+              </div>
+              <div>
+                  <h5>Health</h5>
+                  <span id="rootEnemyHealth">${enemy.health}</span>
+              </div>
+              <div>
+                  <button onclick="handleClickDelEnemy('${enemy._id}')">
+                      <i class="fa-solid fa-trash-can"></i>
+                  </button>
+              </div>
+          </li>
+  
+              `;
+        })
+        .join("");
+      rootEnemiesDetail.innerHTML = html;
+    }
   } catch (error) {
     console.error(error);
   }
@@ -541,8 +554,12 @@ async function FillRegisteredUsers() {
     const dataJs = await fetch("/api/users/get-users");
     if (!dataJs) throw new Error("no found DataJsName");
     const data = await dataJs.json();
-    const userNumber = data.users.length.toString();
-    registeredUserFill.innerHTML = userNumber;
+    if (data.ok === false){
+      registeredUserFill.innerHTML = "N/A";
+    } else {
+      const userNumber = data.users.length.toString();
+      registeredUserFill.innerHTML = userNumber;
+    }
   } catch (error) {
     console.error();
   }
@@ -572,8 +589,11 @@ async function getTotalGamesPlayed() {
     const {totalGamesPlayed} = await data.json();
     if (!totalGamesPlayedFill) throw new Error("Couldn't catch total games played h1!");
 
-
-    totalGamesPlayedFill.innerText = totalGamesPlayed
+    if (totalGamesPlayed === undefined){
+      totalGamesPlayedFill.innerText = "N/A"
+    } else {
+      totalGamesPlayedFill.innerText = totalGamesPlayed
+    }
 
   } catch (error) {
     console.error();

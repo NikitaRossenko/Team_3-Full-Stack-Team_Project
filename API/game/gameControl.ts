@@ -68,7 +68,6 @@ export const getTotalGamesPlayed = async (req:any, res:any) => {
       totalGamesPlayed += allUsers[i].gamesPlayed
     }
 
-    
     res.status(200).send({ ok: true, totalGamesPlayed:totalGamesPlayed});
     
   } catch (error:any) {

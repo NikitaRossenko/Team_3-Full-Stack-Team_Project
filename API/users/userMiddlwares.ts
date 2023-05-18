@@ -19,6 +19,6 @@ export async function adminAccess(req: any, res: any, next: any) {
     next();
   } catch (error: any) {
     console.error(error);
-    res.status(401).send({ error: error.message });
+    res.status(401).send({ok:false, error: error.message });
   }
 }

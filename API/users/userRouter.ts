@@ -5,7 +5,7 @@ import { adminAccess } from "./userMiddlwares";
 const userRouter = Router()
 
 userRouter
-.get("/get-users" , getUsers)
+.get("/get-users",adminAccess, getUsers)
 .post("/create-user" , createUser)
 .post("/admin-create-user" ,adminAccess, adminCreateUser)
 .post("/login" , login)

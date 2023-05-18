@@ -95,13 +95,18 @@ function renderUserList() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    users = data.users;
-                    html = users
-                        .map(function (user) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Username</h5>\n                <span id=\"rootNameUser\">" + user.userName + "</span>\n            </div>\n            <div>\n                <h5>Email</h5>\n                <span id=\"rootNameUser\">" + user.email + "</span>\n            </div>\n            <div>\n                <h5>Role</h5>\n                <span id=\"rootNameUser\">" + user.ROLE + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    })
-                        .join("");
-                    rootUsersDetail.innerHTML = html;
+                    if (data.ok === false) {
+                        rootUsersDetail.innerHTML = "N/A";
+                    }
+                    else {
+                        users = data.users;
+                        html = users
+                            .map(function (user) {
+                            return "\n              <li class=\"container__main__container-middle__list\">\n              <div>\n                  <h5>Username</h5>\n                  <span id=\"rootNameUser\">" + user.userName + "</span>\n              </div>\n              <div>\n                  <h5>Email</h5>\n                  <span id=\"rootNameUser\">" + user.email + "</span>\n              </div>\n              <div>\n                  <h5>Role</h5>\n                  <span id=\"rootNameUser\">" + user.ROLE + "</span>\n              </div>\n              <div>\n                  <button onclick=\"handleClickDelUser('" + user._id + "')\">\n                      <i class=\"fa-solid fa-trash-can\"></i>\n                  </button>\n              </div>\n          </li>\n  \n              ";
+                        })
+                            .join("");
+                        rootUsersDetail.innerHTML = html;
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
@@ -129,13 +134,18 @@ function renderTowerList() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    towerDB = data.towerDB;
-                    html = towerDB
-                        .map(function (tower) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Name</h5>\n                <span id=\"rootTowerName\">" + tower.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <img id=\"towerImage\" src=\"" + tower.image + "\">\n            </div>\n            <div>\n                <h5>Damage</h5>\n                <span id=\"rootTowerDamage\">" + tower.damage + "</span>\n            </div>\n            <div>\n                <h5>Radius</h5>\n                <span id=\"rootTowerRadius\">" + tower.radius + "</span>\n            </div>\n            <div>\n                <h5>Cost</h5>\n                <span id=\"rootTowerCost\">" + tower.cost + "</span>\n            </div>\n            <div>\n                <h5>Level</h5>\n                <span id=\"rootTowerLevel\">" + tower.level + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelTower('" + tower._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    })
-                        .join("");
-                    rootTowersDetail.innerHTML = html;
+                    if (data.ok === false) {
+                        rootTowersDetail.innerHTML = "N/A";
+                    }
+                    else {
+                        towerDB = data.towerDB;
+                        html = towerDB
+                            .map(function (tower) {
+                            return "\n              <li class=\"container__main__container-middle__list\">\n              <div>\n                  <h5>Name</h5>\n                  <span id=\"rootTowerName\">" + tower.name + "</span>\n              </div>\n              <div>\n                  <h5>Image</h5>\n                  <img id=\"towerImage\" src=\"" + tower.image + "\">\n              </div>\n              <div>\n                  <h5>Damage</h5>\n                  <span id=\"rootTowerDamage\">" + tower.damage + "</span>\n              </div>\n              <div>\n                  <h5>Radius</h5>\n                  <span id=\"rootTowerRadius\">" + tower.radius + "</span>\n              </div>\n              <div>\n                  <h5>Cost</h5>\n                  <span id=\"rootTowerCost\">" + tower.cost + "</span>\n              </div>\n              <div>\n                  <h5>Level</h5>\n                  <span id=\"rootTowerLevel\">" + tower.level + "</span>\n              </div>\n              <div>\n                  <button onclick=\"handleClickDelTower('" + tower._id + "')\">\n                      <i class=\"fa-solid fa-trash-can\"></i>\n                  </button>\n              </div>\n          </li>\n  \n              ";
+                        })
+                            .join("");
+                        rootTowersDetail.innerHTML = html;
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_2 = _a.sent();
@@ -163,13 +173,18 @@ function renderEnemyList() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    enemyDB = data.enemyDB;
-                    html = enemyDB
-                        .map(function (enemy) {
-                        return "\n            <li class=\"container__main__container-middle__list\">\n            <div>\n                <h5>Name</h5>\n                <span id=\"rootEnemyName\">" + enemy.name + "</span>\n            </div>\n            <div>\n                <h5>Image</h5>\n                <img id=\"enemyImage\" src=\"" + enemy.image + "\">\n            </div>\n            <div>\n                <h5>Health</h5>\n                <span id=\"rootEnemyHealth\">" + enemy.health + "</span>\n            </div>\n            <div>\n                <button onclick=\"handleClickDelEnemy('" + enemy._id + "')\">\n                    <i class=\"fa-solid fa-trash-can\"></i>\n                </button>\n            </div>\n        </li>\n\n            ";
-                    })
-                        .join("");
-                    rootEnemiesDetail.innerHTML = html;
+                    if (data.ok === false) {
+                        rootEnemiesDetail.innerHTML = "N/A";
+                    }
+                    else {
+                        enemyDB = data.enemyDB;
+                        html = enemyDB
+                            .map(function (enemy) {
+                            return "\n              <li class=\"container__main__container-middle__list\">\n              <div>\n                  <h5>Name</h5>\n                  <span id=\"rootEnemyName\">" + enemy.name + "</span>\n              </div>\n              <div>\n                  <h5>Image</h5>\n                  <img id=\"enemyImage\" src=\"" + enemy.image + "\">\n              </div>\n              <div>\n                  <h5>Health</h5>\n                  <span id=\"rootEnemyHealth\">" + enemy.health + "</span>\n              </div>\n              <div>\n                  <button onclick=\"handleClickDelEnemy('" + enemy._id + "')\">\n                      <i class=\"fa-solid fa-trash-can\"></i>\n                  </button>\n              </div>\n          </li>\n  \n              ";
+                        })
+                            .join("");
+                        rootEnemiesDetail.innerHTML = html;
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_3 = _a.sent();
@@ -510,8 +525,13 @@ function FillRegisteredUsers() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    userNumber = data.users.length.toString();
-                    registeredUserFill.innerHTML = userNumber;
+                    if (data.ok === false) {
+                        registeredUserFill.innerHTML = "N/A";
+                    }
+                    else {
+                        userNumber = data.users.length.toString();
+                        registeredUserFill.innerHTML = userNumber;
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_7 = _a.sent();
@@ -570,7 +590,12 @@ function getTotalGamesPlayed() {
                     totalGamesPlayed = (_a.sent()).totalGamesPlayed;
                     if (!totalGamesPlayedFill_1)
                         throw new Error("Couldn't catch total games played h1!");
-                    totalGamesPlayedFill_1.innerText = totalGamesPlayed;
+                    if (totalGamesPlayed === undefined) {
+                        totalGamesPlayedFill_1.innerText = "N/A";
+                    }
+                    else {
+                        totalGamesPlayedFill_1.innerText = totalGamesPlayed;
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_9 = _a.sent();

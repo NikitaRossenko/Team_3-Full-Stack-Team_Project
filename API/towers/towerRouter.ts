@@ -6,7 +6,7 @@ import { adminAccess } from "../users/userMiddlwares";
 const towerRouter = Router()
 
 towerRouter
-.get("/get-towers" ,getTowers )
+.get("/get-towers",adminAccess ,getTowers )
 .post("/create-tower",adminAccess,createTower)
 .delete("/delete-tower",adminAccess,deleteTower)
 

@@ -63,7 +63,7 @@ function adminAccess(req, res, next) {
                 case 2:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    res.status(401).send({ error: error_1.message });
+                    res.status(401).send({ ok: false, error: error_1.message });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

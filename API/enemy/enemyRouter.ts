@@ -6,7 +6,7 @@ import { adminAccess } from "../users/userMiddlwares";
 const enemyRouter = Router()
 
 enemyRouter
-.get("/get-enemies" ,getEnemies )
+.get("/get-enemies",adminAccess ,getEnemies )
 .post("/create-enemy",adminAccess,createEnemy)
 .delete("/delete-enemy",adminAccess,deleteEnemy)
 
