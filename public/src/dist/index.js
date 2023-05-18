@@ -71,7 +71,7 @@ function renderComponentsByRole() {
     });
 }
 function renderAdminComponents() {
-    var html = "\n    <div class=\"adminBtnContainer adminBtn\">\n    <h1>Admin</h1>\n    <a href=\"./admin.html\"><img id=\"adminBtn\" src=\"../images/buttons/20.png\"></a>\n</div>\n    ";
+    var html = "\n    <div class=\"adminBtnContainer navIcon\">\n    <h1>Admin</h1>\n    <a href=\"./admin.html\"><img id=\"adminBtn\" src=\"../images/buttons/20.png\"></a>\n</div>\n    ";
     var navigationRoot = document.querySelector("#navigationTabs");
     if (!navigationRoot)
         throw new Error("navigationRoot not found");

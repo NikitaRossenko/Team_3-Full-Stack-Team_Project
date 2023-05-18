@@ -22,7 +22,7 @@ async function renderComponentsByRole() {
 
 function renderAdminComponents() {
   const html = `
-    <div class="adminBtnContainer adminBtn">
+    <div class="adminBtnContainer navIcon">
     <h1>Admin</h1>
     <a href="./admin.html"><img id="adminBtn" src="../images/buttons/20.png"></a>
 </div>

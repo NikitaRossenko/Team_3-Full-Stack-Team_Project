@@ -73,33 +73,3 @@ body {
     }
   }
 }
-
-.adminBtn {
-  position: relative;
-  width: 240px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-  cursor: pointer;
-
-  img {
-    width: 240px;
-  }
-
-  h1 {
-    pointer-events: none;
-    width: 240px;
-    font-size: 40px;
-    text-align: center !important;
-    position: absolute;
-    color: white;
-  }
-}
-.adminBtn:hover {
-  scale: 1.1;
-}
-.adminBtn:active {
-  scale: 0.98;
-}
