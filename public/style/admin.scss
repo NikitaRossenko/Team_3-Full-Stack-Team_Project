@@ -189,6 +189,8 @@ height: 100vh;
             padding: 10px;
             position: relative;
             display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
 
          
 
@@ -211,6 +213,7 @@ height: 100vh;
                 overflow: scroll;
                 min-height: 450px;
                 max-height: 500px;
+                min-width: 750px;
                 margin: 8px;
                 border-radius: 20px;
                 flex-basis: calc(100% / 3);
@@ -232,9 +235,13 @@ height: 100vh;
                 display: flex;
                 margin: 5px;
 
-                #enemyImage , #towerImage{
-                    width: 70px;
-                    height: 70px;
+                #enemyImage {
+                    width: 90px;
+                    height: 90px;
+                }
+                #towerImage{
+                    width: 64px;
+                    height: 106px;
                 }
       
 
@@ -412,4 +419,5 @@ flex-wrap: wrap;
         from{transform:rotate(0deg)}
         to{transform:rotate(720deg)}
 }
+
 
