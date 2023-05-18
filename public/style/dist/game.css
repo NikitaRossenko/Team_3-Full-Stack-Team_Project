@@ -56,6 +56,9 @@ body {
   transform: translateX(-50%);
   color: white;
 }
+.navBar .navIconsContainer .scoreboardBtnContainer {
+  display: none;
+}
 
 .mainContainer {
   position: relative;

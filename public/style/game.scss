@@ -34,6 +34,7 @@ body {
 
 
 
+
         .navIcon{
             position: relative;
             width: 240px;
@@ -64,6 +65,10 @@ body {
                 transform: translateX(-50%);
                 color: white;
             }
+        }
+
+        .scoreboardBtnContainer{
+            display: none;
         }
     }
 }

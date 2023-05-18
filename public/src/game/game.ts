@@ -67,6 +67,7 @@ async function game() {
         const scoreAmount: any = document.querySelector("#scoreAmount");
         const wave: any = document.querySelector("#wave");
         const waveNumber: any = document.querySelector("#waveNumber");
+        const scoreboardBtnContainer: any = document.querySelector(".scoreboardBtnContainer");
 
         scene.style.display = "none";
         replayBtn.style.display = "none";
@@ -528,7 +529,7 @@ async function game() {
 
             // ctx.drawImage(mapImage, 0, 0);
 
-            if (waveCount === 2) {
+            if (waveCount === 100) {
                 console.log("Congratulations!");
                 gameOver.innerText = "Congratulations! You saved the village!";
                 gameOver.style.fontSize = "30px";
@@ -536,6 +537,7 @@ async function game() {
                 uiIconsContainer.style.display = "none";
                 replayBtn.style.display = "flex";
                 cancelAnimationFrame(animationFrame);
+                scoreboardBtnContainer.style.display = "flex"
                 const updateHighscore = fetch("/api/game/increase-highscore", {
                     method: "POST",
                     headers: {
@@ -559,6 +561,8 @@ async function game() {
                         gameOver.style.display = "flex";
                         uiIconsContainer.style.display = "none";
                         replayBtn.style.display = "flex";
+                        scoreboardBtnContainer.style.display = "flex"
+
                         cancelAnimationFrame(animationFrame);
                     }
                 }

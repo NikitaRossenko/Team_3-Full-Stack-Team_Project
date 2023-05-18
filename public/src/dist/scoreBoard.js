@@ -48,7 +48,7 @@ function renderScoreUser() {
                 case 2:
                     data = _a.sent();
                     user = data.user;
-                    html = "\n      <li class=\"person\">\n        <p class=\"icon\">" + '<img class="playericons" src="../images/PlayerIcons/13.png" alt="">' + "</p>\n        <p class=\"nickname\">#2 - " + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
+                    html = "\n      <li class=\"person\">\n        <p class=\"icon\"><img class=\"playericons\" src=" + user.src + "></p>\n        <p class=\"nickname\">#2 - " + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
                     ScoreRoot = document.querySelector("#scoreRoot");
                     if (!ScoreRoot)
                         throw new Error("ScoreRoot not found");

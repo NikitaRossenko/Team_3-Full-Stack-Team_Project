@@ -121,7 +121,7 @@ function game() {
                 throw new Error("[Canvas-ctx] Game Error");
             ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
             // ctx.drawImage(mapImage, 0, 0);
-            if (waveCount_1 === 2) {
+            if (waveCount_1 === 100) {
                 console.log("Congratulations!");
                 gameOver_1.innerText = "Congratulations! You saved the village!";
                 gameOver_1.style.fontSize = "30px";
@@ -129,6 +129,7 @@ function game() {
                 uiIconsContainer_1.style.display = "none";
                 replayBtn_1.style.display = "flex";
                 cancelAnimationFrame(animationFrame);
+                scoreboardBtnContainer_1.style.display = "flex";
                 var updateHighscore = fetch("/api/game/increase-highscore", {
                     method: "POST",
                     headers: {
@@ -150,6 +151,7 @@ function game() {
                         gameOver_1.style.display = "flex";
                         uiIconsContainer_1.style.display = "none";
                         replayBtn_1.style.display = "flex";
+                        scoreboardBtnContainer_1.style.display = "flex";
                         cancelAnimationFrame(animationFrame);
                     }
                 }
@@ -211,7 +213,7 @@ function game() {
                 }
             });
         }
-        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, pauseBtnContainer, pauseBtnIcon_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
+        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, pauseBtnContainer, pauseBtnIcon_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -236,6 +238,7 @@ function game() {
                     scoreAmount_1 = document.querySelector("#scoreAmount");
                     wave = document.querySelector("#wave");
                     waveNumber_1 = document.querySelector("#waveNumber");
+                    scoreboardBtnContainer_1 = document.querySelector(".scoreboardBtnContainer");
                     scene.style.display = "none";
                     replayBtn_1.style.display = "none";
                     activePlacement_1 = undefined;
