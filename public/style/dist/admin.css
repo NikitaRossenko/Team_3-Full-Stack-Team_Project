@@ -7,7 +7,7 @@
 }
 
 body {
-  overflow-y: scroll;
+  overflow-y: auto;
   background-color: #07150A;
 }
 
