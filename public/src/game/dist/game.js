@@ -232,7 +232,7 @@ function game() {
                     activePlacement_1 = undefined;
                     mapZoom_1 = 1.5;
                     enemyCount_1 = 4;
-                    playerHealth_1 = 1;
+                    playerHealth_1 = 5;
                     bulletPower_1 = 20;
                     gamePaused_1 = false;
                     score_1 = 0;

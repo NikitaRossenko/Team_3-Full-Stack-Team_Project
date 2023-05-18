@@ -57,7 +57,7 @@ async function game() {
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
         let enemyCount = 4;
-        let playerHealth = 1;
+        let playerHealth = 5;
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
