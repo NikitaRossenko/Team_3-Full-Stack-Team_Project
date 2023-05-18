@@ -99,7 +99,7 @@ exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 
     });
 }); };
 exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentGame, secret, gameId, game, coinsDB, error_3;
+    var currentGame, secret, gameId, game, coins, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -114,9 +114,9 @@ exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, vo
                 game = _a.sent();
                 if (!game)
                     throw new Error("Server Error");
-                coinsDB = game.coins;
-                console.log(coinsDB);
-                res.status(200).send({ ok: coinsDB });
+                coins = game.coins;
+                console.log(coins);
+                res.status(200).send({ ok: true, coins: coins });
                 return [3 /*break*/, 3];
             case 2:
                 error_3 = _a.sent();

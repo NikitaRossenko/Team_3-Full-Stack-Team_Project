@@ -28,6 +28,7 @@ async function game() {
 
 
         const newGame = await fetch("/api/game/create-game");
+        if (!newGame.ok) throw new Error("Game Error")
 
         function sound(src) {
             this.sound = document.createElement("audio");
@@ -77,8 +78,8 @@ async function game() {
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
-        let coins = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
-        console.log(coins)
+        let coinsDB = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
+        const {coins} = await coinsDB.json()
         let waveCount = 1;
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;

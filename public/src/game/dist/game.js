@@ -211,14 +211,16 @@ function game() {
                 }
             });
         }
-        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, pauseBtnContainer, pauseBtnIcon_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coins_1, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
+        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, pauseBtnContainer, pauseBtnIcon_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
+                    _a.trys.push([0, 4, , 5]);
                     return [4 /*yield*/, fetch("/api/game/create-game")];
                 case 1:
                     newGame = _a.sent();
+                    if (!newGame.ok)
+                        throw new Error("Game Error");
                     mainContainer_1 = document.querySelector(".mainContainer");
                     gameOver_1 = document.querySelector("#gameOver");
                     scene = document.querySelector("#scene");
@@ -245,8 +247,10 @@ function game() {
                     score_1 = 0;
                     return [4 /*yield*/, fetch("/api/game/get-game-coins")];
                 case 2:
-                    coins_1 = _a.sent();
-                    console.log(coins_1);
+                    coinsDB = _a.sent();
+                    return [4 /*yield*/, coinsDB.json()];
+                case 3:
+                    coins_1 = (_a.sent()).coins;
                     waveCount_1 = 1;
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
@@ -560,12 +564,12 @@ function game() {
                         }
                     });
                     animate();
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 5];
+                case 4:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });

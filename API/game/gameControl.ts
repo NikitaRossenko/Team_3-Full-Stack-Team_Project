@@ -48,10 +48,10 @@ export const getGameCoins = async (req:any, res:any) => {
     const {gameId} = jwt.decode(currentGame, secret)
     const game = await GameModel.findOne({_id:gameId}).lean()
     if (!game) throw new Error("Server Error")
-    const coinsDB = game.coins
-    console.log(coinsDB)
+    const coins = game.coins
+    console.log(coins)
     
-    res.status(200).send({ ok: coinsDB });
+    res.status(200).send({ ok: true, coins:coins });
     
   } catch (error) {
     res.status(500).send({ ok: false });
