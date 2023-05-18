@@ -12,7 +12,7 @@ export async function adminAccess(req: any, res: any, next: any) {
 
     const userDB = await UserModel.findById(userId);
     if(userDB?.ROLE !== `admin`){
-      throw new Error("unauthorized");
+      throw new Error("Unauthorized");
     }
     
 

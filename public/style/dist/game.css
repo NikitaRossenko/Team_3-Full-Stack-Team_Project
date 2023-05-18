@@ -136,7 +136,7 @@ body {
   right: 0;
   position: absolute;
   color: white;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 20px;
 }
 .mainContainer #gameOver {
@@ -151,7 +151,7 @@ body {
   align-items: center;
   font-size: 20px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 20px;
 }
 .mainContainer #scene #sceneTitle {

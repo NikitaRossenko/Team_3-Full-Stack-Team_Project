@@ -129,7 +129,7 @@ function game() {
                     if (playerHealth_1 === 0) {
                         console.log("Game Over");
                         gameOver_1.style.display = "flex";
-                        uiIconsContainer_1.remove();
+                        uiIconsContainer_1.innerHTML = "";
                         replayBtn_1.style.display = "flex";
                         scoreboardBtnContainer_1.style.display = "flex";
                         cancelAnimationFrame(animationFrame);
@@ -201,7 +201,7 @@ function game() {
                 }
             });
         }
-        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, pauseBtnContainer, pauseBtnIcon_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
+        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -217,8 +217,6 @@ function game() {
                     playBtnContainer = document.querySelector(".playBtnContainer");
                     replayBtn_1 = document.querySelector("#replayBtn");
                     playerHealthHearts_1 = document.querySelector("#playerHealth");
-                    pauseBtnContainer = document.querySelector("#pauseBtnContainer");
-                    pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
                     uiIconsContainer_1 = document.querySelector(".uiIconsContainer");
                     playerScore = document.querySelector("#playerScore");
                     playerCoinsBag = document.querySelector("#playerCoinsBag");
@@ -229,10 +227,12 @@ function game() {
                     scoreboardBtnContainer_1 = document.querySelector(".scoreboardBtnContainer");
                     scene.style.display = "none";
                     replayBtn_1.style.display = "none";
+                    uiIconsContainer_1.innerHTML = "<div id=\"pauseBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"pauseBtnIcon\" class=\"icon\" src=\"../images/icons/pause 96x96.png\">\n                <img id=\"pauseBtn\" src=\"../images/buttons/20.png\">\n            </div>\n            <div id=\"menuBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"menuBtnIcon\" class=\"icon\" src=\"../images/icons/menu 96x96.png\">\n                <img id=\"menuBtn\" src=\"../images/buttons/20.png\">\n            </div>";
+                    pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
                     activePlacement_1 = undefined;
                     mapZoom_1 = 1.5;
                     enemyCount_1 = 4;
-                    playerHealth_1 = 3;
+                    playerHealth_1 = 1;
                     bulletPower_1 = 20;
                     gamePaused_1 = false;
                     score_1 = 0;

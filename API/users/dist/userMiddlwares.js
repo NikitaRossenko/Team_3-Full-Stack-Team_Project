@@ -56,7 +56,7 @@ function adminAccess(req, res, next) {
                 case 1:
                     userDB = _a.sent();
                     if ((userDB === null || userDB === void 0 ? void 0 : userDB.ROLE) !== "admin") {
-                        throw new Error("unauthorized");
+                        throw new Error("Unauthorized");
                     }
                     next();
                     return [3 /*break*/, 3];

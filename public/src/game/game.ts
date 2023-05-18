@@ -28,15 +28,10 @@ async function game() {
         const mainContainer: any = document.querySelector(".mainContainer");
         const gameOver: any = document.querySelector("#gameOver");
         const scene: any = document.querySelector("#scene");
-        const playBtnContainer: any =
-            document.querySelector(".playBtnContainer");
+        const playBtnContainer: any = document.querySelector(".playBtnContainer");
         const replayBtn: any = document.querySelector("#replayBtn");
         const playerHealthHearts: any = document.querySelector("#playerHealth");
-        const pauseBtnContainer: any =
-            document.querySelector("#pauseBtnContainer");
-        const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
-        const uiIconsContainer: any =
-            document.querySelector(".uiIconsContainer");
+        const uiIconsContainer: any = document.querySelector(".uiIconsContainer");
         const playerScore: any = document.querySelector("#playerScore");
         const playerCoinsBag: any = document.querySelector("#playerCoinsBag");
         const playerCoins: any = document.querySelector("#playerCoins");
@@ -48,10 +43,21 @@ async function game() {
         scene.style.display = "none";
         replayBtn.style.display = "none";
 
+        uiIconsContainer.innerHTML = `<div id="pauseBtnContainer" class="navIcon uiIcons">
+                <img id="pauseBtnIcon" class="icon" src="../images/icons/pause 96x96.png">
+                <img id="pauseBtn" src="../images/buttons/20.png">
+            </div>
+            <div id="menuBtnContainer" class="navIcon uiIcons">
+                <img id="menuBtnIcon" class="icon" src="../images/icons/menu 96x96.png">
+                <img id="menuBtn" src="../images/buttons/20.png">
+            </div>`
+
+        const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
+
         let activePlacement: any = undefined;
         let mapZoom: number = 1.5;
         let enemyCount = 4;
-        let playerHealth = 3;
+        let playerHealth = 1;
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
@@ -535,7 +541,7 @@ async function game() {
                     if (playerHealth === 0) {
                         console.log("Game Over");
                         gameOver.style.display = "flex";
-                        uiIconsContainer.remove()
+                        uiIconsContainer.innerHTML = ""
                         replayBtn.style.display = "flex";
                         scoreboardBtnContainer.style.display = "flex"
 
