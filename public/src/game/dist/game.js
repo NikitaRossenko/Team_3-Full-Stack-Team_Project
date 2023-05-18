@@ -482,7 +482,7 @@ function game() {
                             };
                             this.radius = 6 * mapZoom_1;
                             this.enemy = enemy;
-                            this.bulletLife = 500;
+                            this.bulletLife = 300;
                             this.image = new Image();
                             this.image.src = "";
                         }
