@@ -9,6 +9,7 @@ const onLoad = () => {
     renderEnemyList();
     renderUserList();
     FillAdminName();
+    getTotalGamesPlayed();
     FillRegisteredUsers();
   } catch (error) {}
 };
@@ -562,3 +563,21 @@ async function FillAdminName() {
     console.error();
   }
 }
+
+async function getTotalGamesPlayed() {
+  try {
+    const totalGamesPlayedFill:HTMLHtmlElement | null = document.querySelector("#totalGamesPlayedFill")
+    const data = await fetch("/api/game/get-total-games-played");
+    if (!data) throw new Error("Couldn't fetch total games played!");
+    const {totalGamesPlayed} = await data.json();
+    if (!totalGamesPlayedFill) throw new Error("Couldn't catch total games played h1!");
+
+
+    totalGamesPlayedFill.innerText = totalGamesPlayed
+
+  } catch (error) {
+    console.error();
+  }
+}
+
+

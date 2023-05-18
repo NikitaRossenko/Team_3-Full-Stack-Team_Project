@@ -1,5 +1,6 @@
 import {Router} from "express";
-import { createGame, getGameCoins, getGameWaveCount, getGames, increaseHighscore } from "./gameControl";
+import { createGame, getGameCoins, getGameWaveCount, getGames, getTotalGamesPlayed, increaseHighscore } from "./gameControl";
+import { adminAccess } from "../users/userMiddlwares";
 
 
 const gameRouter = Router()
@@ -9,6 +10,7 @@ gameRouter
 .get("/create-game" , createGame)
 .get("/get-game-coins" , getGameCoins)
 .get("/get-game-wave-count" , getGameWaveCount)
+.get("/get-total-games-played",adminAccess, getTotalGamesPlayed)
 .post("/increase-highscore" , increaseHighscore )
 
 

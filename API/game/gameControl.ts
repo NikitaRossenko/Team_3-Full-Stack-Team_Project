@@ -59,6 +59,24 @@ export const getGameCoins = async (req:any, res:any) => {
   }
 }
 
+export const getTotalGamesPlayed = async (req:any, res:any) => {
+  try {
+    let totalGamesPlayed = 0
+    const allUsers = await UserModel.find({}).lean()
+
+    for (let i = 0 ; i < allUsers.length ; i++){
+      totalGamesPlayed += allUsers[i].gamesPlayed
+    }
+
+    
+    res.status(200).send({ ok: true, totalGamesPlayed:totalGamesPlayed});
+    
+  } catch (error:any) {
+    res.status(500).send({ ok: false, totalGamesPlayed:"N/A", error:error.message });
+    console.error(error);
+  }
+}
+
 export const getGameWaveCount = async (req:any, res:any) => {
   try {
     const {currentGame} = req.cookies;

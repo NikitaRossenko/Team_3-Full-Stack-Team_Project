@@ -42,6 +42,7 @@ var onLoad = function () {
         renderEnemyList();
         renderUserList();
         FillAdminName();
+        getTotalGamesPlayed();
         FillRegisteredUsers();
     }
     catch (error) { }
@@ -544,6 +545,35 @@ function FillAdminName() {
                     return [3 /*break*/, 4];
                 case 3:
                     error_8 = _a.sent();
+                    console.error();
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
+        });
+    });
+}
+function getTotalGamesPlayed() {
+    return __awaiter(this, void 0, void 0, function () {
+        var totalGamesPlayedFill_1, data, totalGamesPlayed, error_9;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    totalGamesPlayedFill_1 = document.querySelector("#totalGamesPlayedFill");
+                    return [4 /*yield*/, fetch("/api/game/get-total-games-played")];
+                case 1:
+                    data = _a.sent();
+                    if (!data)
+                        throw new Error("Couldn't fetch total games played!");
+                    return [4 /*yield*/, data.json()];
+                case 2:
+                    totalGamesPlayed = (_a.sent()).totalGamesPlayed;
+                    if (!totalGamesPlayedFill_1)
+                        throw new Error("Couldn't catch total games played h1!");
+                    totalGamesPlayedFill_1.innerText = totalGamesPlayed;
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_9 = _a.sent();
                     console.error();
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
