@@ -17,7 +17,7 @@ async function renderScoreUser() {
       const html = `
       <li class="person">
         <p class="icon"><img class="playericons" src=${user.src}></p>
-        <p class="nickname">#2 - ${user.userName}</p>
+        <p class="nickname">${user.userName}</p>
         <p class="score">${user.highScore?user.highScore:0}</p>
         <ul class="point-btns"></ul>
       </li>
