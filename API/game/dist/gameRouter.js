@@ -9,6 +9,7 @@ gameRouter
     .get("/create-game", gameControl_1.createGame)
     .get("/get-game-coins", gameControl_1.getGameCoins)
     .get("/get-game-wave-count", gameControl_1.getGameWaveCount)
+    .get("/get-towers", gameControl_1.getTowers)
     .get("/get-total-games-played", userMiddlwares_1.adminAccess, gameControl_1.getTotalGamesPlayed)
     .post("/increase-highscore", gameControl_1.increaseHighscore);
 exports["default"] = gameRouter;

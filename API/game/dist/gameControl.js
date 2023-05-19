@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createGame = exports.getGameWaveCount = exports.getTotalGamesPlayed = exports.getGameCoins = exports.increaseHighscore = exports.getGames = void 0;
+exports.createGame = exports.getGameWaveCount = exports.getTotalGamesPlayed = exports.getGameCoins = exports.increaseHighscore = exports.getTowers = exports.getGames = void 0;
 var enemyModel_1 = require("../enemy/enemyModel");
 var towerModel_1 = require("../towers/towerModel");
 var userModel_1 = require("../users/userModel");
@@ -64,8 +64,28 @@ exports.getGames = function (req, res) { return __awaiter(void 0, void 0, void 0
         }
     });
 }); };
+exports.getTowers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var towersDB, error_2;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, towerModel_1["default"].find({}).lean()];
+            case 1:
+                towersDB = _a.sent();
+                res.send({ ok: true, towersDB: towersDB });
+                return [3 /*break*/, 3];
+            case 2:
+                error_2 = _a.sent();
+                res.status(500).send({ ok: false });
+                console.error(error_2);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentUser, score, secret, userId, user, updatedHighscore, error_2;
+    var currentUser, score, secret, userId, user, updatedHighscore, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -90,16 +110,16 @@ exports.increaseHighscore = function (req, res) { return __awaiter(void 0, void 
                 res.status(200).send({ ok: true });
                 return [3 /*break*/, 5];
             case 4:
-                error_2 = _a.sent();
+                error_3 = _a.sent();
                 res.status(500).send({ ok: false });
-                console.error(error_2);
+                console.error(error_3);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
     });
 }); };
 exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentGame, secret, gameId, game, coins, error_3;
+    var currentGame, secret, gameId, game, coins, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -118,16 +138,16 @@ exports.getGameCoins = function (req, res) { return __awaiter(void 0, void 0, vo
                 res.status(200).send({ ok: true, coins: coins });
                 return [3 /*break*/, 3];
             case 2:
-                error_3 = _a.sent();
+                error_4 = _a.sent();
                 res.status(500).send({ ok: false });
-                console.error(error_3);
+                console.error(error_4);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getTotalGamesPlayed = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var totalGamesPlayed, allUsers, i, error_4;
+    var totalGamesPlayed, allUsers, i, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -142,16 +162,16 @@ exports.getTotalGamesPlayed = function (req, res) { return __awaiter(void 0, voi
                 res.status(200).send({ ok: true, totalGamesPlayed: totalGamesPlayed });
                 return [3 /*break*/, 3];
             case 2:
-                error_4 = _a.sent();
-                res.status(500).send({ ok: false, totalGamesPlayed: "N/A", error: error_4.message });
-                console.error(error_4);
+                error_5 = _a.sent();
+                res.status(500).send({ ok: false, totalGamesPlayed: "N/A", error: error_5.message });
+                console.error(error_5);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.getGameWaveCount = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentGame, secret, gameId, game, waveCount, error_5;
+    var currentGame, secret, gameId, game, waveCount, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -170,16 +190,16 @@ exports.getGameWaveCount = function (req, res) { return __awaiter(void 0, void 0
                 res.status(200).send({ ok: true, waveCount: waveCount });
                 return [3 /*break*/, 3];
             case 2:
-                error_5 = _a.sent();
+                error_6 = _a.sent();
                 res.status(500).send({ ok: false });
-                console.error(error_5);
+                console.error(error_6);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
     });
 }); };
 exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var currentUser, secret, userId, user, increasedGamePlayed, enemies, towers, gameDB, _id, gameToken, error_6;
+    var currentUser, secret, userId, user, increasedGamePlayed, enemies, towers, gameDB, _id, gameToken, error_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -210,7 +230,7 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                         enemies: enemies,
                         towers: towers,
                         score: 0,
-                        coins: 100,
+                        coins: 1000,
                         waveCount: 1
                     })];
             case 6:
@@ -223,9 +243,9 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                 res.status(201).send({ ok: true });
                 return [3 /*break*/, 9];
             case 8:
-                error_6 = _a.sent();
-                console.error(error_6);
-                res.status(500).send({ error: error_6.message });
+                error_7 = _a.sent();
+                console.error(error_7);
+                res.status(500).send({ error: error_7.message });
                 return [3 /*break*/, 9];
             case 9: return [2 /*return*/];
         }

@@ -110,6 +110,7 @@ function game() {
                 replayBtn_1.style.display = "flex";
                 cancelAnimationFrame(animationFrame);
                 scoreboardBtnContainer_1.style.display = "flex";
+                towersOptionsContainer_1.style.display = "none";
                 var updateHighscore = fetch("/api/game/increase-highscore", {
                     method: "POST",
                     headers: {
@@ -132,6 +133,7 @@ function game() {
                         uiIconsContainer_1.innerHTML = "";
                         replayBtn_1.style.display = "flex";
                         scoreboardBtnContainer_1.style.display = "flex";
+                        towersOptionsContainer_1.style.display = "none";
                         cancelAnimationFrame(animationFrame);
                         var updateHighscore = fetch("/api/game/increase-highscore", {
                             method: "POST",
@@ -160,7 +162,7 @@ function game() {
                     return distance < enemy.radius + tower.radius / mapZoom_1;
                 });
                 tower.target = validEnemies[0];
-                var _loop_1 = function (i) {
+                var _loop_2 = function (i) {
                     var bullet = tower.bullets[i];
                     bullet.update();
                     if (bullet.bulletLife <= 0) {
@@ -171,7 +173,7 @@ function game() {
                     var distance = Math.floor(Math.hypot(xDistance, yDistance));
                     if (distance <
                         bullet.enemy.radius / mapZoom_1 + bullet.radius) {
-                        bullet.enemy.health -= bulletPower_1;
+                        bullet.enemy.health -= bullet.damage;
                         if (bullet.enemy.health <= 0) {
                             var enemyIndex = enemiesArray_1.findIndex(function (enemy) {
                                 return bullet.enemy === enemy;
@@ -197,21 +199,31 @@ function game() {
                     }
                 };
                 for (var i = tower.bullets.length - 1; i >= 0; i--) {
-                    _loop_1(i);
+                    _loop_2(i);
                 }
             });
         }
-        var newGame, mainContainer_1, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, mapZoom_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, coinsDB, coins_1, waveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, error_1;
+        function deleteBackgroungFromTower(towersDivs, currentSelectedTower) {
+            for (var i = 0; i < towersDivs.length; i++) {
+                var tower = towersDivs[i];
+                if (i != currentSelectedTower) {
+                    tower.style.backgroundColor = "";
+                }
+            }
+        }
+        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 6, , 7]);
+                    _a.trys.push([0, 8, , 9]);
                     return [4 /*yield*/, fetch("/api/game/create-game")];
                 case 1:
                     newGame = _a.sent();
                     if (!newGame.ok)
                         throw new Error("Game Error");
                     mainContainer_1 = document.querySelector(".mainContainer");
+                    towersOptionsContainer_1 = document.querySelector(".towersOptionsContainer");
+                    towersDiv = document.querySelector(".towers");
                     gameOver_1 = document.querySelector("#gameOver");
                     scene = document.querySelector("#scene");
                     playBtnContainer = document.querySelector(".playBtnContainer");
@@ -225,28 +237,38 @@ function game() {
                     wave = document.querySelector("#wave");
                     waveNumber_1 = document.querySelector("#waveNumber");
                     scoreboardBtnContainer_1 = document.querySelector(".scoreboardBtnContainer");
-                    scene.style.display = "none";
+                    if (scene) {
+                        scene.remove();
+                    }
                     replayBtn_1.style.display = "none";
                     uiIconsContainer_1.innerHTML = "<div id=\"pauseBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"pauseBtnIcon\" class=\"icon\" src=\"../images/icons/pause 96x96.png\">\n                <img id=\"pauseBtn\" src=\"../images/buttons/20.png\">\n            </div>\n            <div id=\"menuBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"menuBtnIcon\" class=\"icon\" src=\"../images/icons/menu 96x96.png\">\n                <img id=\"menuBtn\" src=\"../images/buttons/20.png\">\n            </div>";
                     pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
                     activePlacement_1 = undefined;
+                    choosenTower_1 = undefined;
+                    return [4 /*yield*/, fetch("/api/game/get-towers")];
+                case 2:
+                    getTowersDB = _a.sent();
+                    return [4 /*yield*/, getTowersDB.json()];
+                case 3:
+                    towersDB_1 = (_a.sent()).towersDB;
                     mapZoom_1 = 1.5;
+                    towersHtml = "";
                     enemyCount_1 = 4;
                     playerHealth_1 = 5;
                     bulletPower_1 = 20;
                     gamePaused_1 = false;
                     score_1 = 0;
                     return [4 /*yield*/, fetch("/api/game/get-game-coins")];
-                case 2:
-                    coinsDB = _a.sent();
-                    return [4 /*yield*/, coinsDB.json()];
-                case 3:
+                case 4:
+                    getCoinsDB = _a.sent();
+                    return [4 /*yield*/, getCoinsDB.json()];
+                case 5:
                     coins_1 = (_a.sent()).coins;
                     return [4 /*yield*/, fetch("/api/game/get-game-wave-count")];
-                case 4:
-                    waveCountDB = _a.sent();
-                    return [4 /*yield*/, waveCountDB.json()];
-                case 5:
+                case 6:
+                    getWaveCountDB = _a.sent();
+                    return [4 /*yield*/, getWaveCountDB.json()];
+                case 7:
                     waveCount_1 = (_a.sent()).waveCount;
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
@@ -301,6 +323,7 @@ function game() {
                     uiIconsContainer_1.style.display = "flex";
                     playerScore.style.display = "flex";
                     playerCoinsBag.style.display = "flex";
+                    towersOptionsContainer_1.style.display = "flex";
                     // Convert Towers coordinats to 2d
                     for (i = 0; i < placementTowers.length; i += 70) {
                         placementTowers2d.push(placementTowers.slice(i, i + 70));
@@ -442,47 +465,64 @@ function game() {
                         return Enemey;
                     }(Sprite));
                     Tower_1 = /** @class */ (function () {
-                        function Tower(_a) {
+                        function Tower(_a, image, radius, damage) {
                             var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
+                            if (radius === void 0) { radius = 70; }
+                            if (damage === void 0) { damage = 21; }
                             this.position = { x: x, y: y };
-                            this.width = newTileSize_1 * 2;
-                            this.height = newTileSize_1;
                             this.bullets = [];
-                            this.center = {
-                                x: this.position.x + this.width / 2,
-                                y: this.position.y + this.height / 2
-                            };
-                            this.radius = 70 * mapZoom_1;
+                            this.radius = radius * mapZoom_1;
                             this.target;
                             this.frames = 0;
+                            this.damage = damage;
+                            this.zoom = mapZoom_1;
+                            this.image = new Image();
+                            this.image.src = image;
+                            this.width = 64 / this.zoom;
+                            this.height = 106 / this.zoom;
+                            this.center = {
+                                x: this.position.x + this.width / this.zoom,
+                                y: this.position.y + this.height / this.zoom
+                            };
                         }
                         Tower.prototype.draw = function () {
                             if (!ctx_1)
                                 throw new Error("[Canvas-ctx] Game Error");
-                            ctx_1.fillStyle = "green";
-                            ctx_1.fillRect(this.position.x, this.position.y, this.width, this.height);
+                            ctx_1 === null || ctx_1 === void 0 ? void 0 : ctx_1.drawImage(this.image, this.position.x, this.position.y - tileSize_1 * 3, this.width, this.height);
+                            // ctx.fillStyle = "green";
+                            // ctx.fillRect(
+                            //     this.position.x,
+                            //     this.position.y,
+                            //     this.width,
+                            //     this.height
+                            // );
                         };
                         Tower.prototype.update = function () {
                             this.draw();
                             this.frames++;
                             if (this.frames % 100 === 0 && this.target) {
-                                this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target));
+                                this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target, this.damage));
                             }
                         };
                         return Tower;
                     }());
                     Bullet_1 = /** @class */ (function () {
-                        function Bullet(_a, enemy) {
+                        function Bullet(_a, enemy, damage) {
                             var _b = _a.x, x = _b === void 0 ? 0 : _b, _c = _a.y, y = _c === void 0 ? 0 : _c;
+                            if (damage === void 0) { damage = 21; }
                             this.position = { x: x, y: y };
                             this.velocity = { x: 0, y: 0 };
                             this.center = {
                                 x: this.position.x + newTileSize_1,
                                 y: this.position.y + newTileSize_1 / 2
                             };
-                            this.radius = 6 * mapZoom_1;
+                            this.radius = 4 * mapZoom_1;
                             this.enemy = enemy;
                             this.bulletLife = 300;
+                            this.damage = damage;
+                            if (waveCount_1 < 18) {
+                                this.damage = this.damage - waveCount_1;
+                            }
                             this.image = new Image();
                             this.image.src = "";
                         }
@@ -518,29 +558,48 @@ function game() {
                     drawHearts(playerHealth_1);
                     spawnEnemies(enemyCount_1);
                     // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
+                    for (i = 0; i < towersDB_1.length; i++) {
+                        towersHtml += "<div id=\"tower" + i + "\" class=\"tower\">\n            <img src=\"" + towersDB_1[i].image + "\" > <div class=\"towerAttributes\"><p>Cost: " + towersDB_1[i].cost + "</p><p>Damage: " + towersDB_1[i].damage + "</p><p>Radius: " + towersDB_1[i].radius + "</p></div>\n        </div>";
+                    }
+                    towersDiv.innerHTML = towersHtml;
+                    towersDivs_1 = document.querySelectorAll(".tower");
+                    _loop_1 = function (i) {
+                        var tower = towersDivs_1[i];
+                        tower === null || tower === void 0 ? void 0 : tower.addEventListener("click", function (event) {
+                            choosenTower_1 = towersDB_1[i];
+                            tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)";
+                            deleteBackgroungFromTower(towersDivs_1, i);
+                        });
+                    };
+                    for (i = 0; i < towersDivs_1.length; i++) {
+                        _loop_1(i);
+                    }
                     pauseBtnContainer.addEventListener("click", function (event) {
                         if (!gamePaused_1) {
                             gameOver_1.innerText = "Paused!";
                             gameOver_1.style.display = "flex";
+                            towersOptionsContainer_1.style.display = "none";
                             pauseBtnIcon_1.setAttribute("src", "../images/icons/play 96x96.png");
                             gamePaused_1 = true;
                         }
                         else {
                             gameOver_1.innerText = "GAME OVER";
                             gameOver_1.style.display = "none";
+                            towersOptionsContainer_1.style.display = "flex";
                             pauseBtnIcon_1.setAttribute("src", "../images/icons/pause 96x96.png");
                             gamePaused_1 = false;
                             animate();
                         }
                     });
                     canvas_1.addEventListener("click", function (event) {
-                        if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 35) {
-                            coins_1 -= 35;
+                        if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 35 && choosenTower_1 != undefined) {
+                            // choosenTower = towersDB[0]
+                            coins_1 -= choosenTower_1.cost;
                             playerCoins_1.innerText = coins_1;
                             towersArray_1.push(new Tower_1({
                                 x: activePlacement_1.position.x,
                                 y: activePlacement_1.position.y
-                            }));
+                            }, choosenTower_1.image));
                             activePlacement_1.used = true;
                         }
                     });
@@ -560,12 +619,12 @@ function game() {
                         }
                     });
                     animate();
-                    return [3 /*break*/, 7];
-                case 6:
+                    return [3 /*break*/, 9];
+                case 8:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
             }
         });
     });

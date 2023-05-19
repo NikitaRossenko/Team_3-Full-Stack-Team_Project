@@ -24,6 +24,52 @@ body {
   width: auto;
   height: auto;
 }
+.mainContainer .towersOptionsContainer {
+  position: absolute;
+  background-color: #A0654D;
+  bottom: 4px;
+  right: auto;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 20px 4px 20px;
+  border-radius: 20px 4px 20px 4px;
+  border: 1px solid black;
+  flex-direction: column;
+}
+.mainContainer .towersOptionsContainer h1 {
+  margin: 0;
+  color: white;
+  font-size: 20px;
+  border-bottom: 1px solid white;
+  margin-bottom: 4px;
+}
+.mainContainer .towersOptionsContainer .towers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+.mainContainer .towersOptionsContainer .towers .tower {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 4px;
+  border-left: 1px solid #b8b8b8;
+}
+.mainContainer .towersOptionsContainer .towers .tower .towerAttributes p {
+  margin: 0;
+  padding-left: 4px;
+  color: white;
+}
+.mainContainer .towersOptionsContainer .towers .tower img {
+  width: 20%;
+}
+.mainContainer .towersOptionsContainer .towers .tower:hover {
+  scale: 1.1;
+  background-color: #b8b8b8;
+}
 .mainContainer #bgImage {
   position: absolute;
   border-radius: 20px;

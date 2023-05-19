@@ -25,6 +25,62 @@ body {
     width: auto;
     height: auto;
 
+    .towersOptionsContainer{
+        position: absolute;
+        background-color: #A0654D;
+        bottom: 4px;
+        right: auto;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 20px 4px 20px;
+        border-radius: 20px 4px 20px 4px;
+        border: 1px solid black;
+        flex-direction: column;
+
+        h1 {
+            margin: 0;
+            color: white;
+            font-size: 20px;
+            border-bottom: 1px solid white;
+            margin-bottom: 4px;
+        }
+
+        .towers{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            
+            .tower{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 20px;
+                padding: 4px;
+                border-left: 1px solid rgb(184, 184, 184);
+                
+                .towerAttributes{
+                    p {
+                        margin: 0;
+                        padding-left: 4px;
+                        color: white;
+                    }
+                }
+                
+                img {
+                    width: 20%;
+                }
+
+            }
+
+            .tower:hover{
+                scale: 1.1;
+                background-color: rgb(184, 184, 184);
+            }
+        }
+    }
+
     #bgImage{
         position: absolute;
         border-radius: 20px;

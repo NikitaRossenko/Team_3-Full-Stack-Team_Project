@@ -16,6 +16,16 @@ export const getGames = async (req: any, res: any) => {
     console.error(error);
   }
 };
+export const getTowers = async (req: any, res: any) => {
+  try {
+    const towersDB = await TowerModel.find({}).lean()
+
+    res.send({ ok: true, towersDB });
+  } catch (error) {
+    res.status(500).send({ ok: false });
+    console.error(error);
+  }
+};
 
 export const increaseHighscore = async (req:any, res:any) => {
   try {
@@ -118,7 +128,7 @@ export const createGame = async (req: any, res: any) => {
     enemies,
     towers,
     score:0,
-    coins:100,
+    coins:1000,
     waveCount:1,
     });
 

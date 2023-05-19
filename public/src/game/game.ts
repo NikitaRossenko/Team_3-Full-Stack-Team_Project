@@ -26,6 +26,8 @@ async function game() {
         // mySound.play()
 
         const mainContainer: any = document.querySelector(".mainContainer");
+        const towersOptionsContainer: any = document.querySelector(".towersOptionsContainer");
+        const towersDiv: any = document.querySelector(".towers");
         const gameOver: any = document.querySelector("#gameOver");
         const scene: any = document.querySelector("#scene");
         const playBtnContainer: any = document.querySelector(".playBtnContainer");
@@ -40,7 +42,9 @@ async function game() {
         const waveNumber: any = document.querySelector("#waveNumber");
         const scoreboardBtnContainer: any = document.querySelector(".scoreboardBtnContainer");
 
-        scene.style.display = "none";
+        if (scene){
+            scene.remove()
+        }
         replayBtn.style.display = "none";
 
         uiIconsContainer.innerHTML = `<div id="pauseBtnContainer" class="navIcon uiIcons">
@@ -55,16 +59,20 @@ async function game() {
         const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
 
         let activePlacement: any = undefined;
+        let choosenTower:any = undefined;
+        const getTowersDB = await fetch("/api/game/get-towers")
+        const {towersDB} = await getTowersDB.json()
         let mapZoom: number = 1.5;
+        let towersHtml = ""
         let enemyCount = 4;
         let playerHealth = 5;
         let bulletPower = 20;
         let gamePaused = false;
         let score = 0;
-        const coinsDB = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
-        let {coins} = await coinsDB.json()
-        const waveCountDB = await fetch("/api/game/get-game-wave-count"); //Create a route to fetch from gameId the coins
-        let {waveCount} = await waveCountDB.json()
+        const getCoinsDB = await fetch("/api/game/get-game-coins"); //Create a route to fetch from gameId the coins
+        let {coins} = await getCoinsDB.json()
+        const getWaveCountDB = await fetch("/api/game/get-game-wave-count"); //Create a route to fetch from gameId the coins
+        let {waveCount} = await getWaveCountDB.json()
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;
 
@@ -126,6 +134,7 @@ async function game() {
         uiIconsContainer.style.display = "flex";
         playerScore.style.display = "flex";
         playerCoinsBag.style.display = "flex";
+        towersOptionsContainer.style.display = "flex";
 
         // Convert Towers coordinats to 2d
         for (let i = 0; i < placementTowers.length; i += 70) {
@@ -349,31 +358,46 @@ async function game() {
             center: { x: number; y: number };
             target: any;
             frames: number;
+            damage: number;
+            zoom: number;
+            image: HTMLImageElement;
 
-            constructor({ x = 0, y = 0 }) {
+            constructor({ x = 0, y = 0 }, image, radius=70, damage=21) {
                 this.position = { x: x, y: y };
-                this.width = newTileSize * 2;
-                this.height = newTileSize;
                 this.bullets = [];
-                this.center = {
-                    x: this.position.x + this.width / 2,
-                    y: this.position.y + this.height / 2,
-                };
-                this.radius = 70 * mapZoom;
+                this.radius = radius * mapZoom;
                 this.target;
                 this.frames = 0;
+                this.damage = damage
+                this.zoom = mapZoom;
+                this.image = new Image();
+                this.image.src = image;
+                this.width = 64/this.zoom;
+                this.height = 106/this.zoom;
+                this.center = {
+                    x: this.position.x + this.width / this.zoom,
+                    y: this.position.y + this.height / this.zoom,
+                };
             }
 
             draw() {
                 if (!ctx) throw new Error("[Canvas-ctx] Game Error");
 
-                ctx.fillStyle = "green";
-                ctx.fillRect(
+                ctx?.drawImage(
+                    this.image,
                     this.position.x,
-                    this.position.y,
+                    this.position.y - tileSize*3,
                     this.width,
-                    this.height
+                    this.height,
                 );
+
+                // ctx.fillStyle = "green";
+                // ctx.fillRect(
+                //     this.position.x,
+                //     this.position.y,
+                //     this.width,
+                //     this.height
+                // );
 
 
             }
@@ -386,7 +410,7 @@ async function game() {
                     this.bullets.push(
                         new Bullet(
                             { x: this.position.x, y: this.position.y },
-                            this.target
+                            this.target, this.damage
                         )
                     );
                 }
@@ -401,17 +425,22 @@ async function game() {
             radius: number;
             bulletLife: number;
             image: HTMLImageElement;
+            damage: number;
 
-            constructor({ x = 0, y = 0 }, enemy) {
+            constructor({ x = 0, y = 0 }, enemy, damage=21) {
                 this.position = { x: x, y: y };
                 this.velocity = { x: 0, y: 0 };
                 this.center = {
                     x: this.position.x + newTileSize,
                     y: this.position.y + newTileSize / 2,
                 };
-                this.radius = 6 * mapZoom;
+                this.radius = 4 * mapZoom;
                 this.enemy = enemy;
                 this.bulletLife = 300;
+                this.damage = damage
+                if (waveCount < 18){
+                    this.damage = this.damage - waveCount
+                }
 
                 this.image = new Image();
                 this.image.src = "";
@@ -520,6 +549,7 @@ async function game() {
                 replayBtn.style.display = "flex";
                 cancelAnimationFrame(animationFrame);
                 scoreboardBtnContainer.style.display = "flex"
+                towersOptionsContainer.style.display = "none"
                 const updateHighscore = fetch("/api/game/increase-highscore", {
                     method: "POST",
                     headers: {
@@ -544,6 +574,7 @@ async function game() {
                         uiIconsContainer.innerHTML = ""
                         replayBtn.style.display = "flex";
                         scoreboardBtnContainer.style.display = "flex"
+                        towersOptionsContainer.style.display = "none"
 
                         cancelAnimationFrame(animationFrame);
                         const updateHighscore = fetch("/api/game/increase-highscore", {
@@ -594,7 +625,7 @@ async function game() {
                         distance <
                         bullet.enemy.radius / mapZoom + bullet.radius
                     ) {
-                        bullet.enemy.health -= bulletPower;
+                        bullet.enemy.health -= bullet.damage;
                         if (bullet.enemy.health <= 0) {
                             const enemyIndex = enemiesArray.findIndex(
                                 (enemy) => {
@@ -632,10 +663,31 @@ async function game() {
 
         // Monitor mouse event "move" to catch the coordinats and use it to find elements inside the canvas
 
+        for (let i = 0; i< towersDB.length ; i++){
+
+            towersHtml += `<div id="tower${i}" class="tower">
+            <img src="${towersDB[i].image}" > <div class="towerAttributes"><p>Cost: ${towersDB[i].cost}</p><p>Damage: ${towersDB[i].damage}</p><p>Radius: ${towersDB[i].radius}</p></div>
+        </div>`
+        }
+        towersDiv.innerHTML = towersHtml
+
+        const towersDivs = document.querySelectorAll(".tower")
+        for (let i = 0 ; i<towersDivs.length ; i++){
+            let tower = towersDivs[i]
+            tower?.addEventListener("click", (event) => {
+                choosenTower = towersDB[i]
+                tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)"
+                deleteBackgroungFromTower(towersDivs, i)
+
+            })
+            
+        }
+
         pauseBtnContainer.addEventListener("click", (event) => {
             if (!gamePaused) {
                 gameOver.innerText = "Paused!";
                 gameOver.style.display = "flex";
+                towersOptionsContainer.style.display = "none"
                 pauseBtnIcon.setAttribute(
                     "src",
                     "../images/icons/play 96x96.png"
@@ -644,6 +696,7 @@ async function game() {
             } else {
                 gameOver.innerText = "GAME OVER";
                 gameOver.style.display = "none";
+                towersOptionsContainer.style.display = "flex"
                 pauseBtnIcon.setAttribute(
                     "src",
                     "../images/icons/pause 96x96.png"
@@ -654,14 +707,15 @@ async function game() {
         });
 
         canvas.addEventListener("click", (event) => {
-            if (activePlacement && !activePlacement.used && coins >= 35) {
-                coins -= 35;
+            if (activePlacement && !activePlacement.used && coins >= 35 && choosenTower != undefined) {
+                // choosenTower = towersDB[0]
+                coins -= choosenTower.cost;
                 playerCoins.innerText = coins;
                 towersArray.push(
                     new Tower({
                         x: activePlacement.position.x,
                         y: activePlacement.position.y,
-                    })
+                    },choosenTower.image)
                 );
                 activePlacement.used = true;
             }
@@ -686,7 +740,21 @@ async function game() {
             }
         });
 
+
         animate();
+
+        function deleteBackgroungFromTower(towersDivs, currentSelectedTower){
+
+            for (let i = 0 ; i<towersDivs.length ; i++){
+                let tower = towersDivs[i]
+                if (i != currentSelectedTower){
+                    tower.style.backgroundColor = ""
+                }
+    
+                }
+
+
+        }
     } catch (error) {
         console.error(error);
     }
