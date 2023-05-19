@@ -42,7 +42,6 @@ function handleUserUpdate(ev: any, _id: string) {
   try {
     ev.preventDefault()
     const { lName, fName, password, userName, email } = ev.target.elements;
-    console.log(lName.value);
     fetch("/api/users/update-user", {
       method: "PUT",
       headers: {
@@ -57,7 +56,24 @@ function handleUserUpdate(ev: any, _id: string) {
         userName: userName.value,
         email: email.value ,
       }),
-    });
+    }).then(data=>data.json())
+    .then(data=>{
+      if(data.ok === true){
+        const message:HTMLSpanElement  = document.getElementById('message')!
+        setTimeout(()=>{
+          message.innerHTML = ""
+
+        }, 2000)
+        message.innerHTML = `
+    
+        <h4 style="color:green;"> 
+        <i class="fa-solid fa-circle-check" ></i>
+        successfully updated
+        </h4>
+        `
+      }
+    })
+    .catch(err=>console.log(err));
   } catch (error) {
     console.error(error);
   }
@@ -83,6 +99,7 @@ async function handleGetUser() {
       <input id="password" class="value" contenteditable value="${user.password}"></input>
       <label class="title">high score:</label>
       <div id="highScore" class="value">${user.highScore?user.highScore:0}</div>
+      <label id="message"></label>
       <button type="submit"> Update</button>
       </form>
   `;

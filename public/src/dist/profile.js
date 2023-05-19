@@ -95,7 +95,6 @@ function handleUserUpdate(ev, _id) {
     try {
         ev.preventDefault();
         var _a = ev.target.elements, lName = _a.lName, fName = _a.fName, password = _a.password, userName = _a.userName, email = _a.email;
-        console.log(lName.value);
         fetch("/api/users/update-user", {
             method: "PUT",
             headers: {
@@ -110,7 +109,16 @@ function handleUserUpdate(ev, _id) {
                 userName: userName.value,
                 email: email.value
             })
-        });
+        }).then(function (data) { return data.json(); })
+            .then(function (data) {
+            if (data.ok === true) {
+                var message_1 = document.getElementById('message');
+                setTimeout(function () {
+                    message_1.innerHTML = "";
+                }, 2000);
+                message_1.innerHTML = "\n    \n        <h4 style=\"color:green;\"> \n        <i class=\"fa-solid fa-circle-check\" ></i>\n        successfully updated\n        </h4>\n        ";
+            }
+        })["catch"](function (err) { return console.log(err); });
     }
     catch (error) {
         console.error(error);
@@ -130,7 +138,7 @@ function handleGetUser() {
                 case 2:
                     data = _a.sent();
                     user = data.user;
-                    html = "\n      <form class=\"form\" action=\"\" method=\"get\" onsubmit=\"handleUserUpdate(event, '" + user._id + "')\">\n      <label class=\"title\">firstName:</label>\n      <input id=\"fName\" class=\"value\" contenteditable value=\"" + user.firstName + "\"></input>\n      <label class=\"title\">lastName:</label>\n      <input id=\"lName\" class=\"value\" contenteditable value=\"" + user.lastName + "\" ></input>\n      <label class=\"title\">Email:</label>\n      <input id=\"email\" class=\"value\" contenteditable value=\"" + user.email + "\"></input>\n      <label class=\"title\">UserName:</label>\n      <input  id=\"userName\"class=\"value\" contenteditable value=\"" + user.userName + "\"></input>\n      <label class=\"title\">Password:</label>\n      <input id=\"password\" class=\"value\" contenteditable value=\"" + user.password + "\"></input>\n      <label class=\"title\">high score:</label>\n      <div id=\"highScore\" class=\"value\">" + (user.highScore ? user.highScore : 0) + "</div>\n      <button type=\"submit\"> Update</button>\n      </form>\n  ";
+                    html = "\n      <form class=\"form\" action=\"\" method=\"get\" onsubmit=\"handleUserUpdate(event, '" + user._id + "')\">\n      <label class=\"title\">firstName:</label>\n      <input id=\"fName\" class=\"value\" contenteditable value=\"" + user.firstName + "\"></input>\n      <label class=\"title\">lastName:</label>\n      <input id=\"lName\" class=\"value\" contenteditable value=\"" + user.lastName + "\" ></input>\n      <label class=\"title\">Email:</label>\n      <input id=\"email\" class=\"value\" contenteditable value=\"" + user.email + "\"></input>\n      <label class=\"title\">UserName:</label>\n      <input  id=\"userName\"class=\"value\" contenteditable value=\"" + user.userName + "\"></input>\n      <label class=\"title\">Password:</label>\n      <input id=\"password\" class=\"value\" contenteditable value=\"" + user.password + "\"></input>\n      <label class=\"title\">high score:</label>\n      <div id=\"highScore\" class=\"value\">" + (user.highScore ? user.highScore : 0) + "</div>\n      <label id=\"message\"></label>\n      <button type=\"submit\"> Update</button>\n      </form>\n  ";
                     CardRoot = document.querySelector("#cardRoot");
                     if (!CardRoot)
                         throw new Error("CardRoot not found");
