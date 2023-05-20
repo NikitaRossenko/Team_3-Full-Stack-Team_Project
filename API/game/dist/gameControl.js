@@ -230,7 +230,7 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                         enemies: enemies,
                         towers: towers,
                         score: 0,
-                        coins: 1000,
+                        coins: 100,
                         waveCount: 1
                     })];
             case 6:
