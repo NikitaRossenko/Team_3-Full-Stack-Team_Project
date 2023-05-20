@@ -132,11 +132,9 @@ exports.UpdateUserDetailById = function (req, res) { return __awaiter(void 0, vo
     return __generator(this, function (_a) {
         try {
             uid = req.body;
-            console.log(uid);
             if (!uid)
                 throw new Error("no uID user");
             updateUser = userModel_1["default"].findByIdAndUpdate(uid, {});
-            console.log(updateUser);
             res.status(201).send({ ok: true, user: updateUser });
         }
         catch (error) {
@@ -152,13 +150,9 @@ exports.deleteUser = function (req, res) { return __awaiter(void 0, void 0, void
             case 0:
                 _a.trys.push([0, 2, , 3]);
                 uid = req.body.uid;
-                if (!uid)
-                    throw new Error("uID no founded");
-                console.log(uid);
                 return [4 /*yield*/, userModel_1["default"].findByIdAndDelete(uid)];
             case 1:
                 deleteUser_1 = _a.sent();
-                console.log(deleteUser_1);
                 if (!deleteUser_1)
                     throw new Error("user no founded");
                 res.status(201).send({ ok: true, user: deleteUser_1 });

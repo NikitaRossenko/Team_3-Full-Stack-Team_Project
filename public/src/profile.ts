@@ -8,12 +8,11 @@ async function getSrcFromCurrentUser() {
     const dataJs = await fetch("/api/users/get-user");
     if (!dataJs) throw new Error("no found DataJsName");
     const data = await dataJs.json();
-    console.log(data);
     const src = data.user.src;
-    if(!src) return console.log("no found src");
+    if(!src) return
     profileImgElement.setAttribute("src" , src )
   } catch (error) {
-    console.error();
+    console.error(error);
   }
 }
 
@@ -66,14 +65,14 @@ function handleUserUpdate(ev: any, _id: string) {
         }, 2000)
         message.innerHTML = `
     
-        <h4 style="color:green;"> 
+        <h3 style="color:green;background-color: rgba(0, 0, 0, 1);"> 
         <i class="fa-solid fa-circle-check" ></i>
         successfully updated
-        </h4>
+        </h3>
         `
       }
     })
-    .catch(err=>console.log(err));
+    .catch(err=>console.error(err));
   } catch (error) {
     console.error(error);
   }

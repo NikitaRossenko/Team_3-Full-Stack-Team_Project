@@ -54,15 +54,14 @@ function getSrcFromCurrentUser() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     data = _a.sent();
-                    console.log(data);
                     src = data.user.src;
                     if (!src)
-                        return [2 /*return*/, console.log("no found src")];
+                        return [2 /*return*/];
                     profileImgElement.setAttribute("src", src);
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
-                    console.error();
+                    console.error(error_1);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -116,9 +115,9 @@ function handleUserUpdate(ev, _id) {
                 setTimeout(function () {
                     message_1.innerHTML = "";
                 }, 2000);
-                message_1.innerHTML = "\n    \n        <h4 style=\"color:green;\"> \n        <i class=\"fa-solid fa-circle-check\" ></i>\n        successfully updated\n        </h4>\n        ";
+                message_1.innerHTML = "\n    \n        <h3 style=\"color:green;background-color: rgba(0, 0, 0, 1);\"> \n        <i class=\"fa-solid fa-circle-check\" ></i>\n        successfully updated\n        </h3>\n        ";
             }
-        })["catch"](function (err) { return console.log(err); });
+        })["catch"](function (err) { return console.error(err); });
     }
     catch (error) {
         console.error(error);

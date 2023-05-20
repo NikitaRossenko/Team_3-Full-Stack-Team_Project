@@ -127,7 +127,7 @@ export const createGame = async (req: any, res: any) => {
     enemies,
     towers,
     score:0,
-    coins:0,
+    coins:1000,
     waveCount:1,
     });
 
