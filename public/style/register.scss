@@ -1,3 +1,8 @@
+:root {
+    --mousePointer : url("../../images/mouseIcon/altlink.cur") , pointer;
+  }
+
+
 body {
     width: 100vw;
     height: 100vh;
@@ -104,7 +109,7 @@ border-radius: 15px 15px 0 0;
      
      button{
         flex-basis: 51%;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   margin: 10px;
         color: rgb(100, 95, 95);
         font-weight: 700;

@@ -1,8 +1,20 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.navIcon a, audio::-webkit-media-controls-play-button {
+  cursor: var(--mousePointer);
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #2644229d;
 }
 
 .mainContainer {
@@ -26,7 +38,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
+  cursor: var(--mousePointer);
 }
 .mainContainer .navIcon img {
   width: 240px;

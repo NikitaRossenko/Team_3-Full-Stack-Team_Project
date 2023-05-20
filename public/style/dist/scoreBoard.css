@@ -1,3 +1,7 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 body {
   width: 100%;
   display: flex;
@@ -26,55 +30,72 @@ h1 {
 }
 
 .leaderboard .person {
+  list-style: none;
   background-color: #2d3e50;
   padding: 0 0 0 15%;
   width: 80%;
   margin-bottom: 2%;
-  overflow: hidden;
   position: relative;
 }
 
 .leaderboard .person .icon {
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
   position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 3rem;
-  line-height: 150%;
+  overflow: hidden;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 8px solid #2d3e50;
+  height: 95px;
+  width: 95px;
+  left: -15px;
   background: #fff8dc;
   margin: 0;
-  padding: 0;
+  border-radius: 50%;
+}
+.leaderboard .person .icon img {
+  box-sizing: border-box;
+  border: 1px solid white;
+  object-fit: cover;
   height: 100%;
-  width: 10%;
+  width: 100%;
+  border-radius: 50%;
 }
 
 .leaderboard .person .nickname {
   margin: 0;
-  padding: 0;
+  padding: 5px;
   font-size: 2rem;
   line-height: 200%;
+  text-transform: capitalize;
   color: #fff;
+  height: 100%;
   margin-left: 20%;
 }
 
 .leaderboard .person .score {
   margin: 0;
-  padding: 0;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
   position: absolute;
   top: 0;
-  right: 0;
-  font-size: 3em;
+  right: -15px;
+  font-size: 2em;
   line-height: 150%;
+  height: 100%;
   background: #dc3546;
   color: #fff;
   width: 3em;
+  border-radius: 0 25px 25px 0;
   text-align: center;
   z-index: 10;
-  cursor: pointer;
 }
 
 .fa {
   color: #dc3546;
-  cursor: pointer;
+  cursor: var(--mousePointer);
 }
 
 .playericons {
@@ -85,7 +106,7 @@ h1 {
 #btn-home {
   border: 2px solid #67c42e;
   overflow: hidden;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   width: 60px;
   height: 60px;
   border-radius: 50%;

@@ -1,3 +1,7 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -81,7 +85,7 @@ body {
 }
 .container__form button {
   flex-basis: 51%;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   margin: 10px;
   color: #645f5f;
   font-weight: 700;

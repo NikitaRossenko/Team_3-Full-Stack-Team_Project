@@ -1,7 +1,11 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 #btn-home {
   border: 2px solid #67c42e;
   overflow: hidden;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -27,7 +31,7 @@
 #btn-play-pause {
   background: unset;
   overflow: hidden;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   width: 60px;
   height: 60px;
   border-radius: 50%;
@@ -125,7 +129,7 @@
 }
 .container__form button {
   flex-basis: 51%;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   margin: 10px;
   color: #645f5f;
   font-weight: 700;

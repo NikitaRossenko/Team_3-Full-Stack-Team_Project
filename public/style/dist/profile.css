@@ -1,3 +1,7 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 body {
   position: relative;
   margin: 0;
@@ -12,6 +16,10 @@ body {
   background-size: cover;
   width: 100%;
   height: 100vh;
+}
+
+#message {
+  position: absolute;
 }
 
 .collapseContainerChooseProfileImage {
@@ -31,7 +39,7 @@ body {
   justify-content: center;
 }
 .collapseContainerChooseProfileImage img {
-  cursor: pointer;
+  cursor: var(--mousePointer);
   width: 75px;
   height: 75px;
   margin: 5px;
@@ -66,7 +74,7 @@ body {
   box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.404);
   width: 150px;
   height: 150px;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   border-radius: 50%;
   margin-bottom: 25px;
 }
@@ -150,7 +158,7 @@ body {
   margin-bottom: 2px;
 }
 .form button {
-  cursor: pointer;
+  cursor: var(--mousePointer);
   padding: 5px 10px;
   margin-top: 5px;
   font-size: 1.1rem;
@@ -185,7 +193,7 @@ body {
 #btn-home {
   border: 2px solid #c92929;
   overflow: hidden;
-  cursor: pointer;
+  cursor: var(--mousePointer);
   width: 60px;
   height: 60px;
   border-radius: 50%;

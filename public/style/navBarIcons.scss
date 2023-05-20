@@ -1,3 +1,9 @@
+// MAIN 
+:root {
+    --mousePointer : url("../../images/mouseIcon/altlink.cur") , pointer;
+  }
+  
+
 .navBar{
     width: 100%;
     height: 100px;
@@ -34,7 +40,7 @@
             align-items: center;
             gap: 10px;
    
-            cursor: pointer;
+            cursor: var(--mousePointer);
 
             img {
                 width: 150px;

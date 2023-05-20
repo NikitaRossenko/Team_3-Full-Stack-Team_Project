@@ -200,7 +200,7 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 if (!secret)
                     throw new Error("Server Error");
                 token = jwt_simple_1["default"].encode({ userId: userDB._id }, secret);
-                res.cookie("currentUser", token, { httpOnly: true });
+                res.cookie("currentUser", token, { maxAge: 999 * 999 * 999, httpOnly: true });
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:

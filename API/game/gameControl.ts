@@ -122,13 +122,12 @@ export const createGame = async (req: any, res: any) => {
 
     const enemies = await EnemyModel.find({}).lean()
     const towers = await TowerModel.find({}).lean()
-
     const gameDB = await GameModel.create({
     player:userId,
     enemies,
     towers,
     score:0,
-    coins:1000,
+    coins:0,
     waveCount:1,
     });
 

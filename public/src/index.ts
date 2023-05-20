@@ -1,6 +1,6 @@
 async function renderComponentsByRole() {
   try {
-    const scoreboardBtn = document.querySelector(".scoreboardBtnContainer")
+    const scoreboardBtn:HTMLElement = document.querySelector(".scoreboardBtnContainer")!
     if (scoreboardBtn){
       scoreboardBtn.style.display = "flex"
     }

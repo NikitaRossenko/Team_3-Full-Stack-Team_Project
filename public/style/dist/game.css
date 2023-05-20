@@ -1,3 +1,7 @@
+:root {
+  --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
 body {
   width: 100vw;
   height: 100vh;

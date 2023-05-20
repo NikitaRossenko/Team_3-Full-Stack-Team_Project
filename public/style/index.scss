@@ -1,3 +1,9 @@
+:root {
+  --mousePointer : url("../../images/mouseIcon/altlink.cur") , pointer;
+}
+
+
+
 body {
   display: flex;
   flex-direction: column;
@@ -5,6 +11,14 @@ body {
   align-items: center;
 }
 
+
+.navIcon a , audio::-webkit-media-controls-play-button{
+  cursor: var(--mousePointer);
+}
+audio::-webkit-media-controls-panel {
+  background-color: #2644229d;
+
+}
 
 .mainContainer {
   width: 100%;
@@ -28,7 +42,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
+    cursor: var(--mousePointer);
 
     img {
       width: 240px;
@@ -43,6 +57,7 @@ body {
       position: absolute;
       color: white;
     }
+
   }
   .storyContainer {
     display: flex;
