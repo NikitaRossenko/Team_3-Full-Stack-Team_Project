@@ -239,7 +239,7 @@ exports.createGame = function (req, res) { return __awaiter(void 0, void 0, void
                 return [4 /*yield*/, jwt_simple_1["default"].encode({ gameId: _id }, secret)];
             case 7:
                 gameToken = _a.sent();
-                res.cookie("currentGame", gameToken);
+                res.cookie("currentGame", gameToken, { maxAge: 999 * 999 * 999, httpOnly: true });
                 res.status(201).send({ ok: true });
                 return [3 /*break*/, 9];
             case 8:

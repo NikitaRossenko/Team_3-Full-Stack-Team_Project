@@ -133,8 +133,7 @@ export const createGame = async (req: any, res: any) => {
 
     const {_id} = gameDB
     const gameToken = await jwt.encode({gameId:_id}, secret)
-
-    res.cookie("currentGame", gameToken)
+    res.cookie("currentGame", gameToken, {maxAge:999*999*999 , httpOnly: true });
 
     res.status(201).send({ ok: true});
   } catch (error: any) {
