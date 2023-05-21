@@ -12,7 +12,11 @@ body {
 }
 
 .gameTitle {
-  font-size: 100px;
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 70px;
   font-family: "Times New Roman", Times, serif;
   color: white;
   margin: 0;
