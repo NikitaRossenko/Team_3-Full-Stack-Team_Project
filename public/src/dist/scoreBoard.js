@@ -34,6 +34,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 function renderScoreUser(user) {
     try {
         var html = "\n      <li class=\"person\">\n        <p class=\"icon\"><img class=\"playericons\" src=" + user.src + "></p>\n        <p class=\"nickname\">" + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
@@ -46,23 +53,37 @@ function renderScoreUser(user) {
         console.error(error);
     }
 }
-function handelRnderScoreUser() {
+// async function handelRnderScoreUser(){
+//   const response = await fetch('/api/users/get-users');
+//   const data = await response.json();
+//   const { users } = data;
+//   if(!users) return
+// }
+function orderByTopScore() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, users;
+        var dataJs, users, orderedUsers, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch('/api/users/get-users')];
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, fetch('/api/users/get-users')];
                 case 1:
-                    response = _a.sent();
-                    return [4 /*yield*/, response.json()];
+                    dataJs = _a.sent();
+                    if (!dataJs)
+                        throw new Error("no founded data");
+                    return [4 /*yield*/, dataJs.json()];
                 case 2:
-                    data = _a.sent();
-                    users = data.users;
-                    console.log(users);
-                    if (!users)
-                        return [2 /*return*/];
-                    users.forEach(renderScoreUser);
-                    return [2 /*return*/];
+                    users = (_a.sent()).users;
+                    console.log("users", users);
+                    orderedUsers = __spreadArrays(users).sort(function (a, b) { return b.highScore - a.highScore; });
+                    console.log(orderedUsers);
+                    orderedUsers.forEach(renderScoreUser);
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.error(error_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
