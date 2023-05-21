@@ -34,31 +34,35 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function renderScoreUser() {
+function renderScoreUser(user) {
+    try {
+        var html = "\n      <li class=\"person\">\n        <p class=\"icon\"><img class=\"playericons\" src=" + user.src + "></p>\n        <p class=\"nickname\">" + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
+        var ScoreRoot = document.querySelector("#scoreRoot");
+        if (!ScoreRoot)
+            throw new Error("ScoreRoot not found");
+        ScoreRoot.innerHTML += html;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+function handelRnderScoreUser() {
     return __awaiter(this, void 0, void 0, function () {
-        var response, data, user, html, ScoreRoot, error_1;
+        var response, data, users;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch('/api/users/get-user')];
+                case 0: return [4 /*yield*/, fetch('/api/users/get-users')];
                 case 1:
                     response = _a.sent();
                     return [4 /*yield*/, response.json()];
                 case 2:
                     data = _a.sent();
-                    user = data.user;
-                    html = "\n      <li class=\"person\">\n        <p class=\"icon\"><img class=\"playericons\" src=" + user.src + "></p>\n        <p class=\"nickname\">" + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
-                    ScoreRoot = document.querySelector("#scoreRoot");
-                    if (!ScoreRoot)
-                        throw new Error("ScoreRoot not found");
-                    ScoreRoot.innerHTML += html;
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    users = data.users;
+                    console.log(users);
+                    if (!users)
+                        return [2 /*return*/];
+                    users.forEach(renderScoreUser);
+                    return [2 /*return*/];
             }
         });
     });

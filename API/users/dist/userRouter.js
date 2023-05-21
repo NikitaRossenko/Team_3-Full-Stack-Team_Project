@@ -5,7 +5,7 @@ var userControl_1 = require("./userControl");
 var userMiddlwares_1 = require("./userMiddlwares");
 var userRouter = express_1.Router();
 userRouter
-    .get("/get-users", userMiddlwares_1.adminAccess, userControl_1.getUsers)
+    .get("/get-users", userControl_1.getUsers)
     .post("/create-user", userControl_1.createUser)
     .post("/admin-create-user", userMiddlwares_1.adminAccess, userControl_1.adminCreateUser)
     .post("/login", userControl_1.login)

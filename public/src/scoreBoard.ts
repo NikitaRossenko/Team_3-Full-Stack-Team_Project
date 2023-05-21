@@ -1,19 +1,19 @@
-interface User {
+ interface User {
   _id: string;
   firstName: string;
   lastName: string;
   userName: string;
   email: string;
   password: string;
-  highScore?: number;
-  coin?: number;
+  highScore: number;
+  ROLE: ROLE;
+  gamesPlayed:number;
+  src?:string
 }
 
-async function renderScoreUser() {
+function renderScoreUser(user: User){
     try {
-      const response = await fetch('/api/users/get-user');
-      const data = await response.json();
-      const { user } = data;
+
       const html = `
       <li class="person">
         <p class="icon"><img class="playericons" src=${user.src}></p>
@@ -28,4 +28,14 @@ async function renderScoreUser() {
     } catch (error) {
       console.error(error);
     }
+  }
+
+
+  async function handelRnderScoreUser(){
+    const response = await fetch('/api/users/get-users');
+    const data = await response.json();
+    const { users } = data;
+    console.log(users);
+    if(!users) return
+    users.forEach(renderScoreUser);
   }
