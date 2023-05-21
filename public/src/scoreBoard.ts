@@ -6,7 +6,6 @@
   email: string;
   password: string;
   highScore: number;
-  ROLE: ROLE;
   gamesPlayed:number;
   src?:string
 }

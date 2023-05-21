@@ -18,6 +18,10 @@ body {
   margin: 0;
 }
 
+a {
+  cursor: var(--mousePointer);
+}
+
 .mainContainer {
   position: relative;
   display: inline-flex;

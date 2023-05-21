@@ -269,11 +269,10 @@ body {
   background-color: var(--blue);
   z-index: 999;
   position: absolute;
-  top: 50%;
+  top: 25%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 60%;
-  height: 100%;
 }
 .collapse-container.active {
   display: flex;

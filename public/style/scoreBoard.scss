@@ -2,15 +2,12 @@
   --mousePointer : url("../../images/mouseIcon/altlink.cur") , pointer;
 }
 
-
 body {
-
   width: 100%;
-  // height: 150vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   gap: 10px;
 }
 h1 {

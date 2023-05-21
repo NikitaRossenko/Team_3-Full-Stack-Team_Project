@@ -11,7 +11,9 @@ body {
     align-items: center;
     flex-direction: column;
 }
-
+div h1 ,a{
+cursor: var(--mousePointer);
+}
 
 .container{
     position: relative;
