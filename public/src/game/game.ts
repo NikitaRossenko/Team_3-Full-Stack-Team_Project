@@ -627,6 +627,7 @@ async function game() {
                         bullet.enemy.radius / mapZoom + bullet.radius
                     ) {
                         bullet.enemy.health -= bullet.damage;
+                        console.log(bullet.damage)
                         if (bullet.enemy.health <= 0) {
                             const enemyIndex = enemiesArray.findIndex(
                                 (enemy) => {
@@ -649,8 +650,8 @@ async function game() {
                             enemyCount += 2;
                             waveCount += 1;
                             waveNumber.innerText = waveCount;
-                            if (bulletPower > 2) {
-                                bulletPower -= 1;
+                            if (bulletPower - waveCount > 2) {
+                                bulletPower -= waveCount;
                             }
                             spawnEnemies(enemyCount);
                         }
@@ -717,7 +718,7 @@ async function game() {
                     new Tower({
                         x: activePlacement.position.x,
                         y: activePlacement.position.y,
-                    },choosenTower.image)
+                    },choosenTower.image,choosenTower.radius, choosenTower.damage)
                 );
                 activePlacement.used = true;
             }

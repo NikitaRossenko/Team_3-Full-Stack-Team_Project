@@ -174,6 +174,7 @@ function game() {
                     if (distance <
                         bullet.enemy.radius / mapZoom_1 + bullet.radius) {
                         bullet.enemy.health -= bullet.damage;
+                        console.log(bullet.damage);
                         if (bullet.enemy.health <= 0) {
                             var enemyIndex = enemiesArray_1.findIndex(function (enemy) {
                                 return bullet.enemy === enemy;
@@ -190,8 +191,8 @@ function game() {
                             enemyCount_1 += 2;
                             waveCount_1 += 1;
                             waveNumber_1.innerText = waveCount_1;
-                            if (bulletPower_1 > 2) {
-                                bulletPower_1 -= 1;
+                            if (bulletPower_1 - waveCount_1 > 2) {
+                                bulletPower_1 -= waveCount_1;
                             }
                             spawnEnemies(enemyCount_1);
                         }
@@ -601,7 +602,7 @@ function game() {
                             towersArray_1.push(new Tower_1({
                                 x: activePlacement_1.position.x,
                                 y: activePlacement_1.position.y
-                            }, choosenTower_1.image));
+                            }, choosenTower_1.image, choosenTower_1.radius, choosenTower_1.damage));
                             activePlacement_1.used = true;
                         }
                     });
