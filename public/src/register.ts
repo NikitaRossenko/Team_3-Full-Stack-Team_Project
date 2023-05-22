@@ -1,3 +1,5 @@
+
+
 function handleSubmitRegisterForm(ev: any) {
     try {
         ev.preventDefault()

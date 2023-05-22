@@ -1,6 +1,6 @@
 import UserModel from "./userModel";
 import jwt from "jwt-simple";
-
+import bcrypt from 'bcryptjs';
 
 
 export const getUsers = async (req: any, res: any) => {
@@ -20,7 +20,8 @@ export const createUser = async (req: any, res: any) => {
     const srcRandom = `../images/PlayerIcons/${randomNumber}.png`
     const { firstName, lastName, userName, email, password } = req.body;
 
-
+const salt = bcrypt.genSaltSync(10);
+const passHash = bcrypt.hashSync(password , salt);
     const existUser = await UserModel.findOne({$or:[{userName},{email}]});
 
     if (existUser) throw new Error("User already exist")
@@ -30,7 +31,7 @@ export const createUser = async (req: any, res: any) => {
       lastName,
       userName,
       email,
-      password,
+      password:passHash,
       src:srcRandom
     });
 
@@ -101,12 +102,17 @@ export const login = async (req: any, res: any) => {
     const secret = process.env.JWT_SECRET;
     const { userName, password } = req.body;
 
-    const userDB = await UserModel.findOne({ userName, password });
+ 
+
+    const userDB = await UserModel.findOne({ userName});
 
     if (!userDB) {
-      res.status(401).send({ error: "email or password are inncorect" });
+    
+      res.status(401).send({ error: "username or password are inncorect" });
       return;
     }
+if( !bcrypt.compareSync(password , userDB.password )) throw new Error("wrong username or password")
+
     if (!secret) throw new Error("Server Error");
     const token = jwt.encode({ userId: userDB._id}, secret);
     res.cookie("currentUser", token, {maxAge:999*999*999 , httpOnly: true });
@@ -122,13 +128,17 @@ export const UpdateUserDetails = async (req: any, res: any) => {
   try {
     const { _id, firstName, lastName, email, userName, password } = req.body;
 
+    
+const salt = bcrypt.genSaltSync(10);
+const passHash = bcrypt.hashSync(password , salt);
+
     const userDB = await UserModel.findByIdAndUpdate(_id, {
 
       firstName,
       lastName,
       email,
       userName,
-      password,
+      password:passHash,
     });
     if (!userDB) throw new Error("No userDB in array");
     res.send({ ok: true });

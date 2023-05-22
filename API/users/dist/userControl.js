@@ -39,6 +39,7 @@ exports.__esModule = true;
 exports.changeUserIcon = exports.logout = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
 var jwt_simple_1 = require("jwt-simple");
+var bcryptjs_1 = require("bcryptjs");
 exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users, error_1;
     return __generator(this, function (_a) {
@@ -60,7 +61,7 @@ exports.getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomNumber, srcRandom, _a, firstName, lastName, userName, email, password, existUser, userDB, error_2;
+    var randomNumber, srcRandom, _a, firstName, lastName, userName, email, password, salt, passHash, existUser, userDB, error_2;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -68,6 +69,8 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                 randomNumber = Math.ceil(Math.random() * 48);
                 srcRandom = "../images/PlayerIcons/" + randomNumber + ".png";
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
+                salt = bcryptjs_1["default"].genSaltSync(10);
+                passHash = bcryptjs_1["default"].hashSync(password, salt);
                 return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
             case 1:
                 existUser = _b.sent();
@@ -78,7 +81,7 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                         lastName: lastName,
                         userName: userName,
                         email: email,
-                        password: password,
+                        password: passHash,
                         src: srcRandom
                     })];
             case 2:
@@ -184,13 +187,15 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 _b.trys.push([0, 2, , 3]);
                 secret = process.env.JWT_SECRET;
                 _a = req.body, userName = _a.userName, password = _a.password;
-                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName, password: password })];
+                return [4 /*yield*/, userModel_1["default"].findOne({ userName: userName })];
             case 1:
                 userDB = _b.sent();
                 if (!userDB) {
-                    res.status(401).send({ error: "email or password are inncorect" });
+                    res.status(401).send({ error: "username or password are inncorect" });
                     return [2 /*return*/];
                 }
+                if (!bcryptjs_1["default"].compareSync(password, userDB.password))
+                    throw new Error("wrong username or password");
                 if (!secret)
                     throw new Error("Server Error");
                 token = jwt_simple_1["default"].encode({ userId: userDB._id }, secret);
@@ -207,18 +212,20 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.UpdateUserDetails = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, _id, firstName, lastName, email, userName, password, userDB, error_6;
+    var _a, _id, firstName, lastName, email, userName, password, salt, passHash, userDB, error_6;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
                 _a = req.body, _id = _a._id, firstName = _a.firstName, lastName = _a.lastName, email = _a.email, userName = _a.userName, password = _a.password;
+                salt = bcryptjs_1["default"].genSaltSync(10);
+                passHash = bcryptjs_1["default"].hashSync(password, salt);
                 return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(_id, {
                         firstName: firstName,
                         lastName: lastName,
                         email: email,
                         userName: userName,
-                        password: password
+                        password: passHash
                     })];
             case 1:
                 userDB = _b.sent();
