@@ -159,7 +159,7 @@ function game() {
                     var xDistance = enemy.center.x - tower.center.x / mapZoom_1;
                     var yDistance = enemy.center.y - tower.center.y / mapZoom_1;
                     var distance = Math.floor(Math.hypot(xDistance, yDistance));
-                    return distance < enemy.radius + tower.radius / scale_1;
+                    return distance < enemy.radius + tower.radius / mapZoom_1;
                 });
                 tower.target = validEnemies[0];
                 var _loop_2 = function (i) {
@@ -255,7 +255,7 @@ function game() {
                     return [4 /*yield*/, getTowersDB.json()];
                 case 3:
                     towersDB_1 = (_a.sent()).towersDB;
-                    mapZoom_1 = 1.5;
+                    mapZoom_1 = 1;
                     towersHtml = "";
                     heightMultiplayer_1 = 1;
                     enemyCount_1 = 4;

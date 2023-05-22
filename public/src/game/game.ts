@@ -67,7 +67,7 @@ async function game() {
         let choosenTower:any = undefined;
         const getTowersDB = await fetch("/api/game/get-towers")
         const {towersDB} = await getTowersDB.json()
-        let mapZoom: number = 1.5;
+        let mapZoom: number = 1;
         let towersHtml = ""
         let heightMultiplayer = 1
         let enemyCount = 4;
@@ -647,7 +647,7 @@ async function game() {
                     const xDistance = enemy.center.x - tower.center.x / mapZoom;
                     const yDistance = enemy.center.y - tower.center.y / mapZoom;
                     const distance = Math.floor(Math.hypot(xDistance, yDistance));
-                    return distance < enemy.radius + tower.radius / scale;
+                    return distance < enemy.radius + tower.radius / mapZoom;
                 });
                 tower.target = validEnemies[0];
 
