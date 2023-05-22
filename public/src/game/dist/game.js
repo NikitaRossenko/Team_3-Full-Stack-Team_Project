@@ -575,7 +575,7 @@ function game(zoom) {
                         Tower.prototype.update = function () {
                             this.draw();
                             this.frames++;
-                            if (this.frames % 10 === 0 && this.target) {
+                            if (this.frames % 100 === 0 && this.target) {
                                 this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target, this.damage));
                             }
                             if (mousePos_1.x > this.position.x &&

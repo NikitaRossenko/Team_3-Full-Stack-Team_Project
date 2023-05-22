@@ -452,7 +452,7 @@ async function game(zoom=1.5) {
                 this.draw();
                 this.frames++;
 
-                if (this.frames % 10 === 0 && this.target) {
+                if (this.frames % 100 === 0 && this.target) {
                     this.bullets.push(
                         new Bullet(
                             { x: this.position.x, y: this.position.y },
