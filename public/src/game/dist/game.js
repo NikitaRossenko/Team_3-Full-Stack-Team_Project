@@ -47,7 +47,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function game() {
+function game(zoom) {
+    if (zoom === void 0) { zoom = 1.5; }
     return __awaiter(this, void 0, void 0, function () {
         function sound(src) {
             this.sound = document.createElement("audio");
@@ -203,6 +204,25 @@ function game() {
                 }
             });
         }
+        function gameMenuPause() {
+            if (!gamePaused_1) {
+                gameOver_1.innerText = "";
+                gameOver_1.style.display = "flex";
+                menuContainer_1.style.display = "flex";
+                towersOptionsContainer_1.style.display = "none";
+                pauseBtnIcon_1.setAttribute("src", "../images/icons/play 96x96.png");
+                gamePaused_1 = true;
+            }
+            else {
+                gameOver_1.style.display = "none";
+                menuContainer_1.style.display = "none";
+                gameOver_1.innerText = "GAME OVER";
+                towersOptionsContainer_1.style.display = "flex";
+                pauseBtnIcon_1.setAttribute("src", "../images/icons/pause 96x96.png");
+                gamePaused_1 = false;
+                animate();
+            }
+        }
         function deleteBackgroungFromTower(towersDivs, currentSelectedTower) {
             for (var i = 0; i < towersDivs.length; i++) {
                 var tower = towersDivs[i];
@@ -211,11 +231,12 @@ function game() {
                 }
             }
         }
-        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, htmlBody, pauseBtnIcon_1, pauseBtnContainer, activePlacement_1, scale_1, towerScale_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, heightMultiplayer_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, towerRadius_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
+        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, resolution_1, scoreboardBtnContainer_1, menuContainer_1, menuDetails, submitBtnContainer, submitBtn, submitBtnH1, htmlBody, pauseBtnIcon_1, pauseBtnContainer, menuBtnContainer, activePlacement_1, scale_1, towerScale_1, choosenTower_1, getTowersDB, towersDB_1, mapZoomDB, userResolution, mapZoom_1, towersHtml, heightMultiplayer_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, towerRadius_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, bgImage_1, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
+        var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 8, , 9]);
+                    _a.trys.push([0, 10, , 11]);
                     return [4 /*yield*/, fetch("/api/game/create-game")];
                 case 1:
                     newGame = _a.sent();
@@ -236,15 +257,23 @@ function game() {
                     scoreAmount_1 = document.querySelector("#scoreAmount");
                     wave = document.querySelector("#wave");
                     waveNumber_1 = document.querySelector("#waveNumber");
+                    resolution_1 = document.querySelector("#resolution");
                     scoreboardBtnContainer_1 = document.querySelector(".scoreboardBtnContainer");
+                    menuContainer_1 = document.querySelector(".menuContainer");
+                    menuDetails = document.querySelector(".menuDetails");
+                    submitBtnContainer = document.querySelector(".submitBtnContainer");
+                    submitBtn = document.querySelector("#submitBtn");
+                    submitBtnH1 = document.querySelector("#submitBtnH1");
                     htmlBody = document.querySelector("body");
                     if (scene) {
                         scene.remove();
                     }
                     replayBtn_1.style.display = "none";
+                    menuContainer_1.style.display = "none";
                     uiIconsContainer_1.innerHTML = "<div id=\"pauseBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"pauseBtnIcon\" class=\"icon\" src=\"../images/icons/pause 96x96.png\">\n                <img id=\"pauseBtn\" src=\"../images/buttons/20.png\">\n            </div>\n            <div id=\"menuBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"menuBtnIcon\" class=\"icon\" src=\"../images/icons/menu 96x96.png\">\n                <img id=\"menuBtn\" src=\"../images/buttons/20.png\">\n            </div>";
                     pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
                     pauseBtnContainer = document.querySelector("#pauseBtnContainer");
+                    menuBtnContainer = document.querySelector("#menuBtnContainer");
                     activePlacement_1 = undefined;
                     scale_1 = 1;
                     towerScale_1 = 1;
@@ -255,7 +284,14 @@ function game() {
                     return [4 /*yield*/, getTowersDB.json()];
                 case 3:
                     towersDB_1 = (_a.sent()).towersDB;
-                    mapZoom_1 = 1;
+                    return [4 /*yield*/, fetch("/api/users/get-user-resolution")];
+                case 4:
+                    mapZoomDB = _a.sent();
+                    return [4 /*yield*/, mapZoomDB.json()];
+                case 5:
+                    userResolution = (_a.sent()).userResolution;
+                    console.log(userResolution);
+                    mapZoom_1 = userResolution;
                     towersHtml = "";
                     heightMultiplayer_1 = 1;
                     enemyCount_1 = 4;
@@ -264,16 +300,16 @@ function game() {
                     gamePaused_1 = false;
                     score_1 = 0;
                     return [4 /*yield*/, fetch("/api/game/get-game-coins")];
-                case 4:
+                case 6:
                     getCoinsDB = _a.sent();
                     return [4 /*yield*/, getCoinsDB.json()];
-                case 5:
+                case 7:
                     coins_1 = (_a.sent()).coins;
                     return [4 /*yield*/, fetch("/api/game/get-game-wave-count")];
-                case 6:
+                case 8:
                     getWaveCountDB = _a.sent();
                     return [4 /*yield*/, getWaveCountDB.json()];
-                case 7:
+                case 9:
                     waveCount_1 = (_a.sent()).waveCount;
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
@@ -304,6 +340,13 @@ function game() {
                     mapImage = new Image();
                     // Set the canvas Width and Height
                     if (mapZoom_1 === 1) {
+                        menuContainer_1.style.width = "208px";
+                        menuContainer_1.style.height = "320px";
+                        menuDetails.style.width = "137px";
+                        menuDetails.style.height = "250px";
+                        submitBtn.style.width = "75px";
+                        submitBtn.style.height = "31.5px";
+                        submitBtnH1.style.fontSize = "12px";
                         scale_1 = 0.65;
                         towerScale_1 = 0.5;
                         zoomOffsetX_1 = newTileSize_1;
@@ -316,6 +359,11 @@ function game() {
                         mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">');
                     }
                     else if (mapZoom_1 === 1.5) {
+                        menuContainer_1.style.width = "416px";
+                        menuContainer_1.style.height = "640px";
+                        menuDetails.style.width = "274px";
+                        menuDetails.style.height = "500px";
+                        submitBtnH1.style.fontSize = "24px";
                         scale_1 = 1;
                         towerScale_1 = 1;
                         zoomOffsetX_1 = newTileSize_1;
@@ -341,6 +389,7 @@ function game() {
                     else {
                         throw new Error("Resolution Error!");
                     }
+                    bgImage_1 = document.querySelector("#bgImage");
                     wave.style.display = "flex";
                     gameOver_1.style.display = "none";
                     playBtnContainer.style.display = "none";
@@ -349,6 +398,7 @@ function game() {
                     playerScore.style.display = "flex";
                     playerCoinsBag.style.display = "flex";
                     towersOptionsContainer_1.style.display = "flex";
+                    scoreboardBtnContainer_1.style.display = "none";
                     // Convert Towers coordinats to 2d
                     for (i = 0; i < placementTowers.length; i += 70) {
                         placementTowers2d.push(placementTowers.slice(i, i + 70));
@@ -525,7 +575,7 @@ function game() {
                         Tower.prototype.update = function () {
                             this.draw();
                             this.frames++;
-                            if (this.frames % 100 === 0 && this.target) {
+                            if (this.frames % 10 === 0 && this.target) {
                                 this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target, this.damage));
                             }
                             if (mousePos_1.x > this.position.x &&
@@ -627,12 +677,44 @@ function game() {
                         else {
                             gameOver_1.innerText = "GAME OVER";
                             gameOver_1.style.display = "none";
+                            menuContainer_1.style.display = "none";
                             towersOptionsContainer_1.style.display = "flex";
                             pauseBtnIcon_1.setAttribute("src", "../images/icons/pause 96x96.png");
                             gamePaused_1 = false;
                             animate();
                         }
                     });
+                    menuBtnContainer.addEventListener("click", function (event) {
+                        gameMenuPause();
+                    });
+                    submitBtnContainer.addEventListener("click", function (event) { return __awaiter(_this, void 0, void 0, function () {
+                        var userNewResolution;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    if (!(mapZoom_1 != parseFloat(resolution_1.value))) return [3 /*break*/, 2];
+                                    bgImage_1 === null || bgImage_1 === void 0 ? void 0 : bgImage_1.remove();
+                                    return [4 /*yield*/, fetch("/api/users/set-user-resolution", {
+                                            method: "POST",
+                                            headers: {
+                                                Accept: "application/json",
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify({ resolution: resolution_1.value })
+                                        })];
+                                case 1:
+                                    userNewResolution = _a.sent();
+                                    if (userNewResolution.ok === true) {
+                                        location.reload();
+                                    }
+                                    return [3 /*break*/, 3];
+                                case 2:
+                                    gameMenuPause();
+                                    _a.label = 3;
+                                case 3: return [2 /*return*/];
+                            }
+                        });
+                    }); });
                     canvas_1.addEventListener("click", function (event) {
                         if (activePlacement_1 && !activePlacement_1.used && towerCost_1 && coins_1 >= towerCost_1 && choosenTower_1 != undefined) {
                             // choosenTower = towersDB[0]
@@ -661,12 +743,12 @@ function game() {
                         }
                     });
                     animate();
-                    return [3 /*break*/, 9];
-                case 8:
+                    return [3 /*break*/, 11];
+                case 10:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 9];
-                case 9: return [2 /*return*/];
+                    return [3 /*break*/, 11];
+                case 11: return [2 /*return*/];
             }
         });
     });

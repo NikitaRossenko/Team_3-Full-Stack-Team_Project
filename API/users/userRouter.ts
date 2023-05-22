@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {  createUser, getUsers, login, UpdateUserDetails, getUser, deleteUser, adminCreateUser, logout, changeUserIcon } from "./userControl";
+import {  createUser, getUsers, login, UpdateUserDetails, getUser, deleteUser, adminCreateUser, logout, changeUserIcon, getUserResolution, setUserResolution } from "./userControl";
 import { adminAccess } from "./userMiddlwares";
 
 const userRouter = Router()
@@ -11,6 +11,8 @@ userRouter
 .post("/login" , login)
 .put("/update-user", UpdateUserDetails)
 .get("/get-user" , getUser)
+.get("/get-user-resolution" , getUserResolution)
+.post("/set-user-resolution" , setUserResolution)
 .delete("/delete-user" , deleteUser)
 .get("/delete-cookie" , logout)
 .patch('/change-icon' , changeUserIcon)

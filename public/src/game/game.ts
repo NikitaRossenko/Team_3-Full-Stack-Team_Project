@@ -1,5 +1,5 @@
 
-async function game() {
+async function game(zoom=1.5) {
     try {
 
 
@@ -40,7 +40,13 @@ async function game() {
         const scoreAmount: any = document.querySelector("#scoreAmount");
         const wave: any = document.querySelector("#wave");
         const waveNumber: any = document.querySelector("#waveNumber");
+        const resolution: any = document.querySelector("#resolution");
         const scoreboardBtnContainer: any = document.querySelector(".scoreboardBtnContainer");
+        const menuContainer: any = document.querySelector(".menuContainer");
+        const menuDetails: any = document.querySelector(".menuDetails");
+        const submitBtnContainer: any = document.querySelector(".submitBtnContainer");
+        const submitBtn: any = document.querySelector("#submitBtn");
+        const submitBtnH1: any = document.querySelector("#submitBtnH1");
         const htmlBody: any = document.querySelector("body");
 
 
@@ -48,6 +54,7 @@ async function game() {
             scene.remove()
         }
         replayBtn.style.display = "none";
+        menuContainer.style.display = "none";
 
         uiIconsContainer.innerHTML = `<div id="pauseBtnContainer" class="navIcon uiIcons">
                 <img id="pauseBtnIcon" class="icon" src="../images/icons/pause 96x96.png">
@@ -60,6 +67,7 @@ async function game() {
 
         const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
         const pauseBtnContainer: any = document.querySelector("#pauseBtnContainer");
+        const menuBtnContainer: any = document.querySelector("#menuBtnContainer");
 
         let activePlacement: any = undefined;
         let scale = 1
@@ -67,7 +75,10 @@ async function game() {
         let choosenTower:any = undefined;
         const getTowersDB = await fetch("/api/game/get-towers")
         const {towersDB} = await getTowersDB.json()
-        let mapZoom: number = 1;
+        let mapZoomDB: any = await fetch("/api/users/get-user-resolution");
+        let {userResolution} = await mapZoomDB.json()
+        console.log(userResolution)
+        const mapZoom = userResolution
         let towersHtml = ""
         let heightMultiplayer = 1
         let enemyCount = 4;
@@ -117,6 +128,13 @@ async function game() {
 
         // Set the canvas Width and Height
         if (mapZoom === 1) {
+            menuContainer.style.width = "208px"
+            menuContainer.style.height = "320px"
+            menuDetails.style.width = "137px"
+            menuDetails.style.height = "250px"
+            submitBtn.style.width = "75px"
+            submitBtn.style.height = "31.5px"
+            submitBtnH1.style.fontSize = "12px"
             scale = 0.65
             towerScale = 0.5
             zoomOffsetX = newTileSize;
@@ -129,6 +147,11 @@ async function game() {
             mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">')
         }
         else if (mapZoom === 1.5) {
+            menuContainer.style.width = "416px"
+            menuContainer.style.height = "640px"
+            menuDetails.style.width = "274px"
+            menuDetails.style.height = "500px"
+            submitBtnH1.style.fontSize = "24px"
             scale = 1
             towerScale = 1
             zoomOffsetX = newTileSize;
@@ -153,6 +176,7 @@ async function game() {
             throw new Error("Resolution Error!");
         }
 
+        const bgImage = document.querySelector("#bgImage")
         wave.style.display = "flex";
         gameOver.style.display = "none";
         playBtnContainer.style.display = "none";
@@ -161,6 +185,7 @@ async function game() {
         playerScore.style.display = "flex";
         playerCoinsBag.style.display = "flex";
         towersOptionsContainer.style.display = "flex";
+        scoreboardBtnContainer.style.display = "none"
 
         // Convert Towers coordinats to 2d
         for (let i = 0; i < placementTowers.length; i += 70) {
@@ -427,7 +452,7 @@ async function game() {
                 this.draw();
                 this.frames++;
 
-                if (this.frames % 100 === 0 && this.target) {
+                if (this.frames % 10 === 0 && this.target) {
                     this.bullets.push(
                         new Bullet(
                             { x: this.position.x, y: this.position.y },
@@ -728,6 +753,31 @@ async function game() {
             
         }
 
+        function gameMenuPause (){
+            if (!gamePaused) {
+                gameOver.innerText = "";
+                gameOver.style.display = "flex";
+                menuContainer.style.display = "flex";
+                towersOptionsContainer.style.display = "none"
+                pauseBtnIcon.setAttribute(
+                    "src",
+                    "../images/icons/play 96x96.png"
+                );
+                gamePaused = true;
+            } else {
+                gameOver.style.display = "none";
+                menuContainer.style.display = "none";
+                gameOver.innerText = "GAME OVER";
+                towersOptionsContainer.style.display = "flex"
+                pauseBtnIcon.setAttribute(
+                    "src",
+                    "../images/icons/pause 96x96.png"
+                );
+                gamePaused = false;
+                animate();
+            }
+        }
+
         pauseBtnContainer.addEventListener("click", (event) => {
             if (!gamePaused) {
                 gameOver.innerText = "Paused!";
@@ -741,6 +791,7 @@ async function game() {
             } else {
                 gameOver.innerText = "GAME OVER";
                 gameOver.style.display = "none";
+                menuContainer.style.display = "none";
                 towersOptionsContainer.style.display = "flex"
                 pauseBtnIcon.setAttribute(
                     "src",
@@ -748,6 +799,29 @@ async function game() {
                 );
                 gamePaused = false;
                 animate();
+            }
+        });
+
+        menuBtnContainer.addEventListener("click", (event) => {
+            gameMenuPause()
+        });
+        submitBtnContainer.addEventListener("click", async (event) => {
+            if (mapZoom != parseFloat(resolution.value)){
+                bgImage?.remove()
+                const userNewResolution = await fetch("/api/users/set-user-resolution",{
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({resolution:resolution.value}),
+                })
+
+                if (userNewResolution.ok === true){
+                    location.reload();
+                } 
+            } else {
+                gameMenuPause()
             }
         });
 
@@ -784,7 +858,6 @@ async function game() {
                 }
             }
         });
-
 
         animate();
 
