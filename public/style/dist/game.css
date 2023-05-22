@@ -2,6 +2,14 @@
   --mousePointer: url("../../images/mouseIcon/altlink.cur") , pointer;
 }
 
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
 body {
   width: 100vw;
   height: 100vh;
@@ -9,6 +17,7 @@ body {
   gap: 20px;
   align-items: center;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .gameTitle {
@@ -39,12 +48,12 @@ a {
 .mainContainer .towersOptionsContainer {
   position: absolute;
   background-color: #A0654D;
-  bottom: 4px;
-  right: auto;
+  bottom: auto;
+  left: -220px;
   display: none;
   align-items: center;
   justify-content: center;
-  padding: 4px 20px 4px 20px;
+  padding: 4px 4px 4px 4px;
   border-radius: 20px 4px 20px 4px;
   border: 1px solid black;
   flex-direction: column;
@@ -60,6 +69,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: 30px;
 }
 .mainContainer .towersOptionsContainer .towers .tower {
@@ -68,7 +78,7 @@ a {
   justify-content: center;
   border-radius: 20px;
   padding: 4px;
-  border-left: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
 }
 .mainContainer .towersOptionsContainer .towers .tower .towerAttributes p {
   margin: 0;

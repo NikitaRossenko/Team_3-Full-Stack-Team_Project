@@ -159,7 +159,7 @@ function game() {
                     var xDistance = enemy.center.x - tower.center.x / mapZoom_1;
                     var yDistance = enemy.center.y - tower.center.y / mapZoom_1;
                     var distance = Math.floor(Math.hypot(xDistance, yDistance));
-                    return distance < enemy.radius + tower.radius / mapZoom_1;
+                    return distance < enemy.radius + tower.radius / scale_1;
                 });
                 tower.target = validEnemies[0];
                 var _loop_2 = function (i) {
@@ -174,7 +174,6 @@ function game() {
                     if (distance <
                         bullet.enemy.radius / mapZoom_1 + bullet.radius) {
                         bullet.enemy.health -= bullet.damage;
-                        console.log(bullet.damage);
                         if (bullet.enemy.health <= 0) {
                             var enemyIndex = enemiesArray_1.findIndex(function (enemy) {
                                 return bullet.enemy === enemy;
@@ -212,7 +211,7 @@ function game() {
                 }
             }
         }
-        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
+        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, htmlBody, pauseBtnIcon_1, pauseBtnContainer, activePlacement_1, scale_1, towerScale_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, heightMultiplayer_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, towerRadius_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -238,13 +237,17 @@ function game() {
                     wave = document.querySelector("#wave");
                     waveNumber_1 = document.querySelector("#waveNumber");
                     scoreboardBtnContainer_1 = document.querySelector(".scoreboardBtnContainer");
+                    htmlBody = document.querySelector("body");
                     if (scene) {
                         scene.remove();
                     }
                     replayBtn_1.style.display = "none";
                     uiIconsContainer_1.innerHTML = "<div id=\"pauseBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"pauseBtnIcon\" class=\"icon\" src=\"../images/icons/pause 96x96.png\">\n                <img id=\"pauseBtn\" src=\"../images/buttons/20.png\">\n            </div>\n            <div id=\"menuBtnContainer\" class=\"navIcon uiIcons\">\n                <img id=\"menuBtnIcon\" class=\"icon\" src=\"../images/icons/menu 96x96.png\">\n                <img id=\"menuBtn\" src=\"../images/buttons/20.png\">\n            </div>";
                     pauseBtnIcon_1 = document.querySelector("#pauseBtnIcon");
+                    pauseBtnContainer = document.querySelector("#pauseBtnContainer");
                     activePlacement_1 = undefined;
+                    scale_1 = 1;
+                    towerScale_1 = 1;
                     choosenTower_1 = undefined;
                     return [4 /*yield*/, fetch("/api/game/get-towers")];
                 case 2:
@@ -254,6 +257,7 @@ function game() {
                     towersDB_1 = (_a.sent()).towersDB;
                     mapZoom_1 = 1.5;
                     towersHtml = "";
+                    heightMultiplayer_1 = 1;
                     enemyCount_1 = 4;
                     playerHealth_1 = 5;
                     bulletPower_1 = 20;
@@ -274,6 +278,7 @@ function game() {
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
                     towerCost_1 = undefined;
+                    towerRadius_1 = 70;
                     scoreAmount_1.innerText = score_1;
                     playerCoins_1.innerText = coins_1;
                     waveNumber_1.innerText = waveCount_1;
@@ -298,9 +303,24 @@ function game() {
                     ctx_1.fillRect(0, 0, canvas_1.width, canvas_1.height);
                     mapImage = new Image();
                     // Set the canvas Width and Height
-                    if (mapZoom_1 === 1.5) {
+                    if (mapZoom_1 === 1) {
+                        scale_1 = 0.65;
+                        towerScale_1 = 0.5;
+                        zoomOffsetX_1 = newTileSize_1;
+                        zoomOffsetY_1 = newTileSize_1;
+                        heightMultiplayer_1 = 5;
+                        canvas_1.width = 840;
+                        canvas_1.height = 480;
+                        mapImage.src =
+                            "../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png";
+                        mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">');
+                    }
+                    else if (mapZoom_1 === 1.5) {
+                        scale_1 = 1;
+                        towerScale_1 = 1;
                         zoomOffsetX_1 = newTileSize_1;
                         zoomOffsetY_1 = newTileSize_1 * 2;
+                        heightMultiplayer_1 = 1.5;
                         canvas_1.width = 1260;
                         canvas_1.height = 720;
                         mapImage.src =
@@ -308,7 +328,10 @@ function game() {
                         mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">');
                     }
                     else if (mapZoom_1 === 2) {
+                        scale_1 = 1;
+                        towerScale_1 = 1.75;
                         zoomOffsetY_1 = newTileSize_1;
+                        heightMultiplayer_1 = 1.5;
                         canvas_1.width = 1680;
                         canvas_1.height = 960;
                         mapImage.src =
@@ -338,9 +361,9 @@ function game() {
                             this.position = { x: x, y: y };
                             this.image = new Image();
                             this.image.src = imgSource[this.randomEnemyIndex - 1];
-                            this.width = 90;
-                            this.height = 90;
-                            this.zoom = mapZoom_1;
+                            // this.width = 90;
+                            // this.height = 90;
+                            this.zoom = scale_1;
                             this.imgFrames = imgFrames;
                             this.currentFrame = 0;
                             this.framesTimeout = 0;
@@ -362,7 +385,7 @@ function game() {
                                 zoomOffsetX_1, this.position.y * this.zoom -
                                 newTileSize_1 +
                                 mapZoom_1 * this.zoom -
-                                zoomOffsetY_1, crop.width, crop.height);
+                                zoomOffsetY_1, crop.width * scale_1, crop.height * scale_1);
                             this.framesTimeout++;
                             if (this.framesTimeout % 9 === 0) {
                                 this.currentFrame++;
@@ -380,7 +403,7 @@ function game() {
                             this.size = newTileSize_1;
                             this.color = "rgba(128,0,128,0.2)";
                             this.used = false;
-                            this.radius = 70 * mapZoom_1;
+                            this.radius = towerRadius_1 * mapZoom_1;
                             this.width = newTileSize_1;
                             this.height = newTileSize_1;
                             this.center = {
@@ -392,24 +415,23 @@ function game() {
                             if (!ctx_1)
                                 throw new Error("[Canvas-ctx] Game Error");
                             ctx_1.fillStyle = this.color;
-                            ctx_1.fillRect(this.position.x, this.position.y, this.size, this.size);
+                            ctx_1.fillRect(this.position.x, this.position.y, this.size * 2, this.size);
                         };
                         PlacementTower.prototype.update = function (mousePos) {
                             this.draw();
-                            if (mousePos.x > this.position.x &&
-                                mousePos.x < this.position.x + this.size &&
+                            if (!this.used && mousePos.x > this.position.x &&
+                                mousePos.x < this.position.x + this.size * 2 &&
                                 mousePos.y > this.position.y &&
                                 mousePos.y < this.position.y + this.size) {
                                 if (!ctx_1)
                                     throw new Error("[Canvas-ctx] Game Error");
                                 ctx_1.beginPath();
-                                ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
                                 ctx_1.fillStyle = "rgba(255,255,255,0.2)";
                                 ctx_1.fill();
-                                this.color = "rgba(128,0,128,1)";
+                                this.color = "#4faf7ca9";
                             }
                             else {
-                                this.color = "rgba(128,0,128,0.2)";
+                                this.color = "rgba(128,0,128,0.0)";
                             }
                         };
                         return PlacementTower;
@@ -480,11 +502,12 @@ function game() {
                             this.zoom = mapZoom_1;
                             this.image = new Image();
                             this.image.src = image;
-                            this.width = 64 / this.zoom;
-                            this.height = 106 / this.zoom;
+                            this.width = 64 / this.zoom * towerScale_1;
+                            this.height = 106 / this.zoom * towerScale_1;
+                            this.color = "rgba(128,0,128,0.2)";
                             this.center = {
-                                x: this.position.x + this.width / this.zoom,
-                                y: this.position.y + this.height / this.zoom
+                                x: this.position.x + this.width - zoomOffsetX_1,
+                                y: this.position.y + this.height - zoomOffsetY_1 * heightMultiplayer_1
                             };
                         }
                         Tower.prototype.draw = function () {
@@ -504,6 +527,21 @@ function game() {
                             this.frames++;
                             if (this.frames % 100 === 0 && this.target) {
                                 this.bullets.push(new Bullet_1({ x: this.position.x, y: this.position.y }, this.target, this.damage));
+                            }
+                            if (mousePos_1.x > this.position.x &&
+                                mousePos_1.x < this.position.x + this.width &&
+                                mousePos_1.y > this.position.y - tileSize_1 * 3 &&
+                                mousePos_1.y < this.position.y - tileSize_1 * 3 + this.height) {
+                                if (!ctx_1)
+                                    throw new Error("[Canvas-ctx] Game Error");
+                                ctx_1.beginPath();
+                                ctx_1.arc(this.center.x, this.center.y, this.radius, 0, Math.PI * 2);
+                                ctx_1.fillStyle = "rgba(255,255,255,0.2)";
+                                ctx_1.fill();
+                                this.color = "rgba(128,0,128,1)";
+                            }
+                            else {
+                                this.color = "rgba(128,0,128,0.2)";
                             }
                         };
                         return Tower;
@@ -570,6 +608,7 @@ function game() {
                         tower === null || tower === void 0 ? void 0 : tower.addEventListener("click", function (event) {
                             choosenTower_1 = towersDB_1[i];
                             towerCost_1 = choosenTower_1.cost;
+                            towerRadius_1 = choosenTower_1.radius;
                             tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)";
                             deleteBackgroungFromTower(towersDivs_1, i);
                         });
@@ -613,7 +652,7 @@ function game() {
                         for (var i = 0; i < placementTowersArray_1.length; i++) {
                             var placement = placementTowersArray_1[i];
                             if (mousePos_1.x > placement.position.x &&
-                                mousePos_1.x < placement.position.x + placement.size &&
+                                mousePos_1.x < placement.position.x + placement.size * 2 &&
                                 mousePos_1.y > placement.position.y &&
                                 mousePos_1.y < placement.position.y + placement.size) {
                                 activePlacement_1 = placement;

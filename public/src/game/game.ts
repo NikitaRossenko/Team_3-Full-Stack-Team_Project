@@ -41,6 +41,8 @@ async function game() {
         const wave: any = document.querySelector("#wave");
         const waveNumber: any = document.querySelector("#waveNumber");
         const scoreboardBtnContainer: any = document.querySelector(".scoreboardBtnContainer");
+        const htmlBody: any = document.querySelector("body");
+
 
         if (scene){
             scene.remove()
@@ -57,13 +59,17 @@ async function game() {
             </div>`
 
         const pauseBtnIcon: any = document.querySelector("#pauseBtnIcon");
+        const pauseBtnContainer: any = document.querySelector("#pauseBtnContainer");
 
         let activePlacement: any = undefined;
+        let scale = 1
+        let towerScale = 1
         let choosenTower:any = undefined;
         const getTowersDB = await fetch("/api/game/get-towers")
         const {towersDB} = await getTowersDB.json()
         let mapZoom: number = 1.5;
         let towersHtml = ""
+        let heightMultiplayer = 1
         let enemyCount = 4;
         let playerHealth = 5;
         let bulletPower = 20;
@@ -76,6 +82,7 @@ async function game() {
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;
         let towerCost = undefined
+        let towerRadius = 70
 
         scoreAmount.innerText = score;
         playerCoins.innerText = coins;
@@ -109,16 +116,34 @@ async function game() {
         const mapImage = new Image();
 
         // Set the canvas Width and Height
-        if (mapZoom === 1.5) {
+        if (mapZoom === 1) {
+            scale = 0.65
+            towerScale = 0.5
+            zoomOffsetX = newTileSize;
+            zoomOffsetY = newTileSize;
+            heightMultiplayer = 5
+            canvas.width = 840;
+            canvas.height = 480;
+            mapImage.src =
+                "../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png";
+            mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">')
+        }
+        else if (mapZoom === 1.5) {
+            scale = 1
+            towerScale = 1
             zoomOffsetX = newTileSize;
             zoomOffsetY = newTileSize * 2;
+            heightMultiplayer = 1.5
             canvas.width = 1260;
             canvas.height = 720;
             mapImage.src =
                 "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
             mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">')
         } else if (mapZoom === 2) {
+            scale = 1
+            towerScale = 1.75
             zoomOffsetY = newTileSize;
+            heightMultiplayer = 1.5
             canvas.width = 1680;
             canvas.height = 960;
             mapImage.src =
@@ -159,9 +184,9 @@ async function game() {
                 this.position = { x: x, y: y };
                 this.image = new Image();
                 this.image.src = imgSource[this.randomEnemyIndex-1];
-                this.width = 90;
-                this.height = 90;
-                this.zoom = mapZoom;
+                // this.width = 90;
+                // this.height = 90;
+                this.zoom = scale;
                 this.imgFrames = imgFrames;
                 this.currentFrame = 0;
                 this.framesTimeout = 0;
@@ -192,8 +217,8 @@ async function game() {
                         newTileSize +
                         mapZoom * this.zoom -
                         zoomOffsetY,
-                    crop.width,
-                    crop.height
+                    crop.width * scale,
+                    crop.height * scale
                 );
                 this.framesTimeout++;
                 if (this.framesTimeout % 9 === 0) {
@@ -220,7 +245,7 @@ async function game() {
                 this.size = newTileSize;
                 this.color = "rgba(128,0,128,0.2)";
                 this.used = false;
-                this.radius = 70 * mapZoom;
+                this.radius = towerRadius * mapZoom;
                 this.width = newTileSize;
                 this.height = newTileSize;
 
@@ -237,7 +262,7 @@ async function game() {
                 ctx.fillRect(
                     this.position.x,
                     this.position.y,
-                    this.size,
+                    this.size*2,
                     this.size
                 );
 
@@ -247,25 +272,18 @@ async function game() {
             update(mousePos) {
                 this.draw();
                 if (
-                    mousePos.x > this.position.x &&
-                    mousePos.x < this.position.x + this.size &&
+                    !this.used && mousePos.x > this.position.x &&
+                    mousePos.x < this.position.x + this.size*2 &&
                     mousePos.y > this.position.y &&
                     mousePos.y < this.position.y + this.size
                 ) {
                     if (!ctx) throw new Error("[Canvas-ctx] Game Error");
                     ctx.beginPath();
-                    ctx.arc(
-                        this.center.x,
-                        this.center.y,
-                        this.radius,
-                        0,
-                        Math.PI * 2
-                    );
                     ctx.fillStyle = "rgba(255,255,255,0.2)";
                     ctx.fill();
-                    this.color = "rgba(128,0,128,1)";
+                    this.color = "#4faf7ca9";
                 } else {
-                    this.color = "rgba(128,0,128,0.2)";
+                    this.color = "rgba(128,0,128,0.0)";
                 }
             }
         }
@@ -362,6 +380,7 @@ async function game() {
             damage: number;
             zoom: number;
             image: HTMLImageElement;
+            color: string;
 
             constructor({ x = 0, y = 0 }, image, radius=70, damage=21) {
                 this.position = { x: x, y: y };
@@ -373,11 +392,12 @@ async function game() {
                 this.zoom = mapZoom;
                 this.image = new Image();
                 this.image.src = image;
-                this.width = 64/this.zoom;
-                this.height = 106/this.zoom;
+                this.width = 64/this.zoom * towerScale;
+                this.height = 106/this.zoom * towerScale;
+                this.color = "rgba(128,0,128,0.2)";
                 this.center = {
-                    x: this.position.x + this.width / this.zoom,
-                    y: this.position.y + this.height / this.zoom,
+                    x: this.position.x + this.width - zoomOffsetX,
+                    y: this.position.y + this.height- zoomOffsetY*heightMultiplayer,
                 };
             }
 
@@ -414,6 +434,28 @@ async function game() {
                             this.target, this.damage
                         )
                     );
+                }
+
+                if (
+                    mousePos.x > this.position.x &&
+                    mousePos.x < this.position.x + this.width &&
+                    mousePos.y > this.position.y - tileSize*3 &&
+                    mousePos.y < this.position.y - tileSize*3 + this.height
+                ) {
+                    if (!ctx) throw new Error("[Canvas-ctx] Game Error");
+                    ctx.beginPath();
+                    ctx.arc(
+                        this.center.x,
+                        this.center.y,
+                        this.radius,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fillStyle = "rgba(255,255,255,0.2)";
+                    ctx.fill();
+                    this.color = "rgba(128,0,128,1)";
+                } else {
+                    this.color = "rgba(128,0,128,0.2)";
                 }
             }
         }
@@ -605,7 +647,7 @@ async function game() {
                     const xDistance = enemy.center.x - tower.center.x / mapZoom;
                     const yDistance = enemy.center.y - tower.center.y / mapZoom;
                     const distance = Math.floor(Math.hypot(xDistance, yDistance));
-                    return distance < enemy.radius + tower.radius / mapZoom;
+                    return distance < enemy.radius + tower.radius / scale;
                 });
                 tower.target = validEnemies[0];
 
@@ -627,7 +669,6 @@ async function game() {
                         bullet.enemy.radius / mapZoom + bullet.radius
                     ) {
                         bullet.enemy.health -= bullet.damage;
-                        console.log(bullet.damage)
                         if (bullet.enemy.health <= 0) {
                             const enemyIndex = enemiesArray.findIndex(
                                 (enemy) => {
@@ -679,6 +720,7 @@ async function game() {
             tower?.addEventListener("click", (event) => {
                 choosenTower = towersDB[i]
                 towerCost = choosenTower.cost
+                towerRadius = choosenTower.radius
                 tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)"
                 deleteBackgroungFromTower(towersDivs, i)
 
@@ -733,7 +775,7 @@ async function game() {
                 const placement = placementTowersArray[i];
                 if (
                     mousePos.x > placement.position.x &&
-                    mousePos.x < placement.position.x + placement.size &&
+                    mousePos.x < placement.position.x + placement.size*2 &&
                     mousePos.y > placement.position.y &&
                     mousePos.y < placement.position.y + placement.size
                 ) {
