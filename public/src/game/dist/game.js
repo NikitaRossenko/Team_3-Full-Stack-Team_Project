@@ -211,7 +211,7 @@ function game() {
                 }
             }
         }
-        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
+        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, scoreboardBtnContainer_1, pauseBtnIcon_1, activePlacement_1, choosenTower_1, getTowersDB, towersDB_1, mapZoom_1, towersHtml, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -272,6 +272,7 @@ function game() {
                     waveCount_1 = (_a.sent()).waveCount;
                     zoomOffsetX_1 = 0;
                     zoomOffsetY_1 = 0;
+                    towerCost_1 = undefined;
                     scoreAmount_1.innerText = score_1;
                     playerCoins_1.innerText = coins_1;
                     waveNumber_1.innerText = waveCount_1;
@@ -567,6 +568,7 @@ function game() {
                         var tower = towersDivs_1[i];
                         tower === null || tower === void 0 ? void 0 : tower.addEventListener("click", function (event) {
                             choosenTower_1 = towersDB_1[i];
+                            towerCost_1 = choosenTower_1.cost;
                             tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)";
                             deleteBackgroungFromTower(towersDivs_1, i);
                         });
@@ -592,7 +594,7 @@ function game() {
                         }
                     });
                     canvas_1.addEventListener("click", function (event) {
-                        if (activePlacement_1 && !activePlacement_1.used && coins_1 >= 35 && choosenTower_1 != undefined) {
+                        if (activePlacement_1 && !activePlacement_1.used && towerCost_1 && coins_1 >= towerCost_1 && choosenTower_1 != undefined) {
                             // choosenTower = towersDB[0]
                             coins_1 -= choosenTower_1.cost;
                             playerCoins_1.innerText = coins_1;

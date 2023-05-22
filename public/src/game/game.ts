@@ -75,6 +75,7 @@ async function game() {
         let {waveCount} = await getWaveCountDB.json()
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;
+        let towerCost = undefined
 
         scoreAmount.innerText = score;
         playerCoins.innerText = coins;
@@ -676,6 +677,7 @@ async function game() {
             let tower = towersDivs[i]
             tower?.addEventListener("click", (event) => {
                 choosenTower = towersDB[i]
+                towerCost = choosenTower.cost
                 tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)"
                 deleteBackgroungFromTower(towersDivs, i)
 
@@ -707,7 +709,7 @@ async function game() {
         });
 
         canvas.addEventListener("click", (event) => {
-            if (activePlacement && !activePlacement.used && coins >= 35 && choosenTower != undefined) {
+            if (activePlacement && !activePlacement.used && towerCost && coins >= towerCost && choosenTower != undefined) {
                 // choosenTower = towersDB[0]
                 coins -= choosenTower.cost;
                 playerCoins.innerText = coins;
