@@ -75,6 +75,7 @@ async function game() {
         let {waveCount} = await getWaveCountDB.json()
         let zoomOffsetX = 0;
         let zoomOffsetY = 0;
+        let towerCost = undefined
 
         scoreAmount.innerText = score;
         playerCoins.innerText = coins;
@@ -626,6 +627,7 @@ async function game() {
                         bullet.enemy.radius / mapZoom + bullet.radius
                     ) {
                         bullet.enemy.health -= bullet.damage;
+                        console.log(bullet.damage)
                         if (bullet.enemy.health <= 0) {
                             const enemyIndex = enemiesArray.findIndex(
                                 (enemy) => {
@@ -648,8 +650,8 @@ async function game() {
                             enemyCount += 2;
                             waveCount += 1;
                             waveNumber.innerText = waveCount;
-                            if (bulletPower > 2) {
-                                bulletPower -= 1;
+                            if (bulletPower - waveCount > 2) {
+                                bulletPower -= waveCount;
                             }
                             spawnEnemies(enemyCount);
                         }
@@ -676,6 +678,7 @@ async function game() {
             let tower = towersDivs[i]
             tower?.addEventListener("click", (event) => {
                 choosenTower = towersDB[i]
+                towerCost = choosenTower.cost
                 tower.style.backgroundColor = "rgba(128, 128, 128, 0.639)"
                 deleteBackgroungFromTower(towersDivs, i)
 
@@ -707,7 +710,7 @@ async function game() {
         });
 
         canvas.addEventListener("click", (event) => {
-            if (activePlacement && !activePlacement.used && coins >= 35 && choosenTower != undefined) {
+            if (activePlacement && !activePlacement.used && towerCost && coins >= towerCost && choosenTower != undefined) {
                 // choosenTower = towersDB[0]
                 coins -= choosenTower.cost;
                 playerCoins.innerText = coins;
@@ -715,7 +718,7 @@ async function game() {
                     new Tower({
                         x: activePlacement.position.x,
                         y: activePlacement.position.y,
-                    },choosenTower.image)
+                    },choosenTower.image,choosenTower.radius, choosenTower.damage)
                 );
                 activePlacement.used = true;
             }
