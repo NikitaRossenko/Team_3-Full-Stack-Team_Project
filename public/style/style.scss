@@ -11,7 +11,8 @@ cursor: url("../../images/mouseIcon/normal.cur") ,auto ;
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
-    overflow: hidden;
+    overflow-y: auto;
+    background-color:#07150A;
 }
 
 

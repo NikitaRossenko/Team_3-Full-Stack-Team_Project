@@ -27,6 +27,9 @@ overflow-y: scroll;
   padding: 16px 24px;
   box-shadow: 0 0 8px;
   border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 
   &::-webkit-scrollbar{
     width: 10px;
@@ -40,6 +43,7 @@ overflow-y: scroll;
   width: 85%;
   margin-bottom: 2%;
   position: relative;
+  border-radius: 10px;
 }
 .leaderboard .person .icon    {
   display: grid;
