@@ -12,6 +12,15 @@ export const getUsers = async (req: any, res: any) => {
     console.error(error);
   }
 };
+export const getUsersScoer = async (req: any, res: any) => {
+  try {
+    const users = await UserModel.find({},{"highScore":1,"userName":1,"src":1}).sort({"highScore":-1});
+    res.send({ ok: true, users });
+  } catch (error) {
+    res.status(500).send({ ok: false });
+    console.error(error);
+  }
+};
 
 
 export const createUser = async (req: any, res: any) => {
@@ -129,8 +138,8 @@ export const UpdateUserDetails = async (req: any, res: any) => {
     const { _id, firstName, lastName, email, userName, password } = req.body;
 
     
-    const salt = bcrypt.genSaltSync(10);
-    const passHash = bcrypt.hashSync(password , salt);
+const salt = bcrypt.genSaltSync(10);
+const passHash = bcrypt.hashSync(password , salt);
 
     const userDB = await UserModel.findByIdAndUpdate(_id, {
 
@@ -160,43 +169,6 @@ export const getUser = async (req: any, res: any) => {
     const userDB = await UserModel.findById(userId);
 
     res.send({ ok: true, user:userDB });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-}
-
-export const getUserResolution = async (req: any, res: any) => {
-  try {
-    const secret = process.env.JWT_SECRET;
-    const { currentUser } = req.cookies;
-    if (!secret) throw new Error("No secret");
-    const decoded = jwt.decode(currentUser, secret);
-    
-    const { userId } = decoded;
-
-    const userDB = await UserModel.findById(userId);
-
-    res.send({ ok: true, userResolution:userDB?.resolution });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-}
-
-export const setUserResolution = async (req: any, res: any) => {
-  try {
-    const { resolution } = req.body;
-    const secret = process.env.JWT_SECRET;
-    const { currentUser } = req.cookies;
-    if (!secret) throw new Error("No secret");
-    const decoded = jwt.decode(currentUser, secret);
-    
-    const { userId } = decoded;
-
-    const userDB = await UserModel.findByIdAndUpdate(userId,{resolution:resolution});
-
-    res.send({ ok: true});
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });

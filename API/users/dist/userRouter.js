@@ -6,6 +6,7 @@ var userMiddlwares_1 = require("./userMiddlwares");
 var userRouter = express_1.Router();
 userRouter
     .get("/get-users", userControl_1.getUsers)
+    .get("/get-users-score", userControl_1.getUsersScoer)
     .post("/create-user", userControl_1.createUser)
     .post("/admin-create-user", userMiddlwares_1.adminAccess, userControl_1.adminCreateUser)
     .post("/login", userControl_1.login)
