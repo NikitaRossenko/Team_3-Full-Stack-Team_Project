@@ -45,13 +45,8 @@ function renderScoreUser(user: User){
       const dataJs = await fetch('/api/users/get-users');
       if(!dataJs) throw new Error("no founded data")
       const {users} = await dataJs.json();
-
-      console.log("users" , users);
-
+      
       const orderedUsers = [...users].sort((a: User, b: User) => b.highScore - a.highScore);
-
-      console.log(orderedUsers);
-
       orderedUsers.forEach(renderScoreUser);
 
     } catch (error) {

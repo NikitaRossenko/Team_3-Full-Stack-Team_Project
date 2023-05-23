@@ -74,9 +74,7 @@ function orderByTopScore() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     users = (_a.sent()).users;
-                    console.log("users", users);
                     orderedUsers = __spreadArrays(users).sort(function (a, b) { return b.highScore - a.highScore; });
-                    console.log(orderedUsers);
                     orderedUsers.forEach(renderScoreUser);
                     return [3 /*break*/, 4];
                 case 3:

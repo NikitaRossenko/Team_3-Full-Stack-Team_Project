@@ -2,7 +2,6 @@ import UserModel from "./userModel";
 import jwt from "jwt-simple";
 import bcrypt from 'bcryptjs';
 
-
 export const getUsers = async (req: any, res: any) => {
   try {
     const users = await UserModel.find({});
@@ -12,8 +11,6 @@ export const getUsers = async (req: any, res: any) => {
     console.error(error);
   }
 };
-
-
 export const createUser = async (req: any, res: any) => {
   try {
     const  randomNumber = Math.ceil(Math.random()*48);
@@ -23,7 +20,6 @@ export const createUser = async (req: any, res: any) => {
 const salt = bcrypt.genSaltSync(10);
 const passHash = bcrypt.hashSync(password , salt);
     const existUser = await UserModel.findOne({$or:[{userName},{email}]});
-
     if (existUser) throw new Error("User already exist")
 
     const userDB = await UserModel.create({
@@ -65,7 +61,6 @@ export const adminCreateUser = async (req: any, res: any) => {
     res.status(500).send({ error: error.message });
   }
 };
-
 export const UpdateUserDetailById = async (req: any, res: any) => {
   try {
     const uid = req.body ;
@@ -76,7 +71,6 @@ export const UpdateUserDetailById = async (req: any, res: any) => {
     console.error(error);
   }
 };
-
 export const deleteUser = async (req: any, res: any) => {
   try {
     const {uid}  = req.body;
@@ -96,7 +90,6 @@ export const addUser = async (req: any, res: any) => {
     console.error(error);
   }
 };
-
 export const login = async (req: any, res: any) => {
   try {
     const secret = process.env.JWT_SECRET;
@@ -123,7 +116,6 @@ if( !bcrypt.compareSync(password , userDB.password )) throw new Error("wrong use
     res.status(500).send({ error: error.message });
   }
 };
-
 export const UpdateUserDetails = async (req: any, res: any) => {
   try {
     const { _id, firstName, lastName, email, userName, password } = req.body;
@@ -147,7 +139,6 @@ const passHash = bcrypt.hashSync(password , salt);
     res.status(500).send({ error: error.message });
   }
 };
-
 export const getUser = async (req: any, res: any) => {
   try {
     const secret = process.env.JWT_SECRET;
