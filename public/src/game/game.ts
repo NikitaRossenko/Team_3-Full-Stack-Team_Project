@@ -1,5 +1,5 @@
 
-async function game(zoom=1.5) {
+async function game(replay=false) {
     try {
 
 
@@ -24,6 +24,9 @@ async function game(zoom=1.5) {
 
         // const mySound = new sound("../../audio/Gruber - Merciful.mp3");
         // mySound.play()
+
+        const maps_1_5 = ['Road-Of-Glory-peaceful-Map_1260x720x1.5.png','Road-Of-Glory-ruined-Map_1260x720x1.5.png']
+        const maps_1 = ['Road-Of-Glory-peaceful-Map_840x480x1.png','Road-Of-Glory-ruined-Map_840x480x1.png']
 
         const mainContainer: any = document.querySelector(".mainContainer");
         const towersOptionsContainer: any = document.querySelector(".towersOptionsContainer");
@@ -77,7 +80,6 @@ async function game(zoom=1.5) {
         const {towersDB} = await getTowersDB.json()
         let mapZoomDB: any = await fetch("/api/users/get-user-resolution");
         let {userResolution} = await mapZoomDB.json()
-        console.log(userResolution)
         const mapZoom = userResolution
         let towersHtml = ""
         let heightMultiplayer = 1
@@ -102,7 +104,7 @@ async function game(zoom=1.5) {
         const tileSize = 12;
         const newTileSize = mapZoom * tileSize;
 
-        const enemySpeed = 2;
+        let enemySpeed = 2;
         const bulletSpeed = 2;
         const mousePos: any = { x: undefined, y: undefined };
 
@@ -128,6 +130,10 @@ async function game(zoom=1.5) {
 
         // Set the canvas Width and Height
         if (mapZoom === 1) {
+            let currentMap = maps_1[0]
+            if (replay){
+                currentMap = maps_1[1]
+            }
             menuContainer.style.width = "208px"
             menuContainer.style.height = "320px"
             menuDetails.style.width = "137px"
@@ -143,10 +149,14 @@ async function game(zoom=1.5) {
             canvas.width = 840;
             canvas.height = 480;
             mapImage.src =
-                "../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png";
-            mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">')
+                `../../images/maps/${currentMap}`;
+            mainContainer.insertAdjacentHTML("beforeend", `<img id="bgImage" src="../../images/maps/${currentMap}">`)
         }
         else if (mapZoom === 1.5) {
+            let currentMap = maps_1_5[0]
+            if (replay){
+                currentMap = maps_1_5[1]
+            }
             menuContainer.style.width = "416px"
             menuContainer.style.height = "640px"
             menuDetails.style.width = "274px"
@@ -160,8 +170,8 @@ async function game(zoom=1.5) {
             canvas.width = 1260;
             canvas.height = 720;
             mapImage.src =
-                "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
-            mainContainer.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">')
+                `../../images/maps/${currentMap}`;
+            mainContainer.insertAdjacentHTML("beforeend", `<img id="bgImage" src="../../images/maps/${currentMap}">`)
         } else if (mapZoom === 2) {
             scale = 1
             towerScale = 1.75
@@ -608,7 +618,7 @@ async function game(zoom=1.5) {
 
             // ctx.drawImage(mapImage, 0, 0);
 
-            if (waveCount === 100) {
+            if (waveCount === 15) {
                 console.log("Congratulations!");
                 gameOver.innerText = "Congratulations! You saved the village!";
                 gameOver.style.fontSize = "30px";
@@ -715,6 +725,9 @@ async function game(zoom=1.5) {
                         if (enemiesArray.length === 0) {
                             enemyCount += 2;
                             waveCount += 1;
+                            if(enemySpeed > 1){
+                                enemySpeed -=0.1;
+                            }
                             waveNumber.innerText = waveCount;
                             if (bulletPower - waveCount > 2) {
                                 bulletPower -= waveCount;

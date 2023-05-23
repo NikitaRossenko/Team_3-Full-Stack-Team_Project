@@ -47,8 +47,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function game(zoom) {
-    if (zoom === void 0) { zoom = 1.5; }
+function game(replay) {
+    if (replay === void 0) { replay = false; }
     return __awaiter(this, void 0, void 0, function () {
         function sound(src) {
             this.sound = document.createElement("audio");
@@ -102,7 +102,7 @@ function game(zoom) {
                 throw new Error("[Canvas-ctx] Game Error");
             ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
             // ctx.drawImage(mapImage, 0, 0);
-            if (waveCount_1 === 100) {
+            if (waveCount_1 === 15) {
                 console.log("Congratulations!");
                 gameOver_1.innerText = "Congratulations! You saved the village!";
                 gameOver_1.style.fontSize = "30px";
@@ -190,6 +190,9 @@ function game(zoom) {
                         if (enemiesArray_1.length === 0) {
                             enemyCount_1 += 2;
                             waveCount_1 += 1;
+                            if (enemySpeed_1 > 1) {
+                                enemySpeed_1 -= 0.1;
+                            }
                             waveNumber_1.innerText = waveCount_1;
                             if (bulletPower_1 - waveCount_1 > 2) {
                                 bulletPower_1 -= waveCount_1;
@@ -231,7 +234,7 @@ function game(zoom) {
                 }
             }
         }
-        var newGame, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, resolution_1, scoreboardBtnContainer_1, menuContainer_1, menuDetails, submitBtnContainer, submitBtn, submitBtnH1, htmlBody, pauseBtnIcon_1, pauseBtnContainer, menuBtnContainer, activePlacement_1, scale_1, towerScale_1, choosenTower_1, getTowersDB, towersDB_1, mapZoomDB, userResolution, mapZoom_1, towersHtml, heightMultiplayer_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, towerRadius_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, bgImage_1, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
+        var newGame, maps_1_5, maps_1, mainContainer_1, towersOptionsContainer_1, towersDiv, gameOver_1, scene, playBtnContainer, replayBtn_1, playerHealthHearts_1, uiIconsContainer_1, playerScore, playerCoinsBag, playerCoins_1, scoreAmount_1, wave, waveNumber_1, resolution_1, scoreboardBtnContainer_1, menuContainer_1, menuDetails, submitBtnContainer, submitBtn, submitBtnH1, htmlBody, pauseBtnIcon_1, pauseBtnContainer, menuBtnContainer, activePlacement_1, scale_1, towerScale_1, choosenTower_1, getTowersDB, towersDB_1, mapZoomDB, userResolution, mapZoom_1, towersHtml, heightMultiplayer_1, enemyCount_1, playerHealth_1, bulletPower_1, gamePaused_1, score_1, getCoinsDB, coins_1, getWaveCountDB, waveCount_1, zoomOffsetX_1, zoomOffsetY_1, towerCost_1, towerRadius_1, tileSize_1, newTileSize_1, enemySpeed_1, bulletSpeed_1, mousePos_1, enemiesArray_1, placementTowers2d, placementTowersArray_1, towersArray_1, canvas_1, ctx_1, mapImage, currentMap, currentMap, bgImage_1, i, Sprite, PlacementTower_1, Enemey_1, Tower_1, Bullet_1, i, towersDivs_1, _loop_1, i, error_1;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -242,6 +245,8 @@ function game(zoom) {
                     newGame = _a.sent();
                     if (!newGame.ok)
                         throw new Error("Game Error");
+                    maps_1_5 = ['Road-Of-Glory-peaceful-Map_1260x720x1.5.png', 'Road-Of-Glory-ruined-Map_1260x720x1.5.png'];
+                    maps_1 = ['Road-Of-Glory-peaceful-Map_840x480x1.png', 'Road-Of-Glory-ruined-Map_840x480x1.png'];
                     mainContainer_1 = document.querySelector(".mainContainer");
                     towersOptionsContainer_1 = document.querySelector(".towersOptionsContainer");
                     towersDiv = document.querySelector(".towers");
@@ -290,7 +295,6 @@ function game(zoom) {
                     return [4 /*yield*/, mapZoomDB.json()];
                 case 5:
                     userResolution = (_a.sent()).userResolution;
-                    console.log(userResolution);
                     mapZoom_1 = userResolution;
                     towersHtml = "";
                     heightMultiplayer_1 = 1;
@@ -340,6 +344,10 @@ function game(zoom) {
                     mapImage = new Image();
                     // Set the canvas Width and Height
                     if (mapZoom_1 === 1) {
+                        currentMap = maps_1[0];
+                        if (replay) {
+                            currentMap = maps_1[1];
+                        }
                         menuContainer_1.style.width = "208px";
                         menuContainer_1.style.height = "320px";
                         menuDetails.style.width = "137px";
@@ -355,10 +363,14 @@ function game(zoom) {
                         canvas_1.width = 840;
                         canvas_1.height = 480;
                         mapImage.src =
-                            "../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png";
-                        mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_840x480x1.png">');
+                            "../../images/maps/" + currentMap;
+                        mainContainer_1.insertAdjacentHTML("beforeend", "<img id=\"bgImage\" src=\"../../images/maps/" + currentMap + "\">");
                     }
                     else if (mapZoom_1 === 1.5) {
+                        currentMap = maps_1_5[0];
+                        if (replay) {
+                            currentMap = maps_1_5[1];
+                        }
                         menuContainer_1.style.width = "416px";
                         menuContainer_1.style.height = "640px";
                         menuDetails.style.width = "274px";
@@ -372,8 +384,8 @@ function game(zoom) {
                         canvas_1.width = 1260;
                         canvas_1.height = 720;
                         mapImage.src =
-                            "../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png";
-                        mainContainer_1.insertAdjacentHTML("beforeend", '<img id="bgImage" src="../../images/maps/Road-Of-Glory-peaceful-Map_1260x720x1.5.png">');
+                            "../../images/maps/" + currentMap;
+                        mainContainer_1.insertAdjacentHTML("beforeend", "<img id=\"bgImage\" src=\"../../images/maps/" + currentMap + "\">");
                     }
                     else if (mapZoom_1 === 2) {
                         scale_1 = 1;
