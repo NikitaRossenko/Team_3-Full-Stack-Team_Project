@@ -168,6 +168,7 @@ export const getUser = async (req: any, res: any) => {
 
 export const getUserResolution = async (req: any, res: any) => {
   try {
+
     const secret = process.env.JWT_SECRET;
     const { currentUser } = req.cookies;
     if (!secret) throw new Error("No secret");
@@ -186,6 +187,7 @@ export const getUserResolution = async (req: any, res: any) => {
 
 export const setUserResolution = async (req: any, res: any) => {
   try {
+    
     const { resolution } = req.body;
     const secret = process.env.JWT_SECRET;
     const { currentUser } = req.cookies;
