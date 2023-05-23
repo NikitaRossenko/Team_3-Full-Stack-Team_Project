@@ -29,6 +29,6 @@ app.use('/api/users', userRouter_1["default"]);
 app.use('/api/enemy', enemyRouter_1["default"]);
 app.use('/api/tower', towerRouter_1["default"]);
 app.use('/api/game', gameRouter_1["default"]);
-app.listen(443, function () {
-    console.log("server listen on port 443");
+app.listen(3000, function () {
+    console.log("server listen on port 3000");
 });

@@ -39,6 +39,6 @@ app.use('/api/enemy' ,enemyRouter)
 app.use('/api/tower' ,towerRouter)
 app.use('/api/game' ,gameRouter)
 
-app.listen(443, () => {
-  console.log("server listen on port 443");
+app.listen(3000, () => {
+  console.log("server listen on port 3000");
 });
