@@ -17,6 +17,15 @@ h1 {
   color: white;
 }
 
+.titel {
+  text-align: center;
+  font-size: 3rem;
+  color: white;
+  background-color: #68c42e9a;
+  border: 1px solid white;
+  border-radius: 15px;
+}
+
 .leaderboard {
   overflow-y: scroll;
   min-height: 375px;
@@ -73,12 +82,12 @@ h1 {
 .leaderboard .person .nickname {
   margin: 0;
   padding: 5px;
+  width: 100px;
   font-size: 2rem;
   line-height: 200%;
   text-transform: capitalize;
   color: #fff;
   height: 100%;
-  margin-left: 20%;
 }
 
 .leaderboard .person .score {
@@ -94,7 +103,7 @@ h1 {
   height: 100%;
   background: #dc3546;
   color: #fff;
-  width: 3em;
+  min-width: 3em;
   border-radius: 0 25px 25px 0;
   text-align: center;
   z-index: 10;

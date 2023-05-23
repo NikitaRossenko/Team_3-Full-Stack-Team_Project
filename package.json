@@ -2,10 +2,11 @@
   "name": "team_3-full-stack-team_project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.ts"
+    "dev": "nodemon server.ts",
+    "render": "ts-node server.ts"
   },
   "keywords": [],
   "author": "",
