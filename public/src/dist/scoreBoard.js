@@ -46,12 +46,6 @@ function renderScoreUser(user) {
         console.error(error);
     }
 }
-// async function handelRnderScoreUser(){
-//   const response = await fetch('/api/users/get-users');
-//   const data = await response.json();
-//   const { users } = data;
-//   if(!users) return
-// }
 function orderByTopScore() {
     return __awaiter(this, void 0, void 0, function () {
         var dataJs, users, error_1;
@@ -67,9 +61,6 @@ function orderByTopScore() {
                     return [4 /*yield*/, dataJs.json()];
                 case 2:
                     users = (_a.sent()).users;
-                    // console.log("users" , users);
-                    // const orderedUsers = [...users].sort((a: User, b: User) => b.highScore - a.highScore);
-                    // console.log(orderedUsers);
                     users.forEach(renderScoreUser);
                     return [3 /*break*/, 4];
                 case 3:

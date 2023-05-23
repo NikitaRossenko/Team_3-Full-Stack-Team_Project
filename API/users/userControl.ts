@@ -14,7 +14,7 @@ export const getUsers = async (req: any, res: any) => {
 };
 export const getUsersScoer = async (req: any, res: any) => {
   try {
-    const users = await UserModel.find({},{"highScore":1,"userName":1,"src":1}).sort({"highScore":-1});
+    const users = await UserModel.find({},{"highScore":1,"userName":1,"src":1}).sort({"highScore":-1}).limit(10);
     res.send({ ok: true, users });
   } catch (error) {
     res.status(500).send({ ok: false });
@@ -54,17 +54,17 @@ export const adminCreateUser = async (req: any, res: any) => {
   try {
 
     const { firstName, lastName, userName, email, password, role } = req.body;
-
+    const salt = bcrypt.genSaltSync(10);
+    const passHash = bcrypt.hashSync(password , salt);
     const existUser = await UserModel.findOne({$or:[{userName},{email}]});
-
+    
     if (existUser) throw new Error("User already exist")
-
     const userDB = await UserModel.create({
       firstName,
       lastName,
       userName,
       email,
-      password,
+      password:passHash,
       ROLE:role,
     });
 

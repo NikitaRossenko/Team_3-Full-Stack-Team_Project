@@ -66,7 +66,7 @@ exports.getUsersScoer = function (req, res) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel_1["default"].find({}, { "highScore": 1, "userName": 1, "src": 1 }).sort({ "highScore": -1 })];
+                return [4 /*yield*/, userModel_1["default"].find({}, { "highScore": 1, "userName": 1, "src": 1 }).sort({ "highScore": -1 }).limit(10)];
             case 1:
                 users = _a.sent();
                 res.send({ ok: true, users: users });
@@ -118,12 +118,14 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
     });
 }); };
 exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, firstName, lastName, userName, email, password, role, existUser, userDB, error_4;
+    var _a, firstName, lastName, userName, email, password, role, salt, passHash, existUser, userDB, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 3, , 4]);
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password, role = _a.role;
+                salt = bcryptjs_1["default"].genSaltSync(10);
+                passHash = bcryptjs_1["default"].hashSync(password, salt);
                 return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
             case 1:
                 existUser = _b.sent();
@@ -134,7 +136,7 @@ exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0,
                         lastName: lastName,
                         userName: userName,
                         email: email,
-                        password: password,
+                        password: passHash,
                         ROLE: role
                     })];
             case 2:
