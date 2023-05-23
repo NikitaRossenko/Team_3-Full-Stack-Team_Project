@@ -272,10 +272,12 @@ a {
   border-radius: 20px;
 }
 .mainContainer #scene #sceneTitle {
+  margin-bottom: 0;
   border-bottom: 3px solid white;
 }
 .mainContainer #scene p {
   text-align: center;
+  font-size: 1.2rem;
 }
 .mainContainer canvas {
   border-radius: 20px;
