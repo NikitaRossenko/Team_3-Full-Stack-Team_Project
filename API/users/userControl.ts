@@ -12,6 +12,15 @@ export const getUsers = async (req: any, res: any) => {
     console.error(error);
   }
 };
+export const getUsersScoer = async (req: any, res: any) => {
+  try {
+    const users = await UserModel.find({},{"highScore":1,"userName":1,"src":1}).sort({"highScore":-1});
+    res.send({ ok: true, users });
+  } catch (error) {
+    res.status(500).send({ ok: false });
+    console.error(error);
+  }
+};
 
 
 export const createUser = async (req: any, res: any) => {
@@ -129,8 +138,8 @@ export const UpdateUserDetails = async (req: any, res: any) => {
     const { _id, firstName, lastName, email, userName, password } = req.body;
 
     
-    const salt = bcrypt.genSaltSync(10);
-    const passHash = bcrypt.hashSync(password , salt);
+const salt = bcrypt.genSaltSync(10);
+const passHash = bcrypt.hashSync(password , salt);
 
     const userDB = await UserModel.findByIdAndUpdate(_id, {
 
