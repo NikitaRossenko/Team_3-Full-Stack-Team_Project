@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.changeUserIcon = exports.logout = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsersScoer = exports.getUsers = void 0;
+exports.changeUserIcon = exports.logout = exports.setUserResolution = exports.getUserResolution = exports.getUser = exports.UpdateUserDetails = exports.login = exports.addUser = exports.deleteUser = exports.UpdateUserDetailById = exports.adminCreateUser = exports.createUser = exports.getUsersScoer = exports.getUsers = void 0;
 var userModel_1 = require("./userModel");
 var jwt_simple_1 = require("jwt-simple");
 var bcryptjs_1 = require("bcryptjs");
@@ -288,6 +288,59 @@ exports.getUser = function (req, res) { return __awaiter(void 0, void 0, void 0,
         }
     });
 }); };
+exports.getUserResolution = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var secret, currentUser, decoded, userId, userDB, error_9;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                secret = process.env.JWT_SECRET;
+                currentUser = req.cookies.currentUser;
+                if (!secret)
+                    throw new Error("No secret");
+                decoded = jwt_simple_1["default"].decode(currentUser, secret);
+                userId = decoded.userId;
+                return [4 /*yield*/, userModel_1["default"].findById(userId)];
+            case 1:
+                userDB = _a.sent();
+                res.send({ ok: true, userResolution: userDB === null || userDB === void 0 ? void 0 : userDB.resolution });
+                return [3 /*break*/, 3];
+            case 2:
+                error_9 = _a.sent();
+                console.error(error_9);
+                res.status(500).send({ error: error_9.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.setUserResolution = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var resolution, secret, currentUser, decoded, userId, userDB, error_10;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                resolution = req.body.resolution;
+                secret = process.env.JWT_SECRET;
+                currentUser = req.cookies.currentUser;
+                if (!secret)
+                    throw new Error("No secret");
+                decoded = jwt_simple_1["default"].decode(currentUser, secret);
+                userId = decoded.userId;
+                return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(userId, { resolution: resolution })];
+            case 1:
+                userDB = _a.sent();
+                res.send({ ok: true });
+                return [3 /*break*/, 3];
+            case 2:
+                error_10 = _a.sent();
+                console.error(error_10);
+                res.status(500).send({ error: error_10.message });
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.logout = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
@@ -302,7 +355,7 @@ exports.logout = function (req, res) { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.changeUserIcon = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var secret, currentUser, decoded, userId, userDB, uID, src, changeSrcUser, error_9;
+    var secret, currentUser, decoded, userId, userDB, uID, src, changeSrcUser, error_11;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -330,9 +383,9 @@ exports.changeUserIcon = function (req, res) { return __awaiter(void 0, void 0, 
                 res.status(201).send({ ok: true, user: changeSrcUser });
                 return [3 /*break*/, 4];
             case 3:
-                error_9 = _a.sent();
-                console.error(error_9);
-                res.status(500).send({ error: error_9.message });
+                error_11 = _a.sent();
+                console.error(error_11);
+                res.status(500).send({ error: error_11.message });
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
