@@ -41,17 +41,17 @@ export const adminCreateUser = async (req: any, res: any) => {
   try {
 
     const { firstName, lastName, userName, email, password, role } = req.body;
-    const salt = bcrypt.genSaltSync(10);
-    const passHash = bcrypt.hashSync(password , salt);
+
     const existUser = await UserModel.findOne({$or:[{userName},{email}]});
-    
+
     if (existUser) throw new Error("User already exist")
+
     const userDB = await UserModel.create({
       firstName,
       lastName,
       userName,
       email,
-      password:passHash,
+      password,
       ROLE:role,
     });
 
@@ -151,45 +151,6 @@ export const getUser = async (req: any, res: any) => {
     const userDB = await UserModel.findById(userId);
 
     res.send({ ok: true, user:userDB });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-}
-
-export const getUserResolution = async (req: any, res: any) => {
-  try {
-
-    const secret = process.env.JWT_SECRET;
-    const { currentUser } = req.cookies;
-    if (!secret) throw new Error("No secret");
-    const decoded = jwt.decode(currentUser, secret);
-    
-    const { userId } = decoded;
-
-    const userDB = await UserModel.findById(userId);
-
-    res.send({ ok: true, userResolution:userDB?.resolution });
-  } catch (error: any) {
-    console.error(error);
-    res.status(500).send({ error: error.message });
-  }
-}
-
-export const setUserResolution = async (req: any, res: any) => {
-  try {
-    
-    const { resolution } = req.body;
-    const secret = process.env.JWT_SECRET;
-    const { currentUser } = req.cookies;
-    if (!secret) throw new Error("No secret");
-    const decoded = jwt.decode(currentUser, secret);
-    
-    const { userId } = decoded;
-
-    const userDB = await UserModel.findByIdAndUpdate(userId,{resolution:resolution});
-
-    res.send({ ok: true});
   } catch (error: any) {
     console.error(error);
     res.status(500).send({ error: error.message });

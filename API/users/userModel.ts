@@ -11,7 +11,6 @@ export interface User {
   ROLE: ROLE;
   gamesPlayed:number;
   src?:string
-  resolution:number
 }
 
 export enum ROLE {
@@ -49,11 +48,6 @@ export const UserSchema = new Schema<User>({
       type:Number,
       require:false,
       default: 0,
-  } ,
-  resolution:{
-      type:Number,
-      require:true,
-      default: 1,
   } ,
   ROLE: {
     type: String,
