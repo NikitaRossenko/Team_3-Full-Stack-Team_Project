@@ -29,9 +29,20 @@ function renderScoreUser(user: User){
     }
   }
 
+
+
+
+  // async function handelRnderScoreUser(){
+  //   const response = await fetch('/api/users/get-users');
+  //   const data = await response.json();
+  //   const { users } = data;
+  //   if(!users) return
+
+  // }
+
  async function orderByTopScore(){
     try {
-      const dataJs = await fetch('/api/users/get-users-score');
+      const dataJs = await fetch('/api/users/get-users');
       if(!dataJs) throw new Error("no founded data")
       const {users} = await dataJs.json();
       

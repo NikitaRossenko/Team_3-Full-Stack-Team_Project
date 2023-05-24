@@ -45,55 +45,6 @@ a {
   width: auto;
   height: auto;
 }
-.mainContainer .menuContainer {
-  display: none;
-  position: absolute;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  flex-direction: column;
-  background-image: url("../../images/UI/menuUi.png");
-  background-size: cover;
-}
-.mainContainer .menuContainer .menuDetails {
-  padding: -30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.426);
-}
-.mainContainer .menuContainer .menuDetails .resolutionContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.mainContainer .menuContainer .menuDetails .submitBtnContainer {
-  padding: 10px;
-  position: relative;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  z-index: 1;
-}
-.mainContainer .menuContainer .menuDetails .submitBtnContainer img {
-  width: 150px;
-}
-.mainContainer .menuContainer .menuDetails .submitBtnContainer h1 {
-  pointer-events: none;
-  bottom: 14px;
-  padding: auto;
-  text-align: center;
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-}
 .mainContainer .towersOptionsContainer {
   position: absolute;
   background-color: #A0654D;
@@ -272,12 +223,10 @@ a {
   border-radius: 20px;
 }
 .mainContainer #scene #sceneTitle {
-  margin-bottom: 0;
   border-bottom: 3px solid white;
 }
 .mainContainer #scene p {
   text-align: center;
-  font-size: 1.2rem;
 }
 .mainContainer canvas {
   border-radius: 20px;

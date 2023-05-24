@@ -44,63 +44,6 @@ a{
     width: auto;
     height: auto;
 
-    .menuContainer{
-        display: none;
-        position: absolute;
-        justify-content: center;
-        align-items: center;
-        z-index: 2;
-        flex-direction: column;
-        background-image: url("../../images/UI/menuUi.png");
-        background-size:cover;
-
-        .menuDetails{
-            padding: -30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-direction: column;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.426);
-
-            .resolutionContainer{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
-
-            .submitBtnContainer{
-                padding:  10px;
-                position: relative;
-                display: flex;
-                text-align: center;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
-                z-index: 1;
-    
-                img {
-                    width: 150px;
-    
-                }
-    
-                h1 {
-        
-                    pointer-events: none;
-                    bottom: 14px;
-                    padding: auto;
-                    text-align: center;
-                    position: absolute;
-                    top: 15px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    color: white;
-                }
-        }
-        }
-    }
-
     .towersOptionsContainer{
         position: absolute;
         background-color: #A0654D;
@@ -306,15 +249,12 @@ a{
         border-radius: 20px;
 
         #sceneTitle{
-            margin-bottom: 0;
             border-bottom: 3px solid white;
         }
 
         p{
             text-align: center;
-            font-size: 1.2rem;
         }
-
     }
 
 
