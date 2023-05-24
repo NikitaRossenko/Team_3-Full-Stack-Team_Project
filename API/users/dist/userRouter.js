@@ -9,6 +9,7 @@ userRouter
     .post("/create-user", userControl_1.createUser)
     .post("/admin-create-user", userMiddlwares_1.adminAccess, userControl_1.adminCreateUser)
     .post("/login", userControl_1.login)
+    .patch('/reset-password', userControl_1.resetPassword)
     .put("/update-user", userControl_1.UpdateUserDetails)
     .get("/get-user", userControl_1.getUser)["delete"]("/delete-user", userControl_1.deleteUser)
     .get("/delete-cookie", userControl_1.logout)
