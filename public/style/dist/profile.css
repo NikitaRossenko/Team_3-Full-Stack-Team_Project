@@ -19,6 +19,9 @@ body {
   height: 100vh;
   cursor: var(--mousePointer);
 }
+body p {
+  color: #ef0b57;
+}
 
 #message {
   position: absolute;
