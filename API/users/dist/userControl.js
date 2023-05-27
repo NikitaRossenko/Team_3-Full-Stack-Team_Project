@@ -110,11 +110,11 @@ exports.restorePassword = function (req, res) { return __awaiter(void 0, void 0,
                 if (!existUser)
                     throw new Error("Username or Email dosen't exist");
                 imagePath = path_1["default"].join(__dirname + "../../../public/images/emailImages/emailBanner.png");
-                emailText = "<div><p>Hello " + userName + ",<br><br>Here is your new password: " + password + "</p><p style=\"border-bottom:1px solid black; width: fit-content;\">Please login with this password and change it in the profile page!</p><p>Login: <a href=\"https://road-of-glory.onrender.com/login.html\">Road Of Glory - Login</a><br><br>Best Regards,<br><br>Road Of Glory Team 3</p></div>";
+                emailText = "<div><p>Hello " + userName + ",<br><br>Here is your new password: " + password + "</p><p style=\"border-bottom:1px solid black; width: fit-content;\">Please login with this password and change it in the profile page!</p><p>Login: <a href=\"https://road-of-glory.onrender.com/login.html\">Road Of Glory - Login</a><br><br>Best Regards,<br><br>Road Of Glory - Team 3</p></div>";
                 emailDetails = {
-                    from: "\"Road Of Glory Team 3\" <" + process.env.GMAIL + ">",
+                    from: "\"Road Of Glory - Team 3\" <" + process.env.GMAIL + ">",
                     to: email_1,
-                    subject: "Road-Of-Glory | " + userName + "'s Password Restore",
+                    subject: "Road Of Glory - Team 3 | " + userName + "'s Password Reset",
                     html: "<img src=\"cid:road.of.glory.team3@gmail.com\"/>" + emailText,
                     attachments: [
                         {
