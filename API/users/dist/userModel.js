@@ -38,6 +38,11 @@ exports.UserSchema = new mongoose_1.Schema({
         require: false,
         "default": 0
     },
+    resolution: {
+        type: Number,
+        require: true,
+        "default": 1
+    },
     ROLE: {
         type: String,
         "enum": ROLE,

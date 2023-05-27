@@ -34,40 +34,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-function renderScoreUser(user) {
-    try {
-        var html = "\n      <li class=\"person\">\n        <p class=\"icon\"><img class=\"playericons\" src=" + user.src + "></p>\n        <p class=\"nickname\">" + user.userName + "</p>\n        <p class=\"score\">" + (user.highScore ? user.highScore : 0) + "</p>\n        <ul class=\"point-btns\"></ul>\n      </li>\n    ";
-        var ScoreRoot = document.querySelector("#scoreRoot");
-        if (!ScoreRoot)
-            throw new Error("ScoreRoot not found");
-        ScoreRoot.innerHTML += html;
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-function orderByTopScore() {
+function restorePassword(e) {
     return __awaiter(this, void 0, void 0, function () {
-        var dataJs, users, error_1;
+        var userName, email, user, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 3, , 4]);
-                    return [4 /*yield*/, fetch('/api/users/get-users-score')];
+                    _a.trys.push([0, 2, , 3]);
+                    e.preventDefault();
+                    userName = e.target.elements.userName.value;
+                    email = e.target.elements.email.value;
+                    if (!userName)
+                        throw new Error("No userName");
+                    if (!email)
+                        throw new Error("No email");
+                    user = { userName: userName, email: email };
+                    return [4 /*yield*/, fetch("/api/users/restore-password", {
+                            method: "POST",
+                            headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(user)
+                        })
+                            .then(function (res) { return res.json(); })
+                            .then(function (data) {
+                            var container__form = document.querySelector(".container__form");
+                            var userNotification = document.querySelector(".userNotification");
+                            if (!container__form)
+                                throw new Error("DOM Error");
+                            if (data.error) {
+                                if (!userNotification) {
+                                    container__form.insertAdjacentHTML('afterend', "<p class='userNotification'>Username or Email dosen't exist<p>");
+                                }
+                                else {
+                                    userNotification.innerText = data.error;
+                                }
+                                throw new Error(data.error);
+                            }
+                            if (!userNotification) {
+                                container__form.insertAdjacentHTML('afterend', "<p class='userNotification'>Check your email!<p>");
+                                var userNotificationGreen = document.querySelector(".userNotification");
+                                userNotificationGreen.style.color = "white";
+                            }
+                        })];
                 case 1:
-                    dataJs = _a.sent();
-                    if (!dataJs)
-                        throw new Error("no founded data");
-                    return [4 /*yield*/, dataJs.json()];
+                    _a.sent();
+                    return [3 /*break*/, 3];
                 case 2:
-                    users = (_a.sent()).users;
-                    users.forEach(renderScoreUser);
-                    return [3 /*break*/, 4];
-                case 3:
                     error_1 = _a.sent();
                     console.error(error_1);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
             }
         });
     });
