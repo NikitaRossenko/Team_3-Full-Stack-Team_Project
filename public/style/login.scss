@@ -58,6 +58,14 @@ a {
     .userNotification {
       color: red;
     }
+
+    .forgotPasswordContainer{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+    }
   }
 
   &__form {

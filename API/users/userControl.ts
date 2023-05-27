@@ -1,6 +1,18 @@
 import UserModel from "./userModel";
 import jwt from "jwt-simple";
 import bcrypt from 'bcryptjs';
+import nodemailer from "nodemailer"
+import * as dotenv from "dotenv";
+dotenv.config();
+
+let mailTransporter = nodemailer.createTransport({
+  service:"gmail",
+  auth:{
+    user:process.env.GMAIL,
+    pass:process.env.GMAIL_PASSWORD
+  }
+})
+
 
 
 export const getUsers = async (req: any, res: any) => {
@@ -22,6 +34,40 @@ export const getUsersScoer = async (req: any, res: any) => {
   }
 };
 
+
+export const restorePassword = async (req: any, res: any) => {
+  try {
+    const { userName, email } = req.body;
+    const password = Math.random().toString(36).slice(-8);
+    const passHash = await bcrypt.hash(password , 10);
+
+    const existUser = await UserModel.findOneAndUpdate({userName:userName,email:email}, {password:passHash});
+    if (!existUser) throw new Error("User dosen't exist")
+
+
+    const details = {
+      from:process.env.GMAIL,
+      to:email,
+      subject:`Road-Of-Glory | ${userName}'s Password Restore`,
+      text:`Here is your new password: ${password}, please login with this password and change it in the profile page.`
+    
+    }
+
+    const sentMail = mailTransporter.sendMail(details, err => {
+      if (err) throw new Error("Server Error - Failed to restore")
+      else {
+        console.log(`Email sent to ${email}`)
+        res.status(201).send({ ok: true });
+      }
+    })
+
+
+
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({ error: error.message });
+  }
+};
 
 export const createUser = async (req: any, res: any) => {
   try {

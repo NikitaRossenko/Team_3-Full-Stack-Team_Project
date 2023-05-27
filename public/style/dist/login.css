@@ -57,6 +57,12 @@ a {
 .container__container-form .userNotification {
   color: red;
 }
+.container__container-form .forgotPasswordContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
 .container__form {
   width: 100%;
   display: flex;
