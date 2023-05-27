@@ -17,6 +17,7 @@
   background-color: #34566B;
   border-radius: 20px;
   padding: 10px;
+  width: fit-content;
 }
 .membersContainer .member img {
   width: 100%;

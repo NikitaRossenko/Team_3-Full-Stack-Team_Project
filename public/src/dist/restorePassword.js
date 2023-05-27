@@ -67,14 +67,16 @@ function restorePassword(e) {
                                 if (!userNotification) {
                                     container__form.insertAdjacentHTML('afterend', "<p class='userNotification'>Username or Email dosen't exist<p>");
                                 }
+                                else {
+                                    userNotification.innerText = data.error;
+                                }
                                 throw new Error(data.error);
                             }
                             if (!userNotification) {
                                 container__form.insertAdjacentHTML('afterend', "<p class='userNotification'>Check your email!<p>");
                                 var userNotificationGreen = document.querySelector(".userNotification");
-                                userNotificationGreen.style.color = "green";
+                                userNotificationGreen.style.color = "white";
                             }
-                            // window.location.href = "/login.html";
                         })];
                 case 1:
                     _a.sent();

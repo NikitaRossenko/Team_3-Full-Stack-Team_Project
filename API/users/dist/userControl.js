@@ -42,6 +42,7 @@ var jwt_simple_1 = require("jwt-simple");
 var bcryptjs_1 = require("bcryptjs");
 var nodemailer_1 = require("nodemailer");
 var dotenv = require("dotenv");
+var path_1 = require("path");
 dotenv.config();
 var mailTransporter = nodemailer_1["default"].createTransport({
     service: "gmail",
@@ -76,7 +77,9 @@ exports.getUsersScoer = function (req, res) { return __awaiter(void 0, void 0, v
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userModel_1["default"].find({}, { "highScore": 1, "userName": 1, "src": 1 }).sort({ "highScore": -1 }).limit(10)];
+                return [4 /*yield*/, userModel_1["default"].find({}, { highScore: 1, userName: 1, src: 1 })
+                        .sort({ highScore: -1 })
+                        .limit(10)];
             case 1:
                 users = _a.sent();
                 res.send({ ok: true, users: users });
@@ -91,7 +94,7 @@ exports.getUsersScoer = function (req, res) { return __awaiter(void 0, void 0, v
     });
 }); };
 exports.restorePassword = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, userName, email_1, password, passHash, existUser, details, sentMail, error_3;
+    var _a, userName, email_1, password, passHash, existUser, imagePath, emailText, emailDetails, error_3;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -105,16 +108,25 @@ exports.restorePassword = function (req, res) { return __awaiter(void 0, void 0,
             case 2:
                 existUser = _b.sent();
                 if (!existUser)
-                    throw new Error("User dosen't exist");
-                details = {
-                    from: process.env.GMAIL,
+                    throw new Error("Username or Email dosen't exist");
+                imagePath = path_1["default"].join(__dirname + "../../../public/images/emailImages/emailBanner.png");
+                emailText = "<div><p>Hello " + userName + ",<br><br>Here is your new password: " + password + "</p><p style=\"border-bottom:1px solid black; width: fit-content;\">Please login with this password and change it in the profile page!</p><p>Login: <a href=\"https://road-of-glory.onrender.com/login.html\">Road Of Glory - Login</a><br><br>Best Regards,<br><br>Road Of Glory Team 3</p></div>";
+                emailDetails = {
+                    from: "\"Road Of Glory Team 3\" <" + process.env.GMAIL + ">",
                     to: email_1,
                     subject: "Road-Of-Glory | " + userName + "'s Password Restore",
-                    text: "Here is your new password: " + password + ", please login with this password and change it in the profile page."
+                    html: "<img src=\"cid:road.of.glory.team3@gmail.com\"/>" + emailText,
+                    attachments: [
+                        {
+                            filename: "Road Of Glory Team-3.png",
+                            path: "" + imagePath,
+                            cid: "road.of.glory.team3@gmail.com"
+                        },
+                    ]
                 };
-                sentMail = mailTransporter.sendMail(details, function (err) {
+                mailTransporter.sendMail(emailDetails, function (err) {
                     if (err)
-                        throw new Error("Server Error - Failed to restore");
+                        console.log(err);
                     else {
                         console.log("Email sent to " + email_1);
                         res.status(201).send({ ok: true });
@@ -141,7 +153,9 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
                 salt = bcryptjs_1["default"].genSaltSync(10);
                 passHash = bcryptjs_1["default"].hashSync(password, salt);
-                return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
+                return [4 /*yield*/, userModel_1["default"].findOne({
+                        $or: [{ userName: userName }, { email: email }]
+                    })];
             case 1:
                 existUser = _b.sent();
                 if (existUser)
@@ -176,7 +190,9 @@ exports.adminCreateUser = function (req, res) { return __awaiter(void 0, void 0,
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password, role = _a.role;
                 salt = bcryptjs_1["default"].genSaltSync(10);
                 passHash = bcryptjs_1["default"].hashSync(password, salt);
-                return [4 /*yield*/, userModel_1["default"].findOne({ $or: [{ userName: userName }, { email: email }] })];
+                return [4 /*yield*/, userModel_1["default"].findOne({
+                        $or: [{ userName: userName }, { email: email }]
+                    })];
             case 1:
                 existUser = _b.sent();
                 if (existUser)
@@ -263,7 +279,9 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
             case 1:
                 userDB = _b.sent();
                 if (!userDB) {
-                    res.status(401).send({ error: "username or password are inncorect" });
+                    res.status(401).send({
+                        error: "username or password are inncorect"
+                    });
                     return [2 /*return*/];
                 }
                 if (!bcryptjs_1["default"].compareSync(password, userDB.password))
@@ -271,7 +289,10 @@ exports.login = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 if (!secret)
                     throw new Error("Server Error");
                 token = jwt_simple_1["default"].encode({ userId: userDB._id }, secret);
-                res.cookie("currentUser", token, { maxAge: 999 * 999 * 999, httpOnly: true });
+                res.cookie("currentUser", token, {
+                    maxAge: 999 * 999 * 999,
+                    httpOnly: true
+                });
                 res.status(201).send({ ok: true, userDB: userDB });
                 return [3 /*break*/, 3];
             case 2:
@@ -379,7 +400,9 @@ exports.setUserResolution = function (req, res) { return __awaiter(void 0, void 
                     throw new Error("No secret");
                 decoded = jwt_simple_1["default"].decode(currentUser, secret);
                 userId = decoded.userId;
-                return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(userId, { resolution: resolution })];
+                return [4 /*yield*/, userModel_1["default"].findByIdAndUpdate(userId, {
+                        resolution: resolution
+                    })];
             case 1:
                 userDB = _a.sent();
                 res.send({ ok: true });
@@ -396,8 +419,8 @@ exports.setUserResolution = function (req, res) { return __awaiter(void 0, void 
 exports.logout = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
-            res.clearCookie('currentUser');
-            res.send('Cookie deleted!');
+            res.clearCookie("currentUser");
+            res.send("Cookie deleted!");
         }
         catch (error) {
             console.error(error);
