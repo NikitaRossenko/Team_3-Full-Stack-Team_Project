@@ -118,7 +118,7 @@ exports.restorePassword = function (req, res) { return __awaiter(void 0, void 0,
                     html: "<img src=\"cid:road.of.glory.team3@gmail.com\"/>" + emailText,
                     attachments: [
                         {
-                            filename: "Road Of Glory Team-3.png",
+                            filename: "Road Of Glory - Team 3.png",
                             path: "" + imagePath,
                             cid: "road.of.glory.team3@gmail.com"
                         },
