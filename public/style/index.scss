@@ -101,7 +101,7 @@ audio::-webkit-media-controls-panel {
 
 footer{
   display: flex;
-  padding: 20px;
+  padding: 4px 20px 10px 20px;
   border-radius: 20px;
   margin-bottom: 10px;
   align-items: center;
@@ -113,19 +113,32 @@ footer{
   flex-direction: column;
 
   h1{
-      margin: 0;
-      border-bottom: 2px solid black;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+    margin: 0;
+    border-bottom: 2px solid black;
   }
 
   .creditsDiv{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 
-      p{
-          margin: 0;
-      }
+    p{
+      font-size: 15px;
+      font-family: "Times New Roman", Times, serif;
+      margin: 0;
+    }
+    a{
+      all: unset;
+      border-bottom: 1px solid black;
+      cursor: pointer;
+      font-family: "Times New Roman", Times, serif;
+    }
+    a:hover{
+      color: white;
+    }
   }
 }
 
