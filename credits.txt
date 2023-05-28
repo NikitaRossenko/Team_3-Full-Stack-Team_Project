@@ -1,1 +1,15 @@
-Background - https://pixabay.com/illustrations/home-forest-mountain-summer-spring-7675774/
+Background1 - https://pngtree.com/freebackground/cartoon-game-cg-forest-landscape-scene-background_2448070.html
+Background2 - https://pixabay.com/illustrations/home-forest-mountain-summer-spring-7675774/
+
+Tileset:
+Thanks to Cypor
+https://cypor.itch.io/12x12-rpg-tileset
+
+Towers:
+Thanks to Foozle
+https://foozlecc.itch.io/
+
+Enemies:
+Thanks to craftpix
+https://craftpix.net/freebies/free-golems-chibi-2d-game-sprites/
+https://craftpix.net/freebies/free-fallen-angel-chibi-2d-game-sprites/

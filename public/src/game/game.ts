@@ -618,7 +618,7 @@ async function game(replay=false) {
 
             // ctx.drawImage(mapImage, 0, 0);
 
-            if (waveCount === 15) {
+            if (waveCount === 20) {
                 console.log("Congratulations!");
                 gameOver.innerText = "Congratulations! You saved the village!";
                 gameOver.style.fontSize = "30px";

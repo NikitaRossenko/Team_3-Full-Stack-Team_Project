@@ -102,7 +102,7 @@ function game(replay) {
                 throw new Error("[Canvas-ctx] Game Error");
             ctx_1.clearRect(0, 0, canvas_1.width, canvas_1.height);
             // ctx.drawImage(mapImage, 0, 0);
-            if (waveCount_1 === 15) {
+            if (waveCount_1 === 20) {
                 console.log("Congratulations!");
                 gameOver_1.innerText = "Congratulations! You saved the village!";
                 gameOver_1.style.fontSize = "30px";
