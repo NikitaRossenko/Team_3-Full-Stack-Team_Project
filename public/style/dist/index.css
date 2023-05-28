@@ -126,6 +126,7 @@ footer .creditsDiv a {
   font-family: "Times New Roman", Times, serif;
 }
 footer .creditsDiv a:hover {
+  border-bottom: 1px solid white;
   color: white;
 }
 
