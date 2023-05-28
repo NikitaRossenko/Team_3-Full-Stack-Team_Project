@@ -87,6 +87,12 @@ export const createUser = async (req: any, res: any) => {
     const randomNumber = Math.ceil(Math.random() * 48);
     const srcRandom = `../images/PlayerIcons/${randomNumber}.png`;
     const { firstName, lastName, userName, email, password } = req.body;
+    if(password.length < 4) throw new Error(`Password must be at least 4 characters`)
+    const arr = [firstName, lastName, userName, email, password]
+    const regex = /^[a-zA-Z0-9!@#$%\^&*)(+=._-]*$/;
+    if (arr.some((ele) => !regex.test(ele))) {
+     throw new  Error("Please check your input(Only English characters allowed)")
+    }
 
     const salt = bcrypt.genSaltSync(10);
     const passHash = bcrypt.hashSync(password, salt);

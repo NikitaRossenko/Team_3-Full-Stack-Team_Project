@@ -143,7 +143,7 @@ exports.restorePassword = function (req, res) { return __awaiter(void 0, void 0,
     });
 }); };
 exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var randomNumber, srcRandom, _a, firstName, lastName, userName, email, password, salt, passHash, existUser, userDB, error_4;
+    var randomNumber, srcRandom, _a, firstName, lastName, userName, email, password, arr, regex_1, salt, passHash, existUser, userDB, error_4;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0:
@@ -151,6 +151,13 @@ exports.createUser = function (req, res) { return __awaiter(void 0, void 0, void
                 randomNumber = Math.ceil(Math.random() * 48);
                 srcRandom = "../images/PlayerIcons/" + randomNumber + ".png";
                 _a = req.body, firstName = _a.firstName, lastName = _a.lastName, userName = _a.userName, email = _a.email, password = _a.password;
+                if (password.length < 4)
+                    throw new Error("Password must be at least 4 characters");
+                arr = [firstName, lastName, userName, email, password];
+                regex_1 = /^[a-zA-Z0-9!@#$%\^&*)(+=._-]*$/;
+                if (arr.some(function (ele) { return !regex_1.test(ele); })) {
+                    throw new Error("Please check your input(Only English characters allowed)");
+                }
                 salt = bcryptjs_1["default"].genSaltSync(10);
                 passHash = bcryptjs_1["default"].hashSync(password, salt);
                 return [4 /*yield*/, userModel_1["default"].findOne({
