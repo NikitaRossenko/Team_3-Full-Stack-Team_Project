@@ -1,3 +1,8 @@
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 
 .membersContainer{
     display: flex;
@@ -10,19 +15,24 @@
     .member{
         color: white;
         width: 440px;
+        height: 820px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         background-color: #34566B;
         border-radius: 20px;
         padding: 10px;
 
-
+        p {
+            height: 210px;
+        }
+        
+        
         img{
             width: 100%;
             border-radius: 40px;
-            object-fit: contain;
+            object-fit: cover;
 
         }
 
