@@ -6,7 +6,7 @@ import * as dotenv from "dotenv";
 import path from "path";
 dotenv.config();
 
-let mailTransporter = nodemailer.createTransport({
+const mailTransporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.GMAIL,
